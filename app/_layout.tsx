@@ -17,7 +17,6 @@ import "../global.css";
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-// Prevent auto-hiding splash screen
 SplashScreen.preventAutoHideAsync();
 
 export const unstable_settings = {

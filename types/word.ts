@@ -23,21 +23,21 @@ export interface Translation {
 
 export interface Translations {
   ru: Translation;
-  uk: Translation;  // Ukrainian
-  en: Translation;  // English
+  uk: Translation;
+  en: Translation;
 }
 
 export interface ExampleSentence {
-  de: string;  // German sentence (same for all)
-  ru: string;  // Russian translation
-  uk: string;  // Ukrainian translation
-  en: string;  // English translation
+  de: string;
+  ru: string;
+  uk: string;
+  en: string;
 }
 
 export interface Etymology {
-  text_ru: string;  // Russian etymology
-  text_uk: string;  // Ukrainian etymology
-  text_en: string;  // English etymology
+  text_ru: string;
+  text_uk: string;
+  text_en: string;
   root_word?: string;
 }
 

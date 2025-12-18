@@ -10,7 +10,7 @@ import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } fr
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
 export default function Index() {
-  const { todayWord, isLoading, loadTodayWord, streak, toggleFavorite, isFavorite } = useWordStore();
+  const { todayWord, isLoading, loadTodayWord, toggleFavorite, isFavorite } = useWordStore();
   const { translationLanguage } = useSettingsStore();
 
   useEffect(() => {
@@ -44,24 +44,10 @@ export default function Index() {
   return (
     <ScrollView className="flex-1 bg-background">
       <View className="flex-1 justify-center items-center p-6 py-12">
-        
-        {/* Streak Badge */}
-        {streak > 0 && (
-          <Animated.View 
-            entering={FadeInUp.duration(600).delay(100)}
-            className="bg-accent-yellow px-6 py-2 rounded-full mb-6">
-            <Text className="text-white font-bold text-sm" style={{ fontFamily: 'Rubik_700Bold' }}>
-              🔥 {streak} {streak === 1 ? 'день' : 'дней'} подряд
-            </Text>
-          </Animated.View>
-        )}
-
-        {/* Main Card */}
         <Animated.View 
           entering={FadeInDown.duration(800).delay(200)}
           className="bg-surface w-full max-w-sm rounded-card shadow-soft overflow-hidden">
           
-          {/* Image - Top of card */}
           <Image 
             source={{ uri: todayWord.media.image_path }}
             className="w-full h-48"
@@ -69,16 +55,14 @@ export default function Index() {
             resizeMode="cover"
           />
           
-          {/* Header: Level Badge */}
-          <View className="px-6 pt-6 pb-2">
+          {/* <View className="px-6 pt-6 pb-2">
             <Text className="text-accent-purple font-bold tracking-widest uppercase text-xs" 
                   style={{ fontFamily: 'Rubik_700Bold' }}>
               {todayWord.level} • {todayWord.part_of_speech}
             </Text>
-          </View>
+          </View> */}
 
-          {/* Word with Article (Color Coded) */}
-          <View className="px-6 pb-4">
+          <View className="px-6 pb-4 pt-4">
             <View className="flex-row items-center mb-2">
               <View 
                 className="px-3 py-1 rounded-full mr-3"
@@ -96,23 +80,20 @@ export default function Index() {
                   {todayWord.article}
                 </Text>
               </View>
-              <Text className="text-primary text-4xl font-extrabold flex-1"
-                    style={{ fontFamily: 'Rubik_800ExtraBold' }}>
+              <Text className="text-primary text-4xl flex-1"
+                    style={{ fontFamily: 'Rubik_500Medium' }}>
                 {todayWord.word_de}
               </Text>
             </View>
             
-            {/* Translation */}
             <Text className="text-text-muted text-2xl mt-2"
                   style={{ fontFamily: 'Rubik_500Medium' }}>
               {content.translation.main}
             </Text>
           </View>
 
-          {/* Divider */}
           <View className="mx-6 mb-6 h-px bg-gray-200" />
 
-          {/* Example Sentence */}
           <View className="px-6 pb-6">
             <Text className="text-text-main font-bold text-xs uppercase mb-3 tracking-wider"
                   style={{ fontFamily: 'Rubik_700Bold' }}>
@@ -130,7 +111,6 @@ export default function Index() {
             </View>
           </View>
 
-          {/* Etymology - Accordion */}
           <View className="px-6 pb-6 max-w-md">
             <EtymologyAccordion title="📚 Этимология" defaultOpen={false}>
               <Text className="text-text-muted text-sm leading-5"
@@ -146,10 +126,8 @@ export default function Index() {
             </EtymologyAccordion>
           </View>
 
-          {/* Divider */}
           <View className="mx-6 mb-4 h-px bg-gray-200" />
 
-          {/* Action Buttons */}
           <View className="px-6 pb-6 flex-row items-center justify-center">
             <TouchableOpacity
               onPress={() => toggleFavorite(todayWord.id)}
@@ -177,7 +155,6 @@ export default function Index() {
 
         </Animated.View>
 
-        {/* Test Info */}
         <Animated.View 
           entering={FadeInUp.duration(600).delay(400)}
           className="mt-6 px-6">

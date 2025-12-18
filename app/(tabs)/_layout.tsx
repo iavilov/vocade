@@ -1,48 +1,39 @@
 import { Tabs } from 'expo-router';
+import { BookOpen, Home, Settings } from 'lucide-react-native';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { TAB_BAR_SCREEN_OPTIONS } from '@/styles/navigation';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        ...TAB_BAR_SCREEN_OPTIONS,
         tabBarButton: HapticTab,
-        tabBarStyle: {
-          width: '100%',
-          alignSelf: 'center',
-          marginHorizontal: 'auto',
-          borderTopWidth: 0,
-          elevation: 0,
-          shadowColor: 'transparent',
-        },
       }}>
+
       <Tabs.Screen
         name="history"
         options={{
           title: 'История',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} />,
+          tabBarIcon: ({ color }) => <BookOpen size={24} color={color} />,
         }}
       />
+
       <Tabs.Screen
         name="index"
         options={{
           title: 'Слово дня',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => <Home size={24} color={color} />,
         }}
       />
+
       <Tabs.Screen
         name="settings"
         options={{
           title: 'Настройки',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gearshape.fill" color={color} />,
+          tabBarIcon: ({ color }) => <Settings size={24} color={color} />,
         }}
       />
     </Tabs>
