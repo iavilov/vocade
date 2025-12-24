@@ -15,24 +15,26 @@ export function DottedBackground({ children }: DottedBackgroundProps) {
     return (
         <View style={styles.container}>
             {/* SVG Pattern Background */}
-            <Svg style={StyleSheet.absoluteFill} width="100%" height="100%">
-                <Defs>
-                    <Pattern
-                        id="dotPattern"
-                        x="0"
-                        y="0"
-                        width="24"
-                        height="24"
-                        patternUnits="userSpaceOnUse"
-                    >
-                        {/* Dot in the pattern */}
-                        <Circle cx="0.5" cy="0.5" r="0.5" fill="#121212" />
-                    </Pattern>
-                </Defs>
-                {/* Background rectangle with pattern */}
-                <Rect width="100%" height="100%" fill={Colors.background} />
-                <Rect width="100%" height="100%" fill="url(#dotPattern)" />
-            </Svg>
+            <View style={StyleSheet.absoluteFill}>
+                <Svg width="100%" height="100%" preserveAspectRatio="none">
+                    <Defs>
+                        <Pattern
+                            id="dotPattern"
+                            x="0"
+                            y="0"
+                            width="24"
+                            height="24"
+                            patternUnits="userSpaceOnUse"
+                        >
+                            {/* Dot in the pattern */}
+                            <Circle cx="12" cy="12" r="0.8" fill="#121212" fillOpacity={0.1} />
+                        </Pattern>
+                    </Defs>
+                    {/* Background rectangle with pattern */}
+                    <Rect width="100%" height="100%" fill={Colors.background} />
+                    <Rect width="100%" height="100%" fill="url(#dotPattern)" />
+                </Svg>
+            </View>
 
             {/* Content on top of the pattern */}
             <View style={styles.content}>

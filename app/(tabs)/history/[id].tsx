@@ -2,53 +2,69 @@ import { BrutalButton } from '@/components/ui/brutal-button';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
 import { getWordContent } from '@/lib/i18n-helpers';
+import { getWordById } from '@/lib/mock-data';
 import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
 import { ARTICLE_COLORS, PART_OF_SPEECH_COLORS } from '@/types/word';
 import { createBrutalShadow } from '@/utils/platform-styles';
-import { Heart, Share2, Volume2 } from 'lucide-react-native';
-import { useEffect } from 'react';
-import { ActivityIndicator, ScrollView, Share, Text, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { ArrowLeft, Heart, Share2, Volume2 } from 'lucide-react-native';
+import { ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
-export default function Index() {
-  const { todayWord, isLoading, loadTodayWord, toggleFavorite, isFavorite } = useWordStore();
+export default function WordDetailPage() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
   const { translationLanguage } = useSettingsStore();
+  const { toggleFavorite, isFavorite } = useWordStore();
 
-  useEffect(() => {
-    loadTodayWord();
-  }, []);
+  const word = getWordById(id as string);
 
-  if (isLoading) {
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/history');
+    }
+  };
+
+  if (!word) {
     return (
-      <View className="flex-1 justify-center items-center bg-background">
-        <ActivityIndicator size="large" color={Colors.primary} />
-        <Text className="text-text-muted mt-4 font-w-medium">
-          Загрузка...
-        </Text>
-      </View>
+      <ScreenLayout>
+        <View className="flex-1 justify-center items-center bg-background p-6">
+          <Text className="text-text-main font-w-semibold text-lg mb-6">
+            Слово не найдено
+          </Text>
+          <TouchableOpacity
+            onPress={handleBack}
+            className="flex-row items-center px-6 py-3"
+            style={{
+              backgroundColor: Colors.surface,
+              borderWidth: 3,
+              borderColor: Colors.border,
+              borderRadius: 8,
+              ...createBrutalShadow(3, Colors.border),
+            }}
+          >
+            <ArrowLeft size={20} color={Colors.border} strokeWidth={3} className="mr-2" />
+            <Text className="text-border font-w-extrabold uppercase text-sm">
+              Назад
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScreenLayout>
     );
   }
 
-  if (!todayWord) {
-    return (
-      <View className="flex-1 justify-center items-center bg-background p-6">
-        <Text className="text-text-main font-w-semibold text-lg">
-          Слово дня не найдено
-        </Text>
-      </View>
-    );
-  }
+  const hasArticle = !!word.article;
+  const articleColors = hasArticle ? ARTICLE_COLORS[word.article!] : null;
+  const content = getWordContent(word, translationLanguage);
 
-  const hasArticle = !!todayWord.article;
-  const articleColors = hasArticle ? ARTICLE_COLORS[todayWord.article!] : null;
-  const content = getWordContent(todayWord, translationLanguage);
+  const displayWord = word.part_of_speech === 'noun'
+    ? word.word_de
+    : word.word_de.toLowerCase();
 
-  const displayWord = todayWord.part_of_speech === 'noun'
-    ? todayWord.word_de
-    : todayWord.word_de.toLowerCase();
-
-  const publishDate = todayWord.publish_date ? new Date(todayWord.publish_date) : new Date();
+  const publishDate = word.publish_date ? new Date(word.publish_date) : new Date();
   const day = publishDate.getDate();
   const month = publishDate.toLocaleString('de-DE', { month: 'short' }).toUpperCase().replace('.', '');
   const dateString = `${day}. ${month}`;
@@ -56,7 +72,7 @@ export default function Index() {
   const onShare = async () => {
     try {
       await Share.share({
-        message: `Wort des Tages: ${displayWord} - ${content.translation.main}. Lerne Deutsch mit Vocade!`,
+        message: `Wort: ${displayWord} - ${content.translation.main}. Lerne Deutsch mit Vocade!`,
       });
     } catch (error) {
       console.error(error);
@@ -73,8 +89,18 @@ export default function Index() {
           alignItems: 'center'
         }}
       >
+        {/* Header with Back button and Date */}
         <View className="flex-row items-end justify-between pt-8 pb-10 w-full" style={{ maxWidth: 400 }}>
-          <View className="flex-col">
+          <BrutalButton
+            onPress={handleBack}
+            shadowOffset={3}
+            style={{ width: 48, height: 48, marginRight: 4 }}
+            contentContainerStyle={{ height: '100%' }}
+          >
+            <ArrowLeft size={24} color={Colors.border} strokeWidth={3} />
+          </BrutalButton>
+
+          <View className="flex-col items-end">
             <View
               style={{
                 backgroundColor: Colors.accentYellow,
@@ -83,51 +109,22 @@ export default function Index() {
                 ...createBrutalShadow(2, Colors.border),
                 transform: [{ rotate: '-2deg' }],
               }}
-              className="px-2 py-0.5 mb-2 self-start"
+              className="px-2 py-0.5 mb-2 self-end"
             >
               <Text className="text-border font-w-bold uppercase tracking-widest text-[10px]">
-                Heute
+                Datum
               </Text>
             </View>
             <Text className="text-border text-2xl font-w-extrabold tracking-tight uppercase">
               {dateString}
             </Text>
           </View>
-
-          <View className="mr-2">
-            <BrutalButton
-              onPress={onShare}
-              shadowOffset={3}
-              contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
-              pressableStyle={{ flexDirection: 'row' }}
-            >
-              <Share2 size={18} color={Colors.border} strokeWidth={3} style={{ marginRight: 8 }} />
-              <Text className="text-border font-w-extrabold uppercase text-xs">
-                Share
-              </Text>
-            </BrutalButton>
-
-          </View>
         </View>
 
         <Animated.View
-          entering={FadeInDown.duration(800).delay(200)}
+          entering={FadeInDown.duration(800)}
         >
-          {/* Word of the Day Badge */}
-          <View
-            className="absolute -top-4 right-3 px-3 py-1 z-50"
-            style={{
-              backgroundColor: Colors.accentPink,
-              borderWidth: 2,
-              borderColor: Colors.border,
-              ...createBrutalShadow(2, Colors.border),
-              transform: [{ rotate: '3deg' }],
-            }}
-          >
-            <Text className="text-md font-w-extrabold uppercase text-border">
-              Word of the day
-            </Text>
-          </View>
+
 
           <View
             className='bg-surface rounded-card p-5 relative mr-2'
@@ -135,13 +132,13 @@ export default function Index() {
               borderWidth: 3,
               borderColor: Colors.border,
               ...createBrutalShadow(4, Colors.border),
+              maxWidth: 380,
             }}
           >
-
-            {/* Favorite Button Row */}
-            <View className="flex-row justify-start mb-8">
+            {/* Header Row: Share and Favorite */}
+            <View className="flex-row justify-between mb-8">
               <BrutalButton
-                onPress={() => toggleFavorite(todayWord.id)}
+                onPress={() => toggleFavorite(word.id)}
                 shadowOffset={3}
                 borderWidth={2}
                 style={{ width: 40, height: 40 }}
@@ -150,9 +147,21 @@ export default function Index() {
                 <Heart
                   size={20}
                   color={Colors.border}
-                  fill={isFavorite(todayWord.id) ? Colors.border : 'transparent'}
+                  fill={isFavorite(word.id) ? Colors.border : 'transparent'}
                   strokeWidth={2.5}
                 />
+              </BrutalButton>
+
+              <BrutalButton
+                onPress={onShare}
+                shadowOffset={3}
+                contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
+                pressableStyle={{ flexDirection: 'row' }}
+              >
+                <Share2 size={18} color={Colors.border} strokeWidth={3} style={{ marginRight: 8 }} />
+                <Text className="text-border font-w-extrabold uppercase text-xs">
+                  Share
+                </Text>
               </BrutalButton>
             </View>
 
@@ -168,6 +177,7 @@ export default function Index() {
               <BrutalButton
                 shadowOffset={3}
                 borderWidth={2}
+                borderRadius={12}
                 backgroundColor={Colors.accentYellow}
                 style={{ width: 48, height: 48 }}
                 contentContainerStyle={{ height: '100%' }}
@@ -185,41 +195,40 @@ export default function Index() {
                     backgroundColor: articleColors.bg,
                     borderWidth: 3,
                     borderColor: articleColors.border,
+                    ...createBrutalShadow(2, Colors.border),
                   }}>
                   <Text
                     className="font-w-extrabold text-sm uppercase"
                     style={{
                       color: articleColors.text
                     }}>
-                    {todayWord.article}
+                    {word.article}
                   </Text>
-
                 </View>
               )}
               <View
                 className="bg-gray-200 px-2 py-0.5"
                 style={{
-                  borderWidth: 1,
+                  borderWidth: 2,
                   borderColor: Colors.border,
                 }}
               >
                 <Text className="text-xs font-w-bold text-text-main">
-                  {todayWord.transcription_de}
+                  {word.transcription_de}
                 </Text>
               </View>
               <View
                 className="px-3 py-1"
                 style={{
-                  backgroundColor: PART_OF_SPEECH_COLORS[todayWord.part_of_speech]?.bg || Colors.surface,
-                  borderWidth: 1,
+                  backgroundColor: PART_OF_SPEECH_COLORS[word.part_of_speech as keyof typeof PART_OF_SPEECH_COLORS]?.bg || Colors.surface,
+                  borderWidth: 2,
                   borderColor: Colors.border,
                 }}
               >
                 <Text className="text-xs font-w-bold text-border uppercase">
-                  {todayWord.part_of_speech}
+                  {word.part_of_speech}
                 </Text>
               </View>
-
             </View>
 
             {/* Translation */}
@@ -230,6 +239,8 @@ export default function Index() {
             </View>
 
             <View className="h-0.5 w-full bg-border mb-6" />
+
+            {/* Example Section */}
             <View
               className="p-5 my-6 relative bg-purple-50"
               style={{
@@ -237,7 +248,6 @@ export default function Index() {
                 borderColor: Colors.border,
               }}
             >
-              {/* Badge Label */}
               <View
                 className="bg-white absolute -top-4 left-4 px-3 py-1 flex-row items-center"
                 style={{
@@ -262,14 +272,10 @@ export default function Index() {
                 </Text>
               </View>
 
-              {/* German Sentence */}
-              <Text
-                className="text-lg text-text-main font-w-bold leading-7 mt-2"
-              >
+              <Text className="text-lg text-text-main font-w-bold leading-7 mt-2">
                 {content.exampleSentence.de}
               </Text>
 
-              {/* Translation */}
               <View
                 className="mt-4 pl-3"
                 style={{
@@ -277,16 +283,13 @@ export default function Index() {
                   borderLeftColor: Colors.border,
                 }}
               >
-                <Text
-                  className="text-sm text-text-muted font-w-medium italic"
-                >
+                <Text className="text-sm text-text-muted font-w-medium italic">
                   {content.exampleSentence.translation}
                 </Text>
               </View>
             </View>
 
-
-            {/* Etymology */}
+            {/* Etymology Section */}
             <View className="pb-6">
               <View
                 className="bg-green-50 p-5 mt-4 relative"
@@ -295,7 +298,6 @@ export default function Index() {
                   borderColor: Colors.border,
                 }}
               >
-                {/* Badge Label */}
                 <View
                   className="bg-white absolute -top-4 left-4 px-3 py-1 flex-row items-center"
                   style={{
@@ -319,11 +321,8 @@ export default function Index() {
                   </Text>
                 </View>
 
-                {/* Content */}
-                <Text
-                  className="text-sm text-text-main font-w-medium leading-relaxed mt-2"
-                >
-                  {content.etymology.text ? content.etymology.text : 'Этимология скоро будет добавлена...'}
+                <Text className="text-sm text-text-main font-w-medium leading-relaxed mt-2">
+                  {content.etymology.text || 'Этимология скоро будет добавлена...'}
                 </Text>
 
                 {content.etymology.rootWord && (
@@ -347,7 +346,7 @@ export default function Index() {
               </View>
             </View>
           </View>
-        </Animated.View >
+        </Animated.View>
       </ScrollView>
     </ScreenLayout>
   );

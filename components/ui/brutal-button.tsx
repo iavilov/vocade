@@ -20,6 +20,7 @@ interface BrutalButtonProps {
     borderRadius?: number;
     style?: ViewStyle;
     contentContainerStyle?: ViewStyle;
+    pressableStyle?: ViewStyle;
     className?: string;
 }
 
@@ -35,19 +36,23 @@ export const BrutalButton = ({
     borderRadius = 8,
     style,
     contentContainerStyle,
+    pressableStyle,
     className,
 }: BrutalButtonProps) => {
-    const isPressed = useSharedValue(isActive ? 1 : 0);
+    const isPressedInternal = useSharedValue(0);
+    const animationValue = useSharedValue(isActive ? 1 : 0);
 
     React.useEffect(() => {
-        isPressed.value = withSpring(isActive ? 1 : 0, {
-            damping: 0,
-            stiffness: 0,
+        animationValue.value = withSpring(isActive ? 1 : 0, {
+            damping: 100,
+            stiffness: 500,
         });
     }, [isActive]);
 
     const animatedStyle = useAnimatedStyle(() => {
-        const offset = isPressed.value * shadowOffset;
+        // Use either the isActive state or the immediate press state
+        const pressValue = Math.max(animationValue.value, isPressedInternal.value);
+        const offset = pressValue * shadowOffset;
         return {
             transform: [
                 { translateX: offset },
@@ -57,16 +62,12 @@ export const BrutalButton = ({
     });
 
     const handlePressIn = () => {
-        if (!isActive) {
-            isPressed.value = withSpring(1, { damping: 0, stiffness: 0 });
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }
+        isPressedInternal.value = withSpring(1, { damping: 100, stiffness: 500 });
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     };
 
     const handlePressOut = () => {
-        if (!isActive) {
-            isPressed.value = withSpring(0, { damping: 0, stiffness: 0 });
-        }
+        isPressedInternal.value = withSpring(0, { damping: 100, stiffness: 500 });
     };
 
     return (
@@ -91,7 +92,6 @@ export const BrutalButton = ({
                     bottom: 0,
                     backgroundColor: borderColor,
                     borderRadius: borderRadius,
-                    zIndex: 0,
                 }}
             />
             {/* Content Layer */}
@@ -103,8 +103,9 @@ export const BrutalButton = ({
                         borderWidth: borderWidth,
                         borderColor: borderColor,
                         borderRadius: borderRadius,
-                        width: '100%',
-                        zIndex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        overflow: 'hidden', // Ensure side strip doesn't overflow rounded corners
                     },
                     contentContainerStyle,
                 ]}
@@ -113,11 +114,13 @@ export const BrutalButton = ({
                     onPress={onPress}
                     onPressIn={handlePressIn}
                     onPressOut={handlePressOut}
-                    style={{
-                        width: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
+                    style={[
+                        {
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        },
+                        pressableStyle
+                    ]}
                 >
                     {children}
                 </Pressable>

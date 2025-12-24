@@ -8,7 +8,7 @@ export const NavigationStyles = {
     bottom: 24,
     left: 16,
     right: 16,
-    height: 70,
+    height: 80,
     backgroundColor: Colors.surface,
     borderWidth: 3,
     borderColor: Colors.border,
@@ -20,25 +20,27 @@ export const NavigationStyles = {
     ...createBrutalShadow(4, Colors.border),
     alignSelf: 'center',
     maxWidth: 480,
-    width: 'auto',
   } as ViewStyle,
 
   tabItem: {
-    // flex: 1,
+    flex: 1,
     height: 64,
-    width: 64,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: 'transparent', // Placeholder to prevent jump
   } as ViewStyle,
 
-  activeTabItem: {
+  indicator: {
+    position: 'absolute',
+    top: 6, // (70 - 3*2 - 48) / 2 = 8px margin from borders
+    left: -5,
+    width: 60, // Square width
+    height: 60, // Square height
     backgroundColor: Colors.primary,
+    borderWidth: 2,
     borderColor: Colors.border,
-    // ...createBrutalShadow(4, Colors.border),
-    height: 50,
+    borderRadius: 8,
+    ...createBrutalShadow(2, Colors.border),
+    zIndex: 0,
   } as ViewStyle,
 
   floatingButton: {

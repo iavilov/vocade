@@ -49,7 +49,6 @@ export default function RootLayout() {
       <View style={{ flex: 1, maxWidth: 430, width: '100%', alignSelf: 'center' }}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="word/[id]" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
       </View>
