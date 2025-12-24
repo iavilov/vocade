@@ -1,0 +1,25 @@
+export const palette = {
+  bgMain: '#FFFAF0',
+  cardBg: '#FFFFFF',
+  ink: '#121212',
+  primary: '#00E090',
+  yellow: '#FFDE00',
+  pink: '#FF80BF',
+  blue: '#60A5FA',
+  articleDer: '#93C5FD',
+  articleDie: '#F9A8D4',
+  articleDas: '#86EFAC',
+
+  gray: {
+    50: '#FAFAFA',
+    100: '#F5F5F5',
+    200: '#E5E5E5',
+    300: '#D4D4D4',
+    400: '#A3A3A3',
+    500: '#737373',
+    600: '#525252',
+    700: '#404040',
+    800: '#262626',
+    900: '#171717',
+  },
+};
