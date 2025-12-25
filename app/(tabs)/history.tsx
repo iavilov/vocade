@@ -4,11 +4,11 @@ import { Colors } from '@/constants/design-tokens';
 import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
 import { Article, ARTICLE_COLORS, PART_OF_SPEECH_COLORS, PartOfSpeech } from '@/types/word';
-import { createBrutalShadow, createOverflowStyle } from '@/utils/platform-styles';
+import { createBrutalShadow } from '@/utils/platform-styles';
 import { useRouter } from 'expo-router';
 import { ArrowRight, Search } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Platform, ScrollView, Text, TextInput, View } from 'react-native';
 
 type TabType = 'all' | 'favorites';
 
@@ -34,7 +34,7 @@ export default function HistoryScreen() {
         }}
       >
         {/* Header */}
-        <View className="flex-row items-center justify-between pt-8 pb-10 w-full">
+        <View className="flex-row items-center justify-between pt-8 pb-6 w-full">
           <View className="flex-col">
             <View
               style={{
@@ -54,18 +54,33 @@ export default function HistoryScreen() {
               History
             </Text>
           </View>
+        </View>
 
-          <TouchableOpacity
-            className="w-12 h-12 items-center justify-center bg-surface mr-1"
+        {/* Search Bar */}
+        <View className="w-full mb-8 pr-1">
+          <View
             style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: Colors.surface,
               borderWidth: 3,
               borderColor: Colors.border,
-              borderRadius: 8,
-              ...createBrutalShadow(3, Colors.border),
+              borderRadius: 12,
+              paddingHorizontal: 16,
+              height: 56,
             }}
           >
-            <Search size={24} color={Colors.border} strokeWidth={3} />
-          </TouchableOpacity>
+            <Search size={22} color={Colors.border} strokeWidth={3} style={{ marginRight: 12 }} />
+            <TextInput
+              placeholder="SEARCH..."
+              placeholderTextColor={Colors.textMuted}
+              className="flex-1 text-border font-w-extrabold text-base"
+              style={[
+                { paddingVertical: 0 },
+                Platform.OS === 'web' && ({ outlineStyle: 'none' } as any),
+              ]}
+            />
+          </View>
         </View>
 
         {/* Tab Navigation */}
@@ -73,32 +88,30 @@ export default function HistoryScreen() {
           <BrutalButton
             onPress={() => setActiveTab('all')}
             isActive={activeTab === 'all'}
-            shadowOffset={3}
             className="flex-1"
-            contentContainerStyle={{ paddingVertical: 12 }}
+            contentContainerStyle={{ paddingVertical: 12, width: '100%' }}
+            pressableStyle={{ width: '100%' }}
           >
             <Text
               className={`text-xs font-w-extrabold uppercase tracking-wide ${activeTab === 'all' ? 'text-border' : 'text-text-muted'
                 }`}
             >
-              All Learned Words
+              All Words
             </Text>
-            {activeTab === 'all' && allWords.length > 0 && (
-              <View
-                className="absolute -top-2 -right-2 bg-white border-2 border-ink w-6 h-6 flex items-center justify-center rounded-full z-10"
-                style={{ borderColor: Colors.border }}
-              >
-                <Text className="text-[10px] font-w-extrabold">{allWords.length}</Text>
-              </View>
-            )}
+            <View
+              className="absolute -top-[4px] right-[3px] bg-white border-2 border-ink w-6 h-6 flex items-center justify-center rounded-full z-10"
+              style={{ borderColor: Colors.border }}
+            >
+              <Text className="text-[10px] font-w-extrabold">{allWords.length}</Text>
+            </View>
           </BrutalButton>
 
           <BrutalButton
             onPress={() => setActiveTab('favorites')}
             isActive={activeTab === 'favorites'}
-            shadowOffset={3}
             className="flex-1"
-            contentContainerStyle={{ paddingVertical: 12 }}
+            contentContainerStyle={{ paddingVertical: 12, width: '100%' }}
+            pressableStyle={{ width: '100%' }}
           >
             <Text
               className={`text-xs font-w-extrabold uppercase tracking-wide ${activeTab === 'favorites' ? 'text-border' : 'text-text-muted'
@@ -144,17 +157,15 @@ export default function HistoryScreen() {
               : item.word_de.toLowerCase();
 
             return (
-
-              <TouchableOpacity
-                onPress={() => router.push(`/word/${item.id}`)}
-                activeOpacity={0.8}
-                className="bg-surface mb-4 flex-row"
-                style={{
-                  borderWidth: 2,
-                  borderColor: Colors.border,
-                  borderRadius: 8,
-                  ...createBrutalShadow(4, Colors.border),
-                  ...createOverflowStyle(),
+              <BrutalButton
+                onPress={() => router.push(`/history/${item.id}`)}
+                borderWidth={2}
+                style={{ marginBottom: 16, width: '100%' }}
+                contentContainerStyle={{ width: '100%' }}
+                pressableStyle={{
+                  flexDirection: 'row',
+                  alignItems: 'stretch',
+                  width: '100%',
                 }}
               >
                 {/* Side Strip */}
@@ -164,8 +175,6 @@ export default function HistoryScreen() {
                     backgroundColor: stripColor,
                     borderRightWidth: 3,
                     borderRightColor: Colors.border,
-                    borderTopLeftRadius: 7,
-                    borderBottomLeftRadius: 7,
                   }}
                 />
 
@@ -186,9 +195,8 @@ export default function HistoryScreen() {
                         </Text>
                       </View>
                       <Text className="text-text-main text-xl font-w-extrabold">
-                        {hasArticle ? displayWord : displayWord}
+                        {displayWord}
                       </Text>
-
                     </View>
                     <Text className="text-text-muted text-base font-w-medium italic">
                       {translation.main}
@@ -205,12 +213,11 @@ export default function HistoryScreen() {
                     <ArrowRight size={20} color={Colors.border} strokeWidth={2.5} />
                   </View>
                 </View>
-              </TouchableOpacity>
-
+              </BrutalButton>
             );
           }}
         />
-        <View className="mt-8 mb-4 flex-row justify-center">
+        <View className="flex-row justify-center">
           <View
             className="px-3 py-1 border border-dashed border-gray-400"
             style={{ backgroundColor: Colors.surface }}

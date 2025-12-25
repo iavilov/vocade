@@ -1,7 +1,7 @@
 import { Colors } from '@/constants/design-tokens';
 import * as Haptics from 'expo-haptics';
 import React from 'react';
-import { Pressable, View, ViewStyle } from 'react-native';
+import { Platform, Pressable, View, ViewStyle } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -20,6 +20,7 @@ interface BrutalButtonProps {
     borderRadius?: number;
     style?: ViewStyle;
     contentContainerStyle?: ViewStyle;
+    pressableStyle?: ViewStyle;
     className?: string;
 }
 
@@ -27,7 +28,7 @@ export const BrutalButton = ({
     children,
     onPress,
     isActive = false,
-    shadowOffset = 3,
+    shadowOffset = 2,
     backgroundColor = Colors.surface,
     activeBackgroundColor = Colors.accentYellow,
     borderColor = Colors.border,
@@ -35,19 +36,32 @@ export const BrutalButton = ({
     borderRadius = 8,
     style,
     contentContainerStyle,
+    pressableStyle,
     className,
 }: BrutalButtonProps) => {
-    const isPressed = useSharedValue(isActive ? 1 : 0);
+    const isPressedInternal = useSharedValue(0);
+    const animationValue = useSharedValue(isActive ? 1 : 0);
 
     React.useEffect(() => {
-        isPressed.value = withSpring(isActive ? 1 : 0, {
-            damping: 0,
-            stiffness: 0,
+        animationValue.value = withSpring(isActive ? 1 : 0, {
+            damping: 100,
+            stiffness: 500,
         });
     }, [isActive]);
 
     const animatedStyle = useAnimatedStyle(() => {
-        const offset = isPressed.value * shadowOffset;
+        const pressValue = Math.max(animationValue.value, isPressedInternal.value);
+
+        if (shadowOffset === 0) {
+            return {
+                transform: [
+                    { scale: withSpring(pressValue ? 0.96 : 1, { damping: 100, stiffness: 500 }) }
+                ],
+                opacity: withSpring(pressValue ? 0.7 : 1),
+            };
+        }
+
+        const offset = pressValue * shadowOffset;
         return {
             transform: [
                 { translateX: offset },
@@ -57,16 +71,12 @@ export const BrutalButton = ({
     });
 
     const handlePressIn = () => {
-        if (!isActive) {
-            isPressed.value = withSpring(1, { damping: 0, stiffness: 0 });
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }
+        isPressedInternal.value = withSpring(1, { damping: 100, stiffness: 500 });
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     };
 
     const handlePressOut = () => {
-        if (!isActive) {
-            isPressed.value = withSpring(0, { damping: 0, stiffness: 0 });
-        }
+        isPressedInternal.value = withSpring(0, { damping: 100, stiffness: 500 });
     };
 
     return (
@@ -75,25 +85,26 @@ export const BrutalButton = ({
                 style,
                 {
                     position: 'relative',
-                    paddingRight: shadowOffset,
-                    paddingBottom: shadowOffset,
+                    paddingRight: shadowOffset > 0 ? shadowOffset : 0,
+                    paddingBottom: shadowOffset > 0 ? shadowOffset : 0,
                 }
             ]}
             className={className}
         >
-            {/* Shadow Layer */}
-            <View
-                style={{
-                    position: 'absolute',
-                    top: shadowOffset,
-                    left: shadowOffset,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: borderColor,
-                    borderRadius: borderRadius,
-                    zIndex: 0,
-                }}
-            />
+            {/* Shadow Layer - only if offset > 0 */}
+            {shadowOffset > 0 && (
+                <View
+                    style={{
+                        position: 'absolute',
+                        top: shadowOffset,
+                        left: shadowOffset,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: borderColor,
+                        borderRadius: borderRadius,
+                    }}
+                />
+            )}
             {/* Content Layer */}
             <Animated.View
                 style={[
@@ -103,8 +114,9 @@ export const BrutalButton = ({
                         borderWidth: borderWidth,
                         borderColor: borderColor,
                         borderRadius: borderRadius,
-                        width: '100%',
-                        zIndex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        overflow: 'hidden', // Ensure side strip doesn't overflow rounded corners
                     },
                     contentContainerStyle,
                 ]}
@@ -113,11 +125,14 @@ export const BrutalButton = ({
                     onPress={onPress}
                     onPressIn={handlePressIn}
                     onPressOut={handlePressOut}
-                    style={{
-                        width: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
+                    style={[
+                        {
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: Platform.OS === 'web' ? 'pointer' : 'auto',
+                        },
+                        pressableStyle
+                    ]}
                 >
                     {children}
                 </Pressable>
