@@ -15,7 +15,7 @@ export function DottedBackground({ children }: DottedBackgroundProps) {
     return (
         <View style={styles.container}>
             {/* SVG Pattern Background */}
-            <View style={StyleSheet.absoluteFill}>
+            <View style={StyleSheet.absoluteFill} pointerEvents="none">
                 <Svg width="100%" height="100%" preserveAspectRatio="none">
                     <Defs>
                         <Pattern
@@ -27,7 +27,7 @@ export function DottedBackground({ children }: DottedBackgroundProps) {
                             patternUnits="userSpaceOnUse"
                         >
                             {/* Dot in the pattern */}
-                            <Circle cx="12" cy="12" r="0.8" fill="#121212" fillOpacity={0.1} />
+                            <Circle cx="12" cy="12" r="0.8" fill="#121212" fillOpacity={0.5} />
                         </Pattern>
                     </Defs>
                     {/* Background rectangle with pattern */}
@@ -37,9 +37,7 @@ export function DottedBackground({ children }: DottedBackgroundProps) {
             </View>
 
             {/* Content on top of the pattern */}
-            <View style={styles.content}>
-                {children}
-            </View>
+            {children}
         </View>
     );
 }
@@ -48,8 +46,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: 'relative',
-    },
-    content: {
-        flex: 1,
     },
 });

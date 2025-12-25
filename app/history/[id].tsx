@@ -93,7 +93,6 @@ export default function WordDetailPage() {
         <View className="flex-row items-end justify-between pt-8 pb-10 w-full" style={{ maxWidth: 400 }}>
           <BrutalButton
             onPress={handleBack}
-            shadowOffset={3}
             style={{ width: 48, height: 48, marginRight: 4 }}
             contentContainerStyle={{ height: '100%' }}
           >
@@ -137,7 +136,6 @@ export default function WordDetailPage() {
             <View className="flex-row justify-between mb-8">
               <BrutalButton
                 onPress={() => toggleFavorite(word.id)}
-                shadowOffset={3}
                 borderWidth={2}
                 style={{ width: 40, height: 40 }}
                 contentContainerStyle={{ height: '100%' }}
@@ -152,7 +150,6 @@ export default function WordDetailPage() {
 
               <BrutalButton
                 onPress={onShare}
-                shadowOffset={3}
                 contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
                 pressableStyle={{ flexDirection: 'row' }}
               >
@@ -173,7 +170,6 @@ export default function WordDetailPage() {
                 {displayWord}
               </Text>
               <BrutalButton
-                shadowOffset={3}
                 borderWidth={2}
                 borderRadius={12}
                 backgroundColor={Colors.accentYellow}

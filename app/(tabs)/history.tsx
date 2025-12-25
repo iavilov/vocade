@@ -88,7 +88,6 @@ export default function HistoryScreen() {
           <BrutalButton
             onPress={() => setActiveTab('all')}
             isActive={activeTab === 'all'}
-            shadowOffset={3}
             className="flex-1"
             contentContainerStyle={{ paddingVertical: 12, width: '100%' }}
             pressableStyle={{ width: '100%' }}
@@ -110,7 +109,6 @@ export default function HistoryScreen() {
           <BrutalButton
             onPress={() => setActiveTab('favorites')}
             isActive={activeTab === 'favorites'}
-            shadowOffset={3}
             className="flex-1"
             contentContainerStyle={{ paddingVertical: 12, width: '100%' }}
             pressableStyle={{ width: '100%' }}
@@ -161,7 +159,6 @@ export default function HistoryScreen() {
             return (
               <BrutalButton
                 onPress={() => router.push(`/history/${item.id}`)}
-                shadowOffset={4}
                 borderWidth={2}
                 style={{ marginBottom: 16, width: '100%' }}
                 contentContainerStyle={{ width: '100%' }}

@@ -53,11 +53,14 @@ export function ScreenLayout({
     >
       <DottedBackground>
         <Animated.View
-          className={`flex-1 w-full self-center px-6 ${className || ''}`}
+          className={`w-full self-center ${className || ''}`}
           style={[
             {
+              flex: 1, // Явно задаем flex здесь для веба
+              height: '100%', // Гарантируем ограничение высоты для корректного скролла
               maxWidth: 480,
               paddingBottom: bottomPadding,
+              paddingHorizontal: 24,
             },
             animatedStyle,
             style

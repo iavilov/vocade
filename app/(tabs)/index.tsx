@@ -97,7 +97,6 @@ export default function Index() {
           <View className="mr-2">
             <BrutalButton
               onPress={onShare}
-              shadowOffset={3}
               contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
               pressableStyle={{ flexDirection: 'row' }}
             >
@@ -140,7 +139,6 @@ export default function Index() {
             <View className="flex-row justify-start mb-8">
               <BrutalButton
                 onPress={() => toggleFavorite(todayWord.id)}
-                shadowOffset={3}
                 borderWidth={2}
                 style={{ width: 40, height: 40 }}
                 contentContainerStyle={{ height: '100%' }}
@@ -164,7 +162,6 @@ export default function Index() {
                 {displayWord}
               </Text>
               <BrutalButton
-                shadowOffset={3}
                 borderWidth={2}
                 backgroundColor={Colors.accentYellow}
                 style={{ width: 48, height: 48 }}

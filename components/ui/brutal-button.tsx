@@ -1,7 +1,7 @@
 import { Colors } from '@/constants/design-tokens';
 import * as Haptics from 'expo-haptics';
 import React from 'react';
-import { Pressable, View, ViewStyle } from 'react-native';
+import { Platform, Pressable, View, ViewStyle } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -28,7 +28,7 @@ export const BrutalButton = ({
     children,
     onPress,
     isActive = false,
-    shadowOffset = 3,
+    shadowOffset = 2,
     backgroundColor = Colors.surface,
     activeBackgroundColor = Colors.accentYellow,
     borderColor = Colors.border,
@@ -50,8 +50,17 @@ export const BrutalButton = ({
     }, [isActive]);
 
     const animatedStyle = useAnimatedStyle(() => {
-        // Use either the isActive state or the immediate press state
         const pressValue = Math.max(animationValue.value, isPressedInternal.value);
+
+        if (shadowOffset === 0) {
+            return {
+                transform: [
+                    { scale: withSpring(pressValue ? 0.96 : 1, { damping: 100, stiffness: 500 }) }
+                ],
+                opacity: withSpring(pressValue ? 0.7 : 1),
+            };
+        }
+
         const offset = pressValue * shadowOffset;
         return {
             transform: [
@@ -76,24 +85,26 @@ export const BrutalButton = ({
                 style,
                 {
                     position: 'relative',
-                    paddingRight: shadowOffset,
-                    paddingBottom: shadowOffset,
+                    paddingRight: shadowOffset > 0 ? shadowOffset : 0,
+                    paddingBottom: shadowOffset > 0 ? shadowOffset : 0,
                 }
             ]}
             className={className}
         >
-            {/* Shadow Layer */}
-            <View
-                style={{
-                    position: 'absolute',
-                    top: shadowOffset,
-                    left: shadowOffset,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: borderColor,
-                    borderRadius: borderRadius,
-                }}
-            />
+            {/* Shadow Layer - only if offset > 0 */}
+            {shadowOffset > 0 && (
+                <View
+                    style={{
+                        position: 'absolute',
+                        top: shadowOffset,
+                        left: shadowOffset,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: borderColor,
+                        borderRadius: borderRadius,
+                    }}
+                />
+            )}
             {/* Content Layer */}
             <Animated.View
                 style={[
@@ -118,6 +129,7 @@ export const BrutalButton = ({
                         {
                             alignItems: 'center',
                             justifyContent: 'center',
+                            cursor: Platform.OS === 'web' ? 'pointer' : 'auto',
                         },
                         pressableStyle
                     ]}

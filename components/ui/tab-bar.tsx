@@ -96,8 +96,8 @@ function AnimatedIcon({ Icon, isFocused }: { Icon: any, isFocused: boolean }) {
 
     useEffect(() => {
         scale.value = withSpring(isFocused ? 1.2 : 1, {
-            damping: 15,
-            stiffness: 200,
+            damping: 100,
+            stiffness: 500,
         });
     }, [isFocused]);
 
