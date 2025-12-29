@@ -15,6 +15,7 @@ export interface Translations {
   ru: Translation;
   uk: Translation;
   en: Translation;
+  de: Translation;
 }
 
 export interface ExampleSentence {
@@ -28,6 +29,7 @@ export interface Etymology {
   text_ru: string;
   text_uk: string;
   text_en: string;
+  text_de: string;
   root_word?: string;
 }
 
@@ -49,12 +51,12 @@ export interface WordMedia {
  */
 export interface Word {
   id: string;
-  publish_date: string; // ISO date string
+  level: Level; // beginner | intermediate | advanced
+  day_number: number; // 1-365, порядковый день для данного уровня
   transcription_de: string;
   word_de: string;
   article: Article;
   part_of_speech: PartOfSpeech;
-  level: Level;
   translations: Translations;
   content: WordContent;
   media: WordMedia;

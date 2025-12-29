@@ -1,9 +1,10 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
+import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
-import { Article, ARTICLE_COLORS, PART_OF_SPEECH_COLORS, PartOfSpeech } from '@/types/word';
+import { ARTICLE_COLORS, Article, PART_OF_SPEECH_COLORS, PartOfSpeech } from '@/types/word';
 import { createBrutalShadow } from '@/utils/platform-styles';
 import { useRouter } from 'expo-router';
 import { ArrowRight, Search } from 'lucide-react-native';
@@ -33,7 +34,6 @@ export default function HistoryScreen() {
           paddingBottom: 80,
         }}
       >
-        {/* Header */}
         <View className="flex-row items-center justify-between pt-8 pb-6 w-full">
           <View className="flex-col">
             <View
@@ -47,16 +47,15 @@ export default function HistoryScreen() {
               className="px-2 py-0.5 mb-2 self-start"
             >
               <Text className="text-border font-w-bold uppercase tracking-widest text-[10px]">
-                My Library
+                {t('history.library', translationLanguage)}
               </Text>
             </View>
             <Text className="text-border text-3xl font-w-extrabold tracking-tight uppercase">
-              History
+              {t('tabs.history', translationLanguage)}
             </Text>
           </View>
         </View>
 
-        {/* Search Bar */}
         <View className="w-full mb-8 pr-1">
           <View
             style={{
@@ -72,7 +71,7 @@ export default function HistoryScreen() {
           >
             <Search size={22} color={Colors.border} strokeWidth={3} style={{ marginRight: 12 }} />
             <TextInput
-              placeholder="SEARCH..."
+              placeholder={t('history.search', translationLanguage).toUpperCase()}
               placeholderTextColor={Colors.textMuted}
               className="flex-1 text-border font-w-extrabold text-base"
               style={[
@@ -83,7 +82,6 @@ export default function HistoryScreen() {
           </View>
         </View>
 
-        {/* Tab Navigation */}
         <View className="flex-row gap-3 mb-6 w-full pr-1">
           <BrutalButton
             onPress={() => setActiveTab('all')}
@@ -96,7 +94,7 @@ export default function HistoryScreen() {
               className={`text-xs font-w-extrabold uppercase tracking-wide ${activeTab === 'all' ? 'text-border' : 'text-text-muted'
                 }`}
             >
-              All Words
+              {t('history.all', translationLanguage)}
             </Text>
             <View
               className="absolute -top-[4px] right-[3px] bg-white border-2 border-ink w-6 h-6 flex items-center justify-center rounded-full z-10"
@@ -117,12 +115,11 @@ export default function HistoryScreen() {
               className={`text-xs font-w-extrabold uppercase tracking-wide ${activeTab === 'favorites' ? 'text-border' : 'text-text-muted'
                 }`}
             >
-              Favorite Words
+              {t('history.favorites', translationLanguage)}
             </Text>
           </BrutalButton>
         </View>
 
-        {/* Word List */}
         <FlatList
           data={displayWords}
           keyExtractor={(item) => item.id}
@@ -135,8 +132,8 @@ export default function HistoryScreen() {
                 className="text-text-muted text-center text-base font-medium"
               >
                 {activeTab === 'favorites'
-                  ? 'Нет избранных слов'
-                  : 'Нет слов в истории'}
+                  ? t('history.noFavorites', translationLanguage)
+                  : t('history.noHistory', translationLanguage)}
               </Text>
             </View>
           }
@@ -144,7 +141,6 @@ export default function HistoryScreen() {
             const translation = item.translations[translationLanguage];
             const hasArticle = !!item.article;
 
-            // Определяем цвет полоски: если есть артикль - цвет артикля, если нет - цвет части речи (или primary если не определено)
             let stripColor = Colors.primary;
             if (hasArticle && item.article && ARTICLE_COLORS[item.article as NonNullable<Article>]) {
               stripColor = ARTICLE_COLORS[item.article as NonNullable<Article>].bg;
@@ -168,7 +164,6 @@ export default function HistoryScreen() {
                   width: '100%',
                 }}
               >
-                {/* Side Strip */}
                 <View
                   style={{
                     width: 12,
@@ -223,7 +218,7 @@ export default function HistoryScreen() {
             style={{ backgroundColor: Colors.surface }}
           >
             <Text className="text-[10px] font-w-bold text-gray-500 uppercase tracking-widest text-center">
-              End of list
+              {t('history.endOfList', translationLanguage)}
             </Text>
           </View>
         </View>

@@ -3,20 +3,12 @@ import { BrutalDivider } from '@/components/ui/brutal-divider';
 import { BrutalSwitch } from '@/components/ui/brutal-switch';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
+import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
+import { LANGUAGE_OPTIONS, LEVEL_OPTIONS } from '@/types/settings';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRouter } from 'expo-router';
-import {
-  ChevronRight,
-  Clock,
-  Gavel,
-  Languages,
-  LogOut,
-  MessageSquare,
-  ShieldCheck,
-  Star,
-  User
-} from 'lucide-react-native';
+import { ChevronRight, Clock, Gavel, Languages, LogOut, MessageSquare, ShieldCheck, Star, TrendingUp, User } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
   Linking,
@@ -30,10 +22,13 @@ import Animated, { FadeInUp, FadeOutUp, Layout } from 'react-native-reanimated';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { userEmail } = useSettingsStore();
+  const { userEmail, translationLanguage, languageLevel } = useSettingsStore();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [notificationTime, setNotificationTime] = useState(new Date(new Date().setHours(9, 0, 0, 0)));
   const [showTimePicker, setShowTimePicker] = useState(false);
+
+  const currentLanguageName = LANGUAGE_OPTIONS.find(opt => opt.code === translationLanguage)?.nativeName || 'Russian';
+  const currentLevelName = LEVEL_OPTIONS.find(opt => opt.code === languageLevel)?.name[translationLanguage] || 'Beginner';
 
   const onTimeChange = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || notificationTime;
@@ -52,12 +47,14 @@ export default function SettingsScreen() {
 
   return (
     <ScreenLayout>
+      <View>
+        <Text>Settings</Text>
+      </View>
       <ScrollView
         className="flex-1 w-full"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 60, alignItems: 'center' }}
       >
-        {/* Header */}
         <View className="flex-row items-end justify-between pt-8 pb-10 w-full" style={{ maxWidth: 400 }}>
           <View className="flex-col">
             <View
@@ -76,21 +73,19 @@ export default function SettingsScreen() {
               }}
             >
               <Text style={{ fontSize: 10, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>
-                My Account
+                {t('settings.account', translationLanguage)}
               </Text>
             </View>
             <Text style={{ fontSize: 32, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>
-              Settings
+              {t('settings.title', translationLanguage)}
             </Text>
           </View>
         </View>
 
-        {/* Main Settings Card */}
         <View
           className="bg-white border-3 border-ink rounded-brutal p-5 shadow-brutal w-full mb-8"
           style={{ borderColor: Colors.border, maxWidth: 400 }}
         >
-          {/* Account */}
           <BrutalButton
             onPress={() => router.push('/settings/account')}
             borderRadius={8}
@@ -108,7 +103,7 @@ export default function SettingsScreen() {
                   <User size={20} color={Colors.border} strokeWidth={3} />
                 </View>
                 <View>
-                  <Text style={{ fontSize: 13, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Account</Text>
+                  <Text style={{ fontSize: 13, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.account', translationLanguage)}</Text>
                   <Text className="text-gray-500 text-xs font-medium">{userEmail}</Text>
                 </View>
               </View>
@@ -118,7 +113,6 @@ export default function SettingsScreen() {
 
           <BrutalDivider className="my-8" />
 
-          {/* Language */}
           <BrutalButton
             onPress={() => router.push('/settings/language')}
             borderRadius={8}
@@ -136,8 +130,35 @@ export default function SettingsScreen() {
                   <Languages size={20} color={Colors.border} strokeWidth={3} />
                 </View>
                 <View>
-                  <Text style={{ fontSize: 13, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Language</Text>
-                  <Text className="text-gray-500 text-xs font-medium">Russian (Default)</Text>
+                  <Text style={{ fontSize: 13, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.language', translationLanguage)}</Text>
+                  <Text className="text-gray-500 text-xs font-medium">{currentLanguageName}</Text>
+                </View>
+              </View>
+              <ChevronRight size={20} color={Colors.border} />
+            </View>
+          </BrutalButton>
+
+          <BrutalDivider className="my-8" />
+
+          <BrutalButton
+            onPress={() => router.push('/settings/level')}
+            borderRadius={8}
+            borderWidth={2}
+            style={{ width: '100%' }}
+            contentContainerStyle={{ alignItems: 'stretch' }}
+            pressableStyle={{ width: '100%', alignItems: 'stretch', padding: 8 }}
+          >
+            <View className="flex-row items-center justify-between w-full">
+              <View className="flex-row items-center flex-1">
+                <View
+                  className="w-10 h-10 items-center justify-center rounded-brutal mr-3 border-2"
+                  style={{ backgroundColor: Colors.accentPink, borderColor: Colors.border }}
+                >
+                  <TrendingUp size={20} color={Colors.border} strokeWidth={3} />
+                </View>
+                <View>
+                  <Text style={{ fontSize: 13, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.level', translationLanguage)}</Text>
+                  <Text className="text-gray-500 text-xs font-medium">{currentLevelName}</Text>
                 </View>
               </View>
               <ChevronRight size={20} color={Colors.border} />
@@ -146,13 +167,12 @@ export default function SettingsScreen() {
 
           {Platform.OS !== 'web' && <BrutalDivider className="my-8" />}
 
-          {/* Notifications Toggle - Mobile Only */}
           {Platform.OS !== 'web' && (
             <View className="py-2">
               <View className="flex-row items-center justify-between mb-4">
                 <View>
-                  <Text style={{ fontSize: 13, fontWeight: '900', color: Colors.border }}>DAILY NOTIFICATIONS</Text>
-                  <Text className="text-gray-500 text-xs font-medium">Word of the day reminders</Text>
+                  <Text style={{ fontSize: 13, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.dailyNotifications', translationLanguage)}</Text>
+                  <Text className="text-gray-500 text-xs font-medium">{t('settings.reminders', translationLanguage)}</Text>
                 </View>
                 <BrutalSwitch
                   value={notificationsEnabled}
@@ -160,7 +180,6 @@ export default function SettingsScreen() {
                 />
               </View>
 
-              {/* Time Selection Block */}
               {notificationsEnabled && (
                 <Animated.View
                   entering={FadeInUp.springify().damping(100).stiffness(500)}
@@ -184,7 +203,7 @@ export default function SettingsScreen() {
                     <View className="flex-row items-center justify-between w-full">
                       <View className="flex-row items-center">
                         <Clock size={18} color="#6B7280" />
-                        <Text style={{ fontSize: 12, fontWeight: '900', color: Colors.border, textTransform: 'uppercase', marginLeft: 4 }}>Time</Text>
+                        <Text style={{ fontSize: 12, fontWeight: '900', color: Colors.border, textTransform: 'uppercase', marginLeft: 4 }}>{t('settings.time', translationLanguage)}</Text>
                       </View>
                       <View
                         className="bg-white border-2 border-ink px-3 py-1 rounded-brutal"
@@ -197,7 +216,6 @@ export default function SettingsScreen() {
                 </Animated.View>
               )}
 
-              {/* Native Time Picker (iOS Modal / Android Dialog) */}
               {showTimePicker && notificationsEnabled && (
                 Platform.OS === 'ios' ? (
                   <Modal transparent animationType="slide" visible={showTimePicker}>
@@ -217,7 +235,7 @@ export default function SettingsScreen() {
                         }}
                       >
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                          <Text style={{ fontSize: 18, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Select Time</Text>
+                          <Text style={{ fontSize: 18, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.selectTime', translationLanguage)}</Text>
                           <BrutalButton
                             onPress={() => setShowTimePicker(false)}
                             backgroundColor={Colors.primary}
@@ -225,7 +243,7 @@ export default function SettingsScreen() {
                             borderRadius={8}
                             contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
                           >
-                            <Text style={{ fontSize: 14, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Done</Text>
+                            <Text style={{ fontSize: 14, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.done', translationLanguage)}</Text>
                           </BrutalButton>
                         </View>
                         <DateTimePicker
@@ -253,7 +271,6 @@ export default function SettingsScreen() {
           )}
         </View>
 
-        {/* Support & Legal Badge */}
         <View className="w-full items-center mb-6" style={{ maxWidth: 400 }}>
           <View className="absolute w-full h-[3px] bg-ink border-t-2 border-dashed top-1/2" style={{ borderColor: Colors.border }} />
           <View
@@ -272,12 +289,11 @@ export default function SettingsScreen() {
             }}
           >
             <Text style={{ fontSize: 12, fontWeight: '900', color: Colors.border, textTransform: 'uppercase', letterSpacing: 1 }}>
-              Support & Legal
+              {t('settings.support', translationLanguage)}
             </Text>
           </View>
         </View>
 
-        {/* Support Options */}
         <View className="flex-col gap-3 w-full mb-8" style={{ maxWidth: 400 }}>
           <BrutalButton
             onPress={() => router.push('/settings/rate')}
@@ -295,7 +311,7 @@ export default function SettingsScreen() {
                   <Star size={20} color={Colors.border} strokeWidth={3} />
                 </View>
                 <View>
-                  <Text style={{ fontSize: 14, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Rate the app</Text>
+                  <Text style={{ fontSize: 14, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.rate', translationLanguage)}</Text>
                   <Text className="text-gray-500 text-xs font-medium">Love Vocade? Let us know!</Text>
                 </View>
               </View>
@@ -319,7 +335,7 @@ export default function SettingsScreen() {
                   <MessageSquare size={20} color={Colors.border} strokeWidth={3} />
                 </View>
                 <View>
-                  <Text style={{ fontSize: 14, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Feedback</Text>
+                  <Text style={{ fontSize: 14, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.feedback', translationLanguage)}</Text>
                   <Text className="text-gray-500 text-xs font-medium">Report a bug or suggest features</Text>
                 </View>
               </View>
@@ -337,7 +353,7 @@ export default function SettingsScreen() {
             >
               <View className="flex-row items-center justify-center">
                 <Gavel size={18} color="#9CA3AF" style={{ marginRight: 8 }} />
-                <Text style={{ fontSize: 12, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Terms</Text>
+                <Text style={{ fontSize: 12, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.terms', translationLanguage)}</Text>
               </View>
             </BrutalButton>
 
@@ -350,13 +366,12 @@ export default function SettingsScreen() {
             >
               <View className="flex-row items-center justify-center">
                 <ShieldCheck size={18} color="#9CA3AF" style={{ marginRight: 8 }} />
-                <Text style={{ fontSize: 12, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>Privacy</Text>
+                <Text style={{ fontSize: 12, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>{t('settings.privacy', translationLanguage)}</Text>
               </View>
             </BrutalButton>
           </View>
         </View>
 
-        {/* Logout Button */}
         <BrutalButton
           onPress={handleLogout}
           shadowOffset={0}
@@ -369,14 +384,14 @@ export default function SettingsScreen() {
         >
           <View className="flex-row items-center justify-center">
             <LogOut size={18} color="#9CA3AF" style={{ marginRight: 8 }} />
-            <Text style={{ fontSize: 14, fontWeight: '900', color: '#9CA3AF', textTransform: 'uppercase' }}>Log Out</Text>
+            <Text style={{ fontSize: 14, fontWeight: '900', color: '#9CA3AF', textTransform: 'uppercase' }}>{t('settings.logout', translationLanguage)}</Text>
           </View>
         </BrutalButton>
 
         <View className="mt-8 mb-4">
           <View className="border border-dashed border-gray-300 rounded-sm px-3 py-1">
             <Text style={{ fontSize: 10, fontWeight: '500', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: 1 }}>
-              Version 1.0.4 (Build 42)
+              {t('settings.version', translationLanguage)} 1.0.4 (Build 42)
             </Text>
           </View>
         </View>

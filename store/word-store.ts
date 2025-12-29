@@ -38,7 +38,10 @@ export const useWordStore = create<WordStore>((set, get) => ({
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      const word = getTodayWord();
+      // Get the current level and registration date from settings
+      const { languageLevel, registrationDate } = (await import('@/store/settings-store')).useSettingsStore.getState();
+
+      const word = getTodayWord(languageLevel, registrationDate);
       set({ todayWord: word, isLoading: false });
 
     } catch (error) {
