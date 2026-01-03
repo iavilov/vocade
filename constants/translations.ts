@@ -251,6 +251,106 @@ export const UI_TRANSLATIONS = {
             de: 'Nicht gefunden',
         },
     },
+    notifications: {
+        description: {
+            ru: 'Получайте напоминание каждый день в выбранное время',
+            uk: 'Отримуйте нагадування щодня у вибраний час',
+            en: 'Get a reminder every day at your chosen time',
+            de: 'Erhalten Sie täglich eine Erinnerung zur gewählten Zeit',
+        },
+        permissionDenied: {
+            ru: 'Доступ запрещен',
+            uk: 'Доступ заборонено',
+            en: 'Permission Denied',
+            de: 'Berechtigung verweigert',
+        },
+        permissionMessage: {
+            ru: 'Пожалуйста, разрешите уведомления в настройках устройства',
+            uk: 'Будь ласка, дозвольте сповіщення в налаштуваннях пристрою',
+            en: 'Please allow notifications in device settings',
+            de: 'Bitte erlauben Sie Benachrichtigungen in den Geräteeinstellungen',
+        },
+        info: {
+            ru: 'Уведомления доступны только в iOS и Android приложениях',
+            uk: 'Сповіщення доступні лише в iOS і Android додатках',
+            en: 'Notifications are available only in iOS and Android apps',
+            de: 'Benachrichtigungen sind nur in iOS- und Android-Apps verfügbar',
+        },
+    },
+    onboarding: {
+        welcome: {
+            ru: 'Добро пожаловать!',
+            uk: 'Ласкаво просимо!',
+            en: 'Welcome!',
+            de: 'Willkommen!',
+        },
+        subtitle: {
+            ru: 'Давайте настроим ваше обучение',
+            uk: 'Давайте налаштуємо ваше навчання',
+            en: 'Let\'s set up your learning',
+            de: 'Richten Sie Ihr Lernen ein',
+        },
+        step: {
+            ru: 'Шаг',
+            uk: 'Крок',
+            en: 'Step',
+            de: 'Schritt',
+        },
+        levelQuestion: {
+            ru: 'Ваш уровень немецкого?',
+            uk: 'Ваш рівень німецької?',
+            en: 'Your German level?',
+            de: 'Ihr Deutschniveau?',
+        },
+        levelDescription: {
+            ru: 'Это определит сложность слов, которые вы будете изучать',
+            uk: 'Це визначить складність слів, які ви вивчатимете',
+            en: 'This will determine the difficulty of words you\'ll learn',
+            de: 'Dies bestimmt die Schwierigkeit der Wörter, die Sie lernen werden',
+        },
+        continue: {
+            ru: 'Начать обучение',
+            uk: 'Почати навчання',
+            en: 'Start Learning',
+            de: 'Lernen beginnen',
+        },
+        levelBeginner: {
+            ru: 'Начальный (A1-A2)',
+            uk: 'Початковий (A1-A2)',
+            en: 'Beginner (A1-A2)',
+            de: 'Anfänger (A1-A2)',
+        },
+        levelBeginnerDesc: {
+            ru: 'Основные слова и простые выражения',
+            uk: 'Основні слова та прості вирази',
+            en: 'Basic words and simple expressions',
+            de: 'Grundlegende Wörter und einfache Ausdrücke',
+        },
+        levelIntermediate: {
+            ru: 'Средний (B1-B2)',
+            uk: 'Середній (B1-B2)',
+            en: 'Intermediate (B1-B2)',
+            de: 'Mittelstufe (B1-B2)',
+        },
+        levelIntermediateDesc: {
+            ru: 'Расширенная лексика для повседневного общения',
+            uk: 'Розширений словниковий запас для повсякденного спілкування',
+            en: 'Extended vocabulary for everyday communication',
+            de: 'Erweiterter Wortschatz für die Alltagskommunikation',
+        },
+        levelAdvanced: {
+            ru: 'Продвинутый (C1-C2)',
+            uk: 'Просунутий (C1-C2)',
+            en: 'Advanced (C1-C2)',
+            de: 'Fortgeschritten (C1-C2)',
+        },
+        levelAdvancedDesc: {
+            ru: 'Сложные слова и специфическая терминология',
+            uk: 'Складні слова та специфічна термінологія',
+            en: 'Complex words and specific terminology',
+            de: 'Komplexe Wörter und spezifische Terminologie',
+        },
+    },
 } as const;
 
 export type TranslationKey = keyof typeof UI_TRANSLATIONS;

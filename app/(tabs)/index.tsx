@@ -1,4 +1,5 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
+import { BrutalCard } from '@/components/ui/brutal-card';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
@@ -83,7 +84,7 @@ export default function Index() {
           alignItems: 'center'
         }}
       >
-        <View className="flex-row items-end justify-between pt-8 pb-10 w-full" style={{ maxWidth: 400 }}>
+        <View className="flex-row items-end justify-between pt-8 pb-10 w-full">
           <View className="flex-col">
             <View
               style={{
@@ -135,14 +136,8 @@ export default function Index() {
             </Text>
           </View>
 
-          <View
-            className='bg-surface rounded-card p-5 relative mr-2'
-            style={{
-              borderWidth: 3,
-              borderColor: Colors.border,
-              ...createBrutalShadow(4, Colors.border),
-            }}
-          >
+          <BrutalCard>
+
 
             <View className="flex-row justify-start mb-8">
               <BrutalButton
@@ -340,7 +335,7 @@ export default function Index() {
                 )}
               </View>
             </View>
-          </View>
+          </BrutalCard>
         </Animated.View >
       </ScrollView>
     </ScreenLayout>

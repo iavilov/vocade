@@ -2,11 +2,11 @@ import { LanguageLevel } from '@/types/settings';
 import { Word } from '@/types/word';
 
 export const MOCK_WORDS: Word[] = [
-  // ===== BEGINNER LEVEL (day 1, 2, 3) =====
+  // ===== BEGINNER LEVEL (seq 1, 2, 3) =====
   {
-    id: 'beg-day-1',
+    id: 'beg-seq-1',
     level: 'beginner',
-    day_number: 1,
+    sequence_number: 1,
     word_de: 'Haus',
     article: 'das',
     transcription_de: '/haʊ̯s/',
@@ -35,14 +35,13 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Средний род, артикль "das".'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
   {
-    id: 'beg-day-2',
+    id: 'beg-seq-2',
     level: 'beginner',
-    day_number: 2,
+    sequence_number: 2,
     word_de: 'lernen',
     article: null,
     transcription_de: '/ˈlɛʁnən/',
@@ -70,14 +69,13 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Регулярный глагол, требует Akkusativ.'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
   {
-    id: 'beg-day-3',
+    id: 'beg-seq-3',
     level: 'beginner',
-    day_number: 3,
+    sequence_number: 3,
     word_de: 'groß',
     article: null,
     transcription_de: '/ɡʁoːs/',
@@ -105,16 +103,15 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Склоняется по падежам и родам.'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
 
-  // ===== INTERMEDIATE LEVEL (day 1, 2, 3) =====
+  // ===== INTERMEDIATE LEVEL (seq 1, 2, 3) =====
   {
-    id: 'int-day-1',
+    id: 'int-seq-1',
     level: 'intermediate',
-    day_number: 1,
+    sequence_number: 1,
     word_de: 'Verantwortung',
     article: 'die',
     transcription_de: '/fɛɐ̯ˈantvɔʁtʊŋ/',
@@ -142,14 +139,13 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Часто используется с глаголами "tragen" или "übernehmen".'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
   {
-    id: 'int-day-2',
+    id: 'int-seq-2',
     level: 'intermediate',
-    day_number: 2,
+    sequence_number: 2,
     word_de: 'entwickeln',
     article: null,
     transcription_de: '/ɛntˈvɪkl̩n/',
@@ -177,14 +173,13 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Отделяемая приставка ent- остается с глаголом.'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
   {
-    id: 'int-day-3',
+    id: 'int-seq-3',
     level: 'intermediate',
-    day_number: 3,
+    sequence_number: 3,
     word_de: 'nachhaltig',
     article: null,
     transcription_de: '/ˈnaːxˌhaltɪç/',
@@ -212,16 +207,15 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Модное слово в контексте экологии и бизнеса.'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
 
-  // ===== ADVANCED LEVEL (day 1, 2, 3) =====
+  // ===== ADVANCED LEVEL (seq 1, 2, 3) =====
   {
-    id: 'adv-day-1',
+    id: 'adv-seq-1',
     level: 'advanced',
-    day_number: 1,
+    sequence_number: 1,
     word_de: 'Weltanschauung',
     article: 'die',
     transcription_de: '/ˈvɛltʔanˌʃaʊ̯ʊŋ/',
@@ -249,14 +243,13 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Философский термин, вошел в международный лексикон.'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
   {
-    id: 'adv-day-2',
+    id: 'adv-seq-2',
     level: 'advanced',
-    day_number: 2,
+    sequence_number: 2,
     word_de: 'voraussetzen',
     article: null,
     transcription_de: '/foˈʁaʊ̯sˌzɛt͡sn/',
@@ -284,14 +277,13 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Отделяемый глагол: в Präsens отделяется.'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
   {
-    id: 'adv-day-3',
+    id: 'adv-seq-3',
     level: 'advanced',
-    day_number: 3,
+    sequence_number: 3,
     word_de: 'unumgänglich',
     article: null,
     transcription_de: '/ˈʊnʔʊmˌɡɛŋlɪç/',
@@ -319,46 +311,47 @@ export const MOCK_WORDS: Word[] = [
       notes: 'Формальный стиль, часто в деловом контексте.'
     },
     media: {
-      image_path: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=600&fit=crop',
       audio_path: ''
     }
   },
 ];
 
 /**
- * Вычисляет порядковый день с момента регистрации
+ * Вычисляет линейный номер дня с момента регистрации (без циклирования)
  */
-export function getDayOffset(registrationDate: string | null): number {
+export function getUserDayNumber(registrationDate: string | null): number {
   if (!registrationDate) {
-    // Для демо без регистрации используем текущий день года
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 0);
-    const diff = now.getTime() - start.getTime();
-    const oneDay = 1000 * 60 * 60 * 24;
-    return Math.floor(diff / oneDay) % 365 + 1;
+    // Для демо без регистрации: день 1
+    return 1;
   }
 
   const regDate = new Date(registrationDate);
   const now = new Date();
-  const diffTime = Math.abs(now.getTime() - regDate.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  // Сбрасываем время до полуночи для точного расчета дней
+  regDate.setHours(0, 0, 0, 0);
+  now.setHours(0, 0, 0, 0);
+  
+  const diffTime = now.getTime() - regDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  // Циклический номер дня (1-365)
-  return (diffDays % 365) + 1;
+  // Линейная последовательность: день 1, 2, 3, ..., ∞
+  return diffDays + 1;
 }
 
 /**
- * Получить слово дня по уровню и day_offset
+ * Получить слово дня по уровню и sequence_number
  */
 export function getTodayWord(level: LanguageLevel, registrationDate: string | null = null): Word | null {
-  const dayOffset = getDayOffset(registrationDate);
+  const userDay = getUserDayNumber(registrationDate);
 
-  // Ищем слово по уровню и day_number
-  const word = MOCK_WORDS.find(w => w.level === level && w.day_number === dayOffset);
+  // Ищем слово по уровню и sequence_number
+  const word = MOCK_WORDS.find(w => w.level === level && w.sequence_number === userDay);
 
-  // Fallback: если слова на этот день нет, возвращаем первое доступное слово данного уровня
+  // Если слова нет → пользователь прошел весь доступный контент
   if (!word) {
-    return MOCK_WORDS.find(w => w.level === level) || null;
+    console.log(`No word available for day ${userDay}, level ${level}`);
+    return MOCK_WORDS.find(w => w.level === level && w.sequence_number === 1) || null;
   }
 
   return word;
@@ -384,3 +377,9 @@ export function getAllWords(): Word[] {
 export function getWordsByLevel(level: LanguageLevel): Word[] {
   return MOCK_WORDS.filter(word => word.level === level);
 }
+
+/**
+ * Демо-избранное для тестирования UI
+ * В production будет храниться в user_words_history (is_favorite = true)
+ */
+export const MOCK_FAVORITE_IDS: string[] = ['beg-seq-1', 'int-seq-1', 'adv-seq-1'];

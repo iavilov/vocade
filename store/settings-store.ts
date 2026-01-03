@@ -1,8 +1,10 @@
 /**
  * Zustand store for User Settings
  * Handles: Translation language preference, language level, user email
+ * Persistence: Universal storage (localStorage on Web, AsyncStorage on Mobile)
  */
 
+import { storage } from '@/lib/storage';
 import { LanguageLevel, TranslationLanguage } from '@/types/settings';
 import { create } from 'zustand';
 
@@ -12,41 +14,51 @@ interface SettingsStore {
   languageLevel: LanguageLevel;
   userEmail: string;
   registrationDate: string | null;
+  hasCompletedOnboarding: boolean;
   _hasHydrated: boolean;
 
   // Actions
   setTranslationLanguage: (language: TranslationLanguage) => void;
   setLanguageLevel: (level: LanguageLevel) => void;
   setRegistrationDate: (date: string) => void;
+  setHasCompletedOnboarding: (completed: boolean) => void;
+  hydrate: () => Promise<void>;
   _setHasHydrated: (state: boolean) => void;
 }
 
 const STORAGE_KEY = 'vocade-settings';
 
-// Helper to get initial state from localStorage (web only)
-const getInitialState = () => {
-  if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+export const useSettingsStore = create<SettingsStore>((set, get) => ({
+  // Initial state (defaults)
+  translationLanguage: 'en',
+  languageLevel: 'beginner',
+  userEmail: 'user@example.com',
+  registrationDate: null,
+  hasCompletedOnboarding: false,
+  _hasHydrated: false,
+
+  // Hydrate from storage
+  hydrate: async () => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = await storage.getItem(STORAGE_KEY);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        set({
+          translationLanguage: parsed.translationLanguage || 'ru',
+          languageLevel: parsed.languageLevel || 'beginner',
+          userEmail: parsed.userEmail || 'user@example.com',
+          registrationDate: parsed.registrationDate || null,
+          hasCompletedOnboarding: parsed.hasCompletedOnboarding || false,
+          _hasHydrated: true,
+        });
+      } else {
+        set({ _hasHydrated: true });
       }
     } catch (e) {
-      console.error('Failed to load settings from localStorage:', e);
+      console.error('Failed to hydrate settings:', e);
+      set({ _hasHydrated: true });
     }
-  }
-  return null;
-};
-
-const initialState = getInitialState();
-
-export const useSettingsStore = create<SettingsStore>((set, get) => ({
-  // Initial state
-  translationLanguage: initialState?.translationLanguage || 'ru',
-  languageLevel: initialState?.languageLevel || 'beginner',
-  userEmail: initialState?.userEmail || 'user@example.com',
-  registrationDate: initialState?.registrationDate || new Date().toISOString().split('T')[0],
-  _hasHydrated: false,
+  },
 
   // Set translation language
   setTranslationLanguage: (language: TranslationLanguage) => {
@@ -66,19 +78,23 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     saveToStorage(get());
   },
 
+  // Set onboarding completion
+  setHasCompletedOnboarding: (completed: boolean) => {
+    set({ hasCompletedOnboarding: completed });
+    saveToStorage(get());
+  },
+
   _setHasHydrated: (state: boolean) => {
     set({ _hasHydrated: state });
   },
 }));
 
-// Helper to save to localStorage
-function saveToStorage(state: SettingsStore) {
-  if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-    try {
-      const { _hasHydrated, ...stateToSave } = state;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
-    } catch (e) {
-      console.error('Failed to save settings to localStorage:', e);
-    }
+// Helper to save to storage
+async function saveToStorage(state: SettingsStore) {
+  try {
+    const { _hasHydrated, ...stateToSave } = state;
+    await storage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+  } catch (e) {
+    console.error('Failed to save settings:', e);
   }
 }

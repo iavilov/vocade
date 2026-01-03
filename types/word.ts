@@ -42,7 +42,6 @@ export interface WordContent {
 }
 
 export interface WordMedia {
-  image_path: string;
   audio_path: string;
 }
 
@@ -52,7 +51,7 @@ export interface WordMedia {
 export interface Word {
   id: string;
   level: Level; // beginner | intermediate | advanced
-  day_number: number; // 1-365, порядковый день для данного уровня
+  sequence_number: number; // 1, 2, 3, ..., ∞ (linear sequence, no cycling)
   transcription_de: string;
   word_de: string;
   article: Article;

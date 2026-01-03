@@ -1,4 +1,5 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
+import { BrutalCard } from '@/components/ui/brutal-card';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
 import { getWordContent, t } from '@/lib/i18n-helpers';
@@ -130,17 +131,7 @@ export default function WordDetailPage() {
         </View>
 
         <Animated.View>
-
-
-          <View
-            className='bg-surface rounded-card p-5 relative mr-2'
-            style={{
-              borderWidth: 3,
-              borderColor: Colors.border,
-              ...createBrutalShadow(4, Colors.border),
-              maxWidth: 380,
-            }}
-          >
+          <BrutalCard maxWidth={380}>
             {/* Header Row: Share and Favorite */}
             <View className="flex-row justify-between mb-8">
               <BrutalButton
@@ -348,7 +339,7 @@ export default function WordDetailPage() {
                 )}
               </View>
             </View>
-          </View>
+          </BrutalCard>
         </Animated.View>
       </ScrollView>
     </ScreenLayout>
