@@ -1,6 +1,8 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
+import { BrutalCard } from '@/components/ui/brutal-card';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
+import { t } from '@/constants/translations';
 import { getWordContent } from '@/lib/i18n-helpers';
 import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
@@ -24,7 +26,7 @@ export default function Index() {
       <View className="flex-1 justify-center items-center bg-background">
         <ActivityIndicator size="large" color={Colors.primary} />
         <Text className="text-text-muted mt-4 font-w-medium">
-          Загрузка...
+          {t('common.loading', translationLanguage)}
         </Text>
       </View>
     );
@@ -34,7 +36,7 @@ export default function Index() {
     return (
       <View className="flex-1 justify-center items-center bg-background p-6">
         <Text className="text-text-main font-w-semibold text-lg">
-          Слово дня не найдено
+          {t('common.notFound', translationLanguage)}
         </Text>
       </View>
     );
@@ -48,15 +50,24 @@ export default function Index() {
     ? todayWord.word_de
     : todayWord.word_de.toLowerCase();
 
-  const publishDate = todayWord.publish_date ? new Date(todayWord.publish_date) : new Date();
+  const publishDate = new Date();
   const day = publishDate.getDate();
-  const month = publishDate.toLocaleString('de-DE', { month: 'short' }).toUpperCase().replace('.', '');
+  const locale = translationLanguage === 'en' ? 'en-US' :
+    translationLanguage === 'uk' ? 'uk-UA' :
+      translationLanguage === 'de' ? 'de-DE' : 'ru-RU';
+
+  const month = publishDate.toLocaleString(locale, { month: 'short' }).toUpperCase().replace('.', '');
   const dateString = `${day}. ${month}`;
 
   const onShare = async () => {
     try {
+      const shareTemplate = t('home.shareMessage', translationLanguage);
+      const message = shareTemplate
+        .replace('{word}', displayWord)
+        .replace('{translation}', content.translation);
+
       await Share.share({
-        message: `Wort des Tages: ${displayWord} - ${content.translation.main}. Lerne Deutsch mit Vocade!`,
+        message: `${message} 🚀 Vocade`,
       });
     } catch (error) {
       console.error(error);
@@ -73,7 +84,7 @@ export default function Index() {
           alignItems: 'center'
         }}
       >
-        <View className="flex-row items-end justify-between pt-8 pb-10 w-full" style={{ maxWidth: 400 }}>
+        <View className="flex-row items-end justify-between pt-8 pb-10 w-full">
           <View className="flex-col">
             <View
               style={{
@@ -86,7 +97,7 @@ export default function Index() {
               className="px-2 py-0.5 mb-2 self-start"
             >
               <Text className="text-border font-w-bold uppercase tracking-widest text-[10px]">
-                Heute
+                {t('home.today', translationLanguage)}
               </Text>
             </View>
             <Text className="text-border text-2xl font-w-extrabold tracking-tight uppercase">
@@ -102,7 +113,7 @@ export default function Index() {
             >
               <Share2 size={18} color={Colors.border} strokeWidth={3} style={{ marginRight: 8 }} />
               <Text className="text-border font-w-extrabold uppercase text-xs">
-                Share
+                {t('home.share', translationLanguage)}
               </Text>
             </BrutalButton>
 
@@ -110,7 +121,6 @@ export default function Index() {
         </View>
 
         <Animated.View>
-          {/* Word of the Day Badge */}
           <View
             className="absolute -top-4 right-3 px-3 py-1 z-50"
             style={{
@@ -122,20 +132,13 @@ export default function Index() {
             }}
           >
             <Text className="text-md font-w-extrabold uppercase text-border">
-              Word of the day
+              {t('home.wordOfTheDay', translationLanguage)}
             </Text>
           </View>
 
-          <View
-            className='bg-surface rounded-card p-5 relative mr-2'
-            style={{
-              borderWidth: 3,
-              borderColor: Colors.border,
-              ...createBrutalShadow(4, Colors.border),
-            }}
-          >
+          <BrutalCard>
 
-            {/* Favorite Button Row */}
+
             <View className="flex-row justify-start mb-8">
               <BrutalButton
                 onPress={() => toggleFavorite(todayWord.id)}
@@ -152,7 +155,6 @@ export default function Index() {
               </BrutalButton>
             </View>
 
-            {/* Word + Audio Row */}
             <View className="flex-row items-center mb-3">
               <Text
                 className="text-5xl font-w-extrabold text-text-main flex-1 mr-3"
@@ -171,7 +173,6 @@ export default function Index() {
               </BrutalButton>
             </View>
 
-            {/* Transcription & Part of Speech Row */}
             <View className="flex-row items-center flex-wrap gap-2 mb-5">
               {hasArticle && articleColors && (
                 <View
@@ -217,10 +218,9 @@ export default function Index() {
 
             </View>
 
-            {/* Translation */}
             <View className="mb-6 pl-4 border-l-4 border-accent-pink">
               <Text className="text-xl text-text-muted font-w-bold italic">
-                {content.translation.main}
+                {content.translation}
               </Text>
             </View>
 
@@ -232,7 +232,6 @@ export default function Index() {
                 borderColor: Colors.border,
               }}
             >
-              {/* Badge Label */}
               <View
                 className="bg-white absolute -top-4 left-4 px-3 py-1 flex-row items-center"
                 style={{
@@ -253,18 +252,16 @@ export default function Index() {
                 <Text
                   className="text-[10px] font-w-extrabold text-text-main uppercase tracking-widest"
                 >
-                  Beispiel
+                  {t('home.beispiel', translationLanguage)}
                 </Text>
               </View>
 
-              {/* German Sentence */}
               <Text
                 className="text-lg text-text-main font-w-bold leading-7 mt-2"
               >
                 {content.exampleSentence.de}
               </Text>
 
-              {/* Translation */}
               <View
                 className="mt-4 pl-3"
                 style={{
@@ -281,7 +278,6 @@ export default function Index() {
             </View>
 
 
-            {/* Etymology */}
             <View className="pb-6">
               <View
                 className="bg-green-50 p-5 mt-4 relative"
@@ -290,7 +286,6 @@ export default function Index() {
                   borderColor: Colors.border,
                 }}
               >
-                {/* Badge Label */}
                 <View
                   className="bg-white absolute -top-4 left-4 px-3 py-1 flex-row items-center"
                   style={{
@@ -310,21 +305,20 @@ export default function Index() {
                   <Text
                     className="text-[10px] font-w-extrabold text-text-main uppercase tracking-widest"
                   >
-                    Etymologie
+                    {t('home.etymologie', translationLanguage)}
                   </Text>
                 </View>
 
-                {/* Content */}
                 <Text
                   className="text-sm text-text-main font-w-medium leading-relaxed mt-2"
                 >
-                  {content.etymology.text ? content.etymology.text : 'Этимология скоро будет добавлена...'}
+                  {content.etymology.text || t('common.notFound', translationLanguage)}
                 </Text>
 
                 {content.etymology.rootWord && (
                   <View className="mt-4 flex-row items-center">
                     <Text className="text-xs text-text-muted font-w-bold uppercase tracking-wider mr-2">
-                      Корень:
+                      {t('home.root', translationLanguage)}:
                     </Text>
                     <View
                       className="bg-accent-yellow px-2 py-0.5"
@@ -341,7 +335,7 @@ export default function Index() {
                 )}
               </View>
             </View>
-          </View>
+          </BrutalCard>
         </Animated.View >
       </ScrollView>
     </ScreenLayout>

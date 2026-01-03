@@ -15,6 +15,7 @@ export interface Translations {
   ru: Translation;
   uk: Translation;
   en: Translation;
+  de: Translation;
 }
 
 export interface ExampleSentence {
@@ -28,6 +29,7 @@ export interface Etymology {
   text_ru: string;
   text_uk: string;
   text_en: string;
+  text_de: string;
   root_word?: string;
 }
 
@@ -40,7 +42,6 @@ export interface WordContent {
 }
 
 export interface WordMedia {
-  image_path: string;
   audio_path: string;
 }
 
@@ -49,12 +50,12 @@ export interface WordMedia {
  */
 export interface Word {
   id: string;
-  publish_date: string; // ISO date string
+  level: Level; // beginner | intermediate | advanced
+  sequence_number: number; // 1, 2, 3, ..., ∞ (linear sequence, no cycling)
   transcription_de: string;
   word_de: string;
   article: Article;
   part_of_speech: PartOfSpeech;
-  level: Level;
   translations: Translations;
   content: WordContent;
   media: WordMedia;
