@@ -1,5 +1,8 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
 import { BrutalCard } from '@/components/ui/brutal-card';
+import { BrutalWordTitle } from '@/components/ui/brutal-word-title';
+import { ContentContainer } from '@/components/ui/content-container';
+import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
@@ -8,10 +11,9 @@ import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
 import { ARTICLE_COLORS, PART_OF_SPEECH_COLORS } from '@/types/word';
 import { createBrutalShadow } from '@/utils/platform-styles';
-import { Heart, Share2, Volume2 } from 'lucide-react-native';
+import { Heart, Share2 } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { ActivityIndicator, ScrollView, Share, Text, View } from 'react-native';
-import Animated from 'react-native-reanimated';
 
 export default function Index() {
   const { todayWord, isLoading, loadTodayWord, toggleFavorite, isFavorite } = useWordStore();
@@ -84,43 +86,27 @@ export default function Index() {
           alignItems: 'center'
         }}
       >
-        <View className="flex-row items-end justify-between pt-8 pb-10 w-full">
-          <View className="flex-col">
-            <View
-              style={{
-                backgroundColor: Colors.accentYellow,
-                borderWidth: 2,
-                borderColor: Colors.border,
-                ...createBrutalShadow(2, Colors.border),
-                transform: [{ rotate: '-2deg' }],
-              }}
-              className="px-2 py-0.5 mb-2 self-start"
-            >
-              <Text className="text-border font-w-bold uppercase tracking-widest text-[10px]">
-                {t('home.today', translationLanguage)}
-              </Text>
+        <ScreenHeader
+          title={dateString}
+          badgeText={t('home.today', translationLanguage)}
+          badgeColor={Colors.accentYellow}
+          rightElement={
+            <View className="mr-2">
+              <BrutalButton
+                onPress={onShare}
+                contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
+                pressableStyle={{ flexDirection: 'row' }}
+              >
+                <Share2 size={18} color={Colors.border} strokeWidth={3} style={{ marginRight: 8 }} />
+                <Text className="text-border font-w-extrabold uppercase text-xs">
+                  {t('home.share', translationLanguage)}
+                </Text>
+              </BrutalButton>
             </View>
-            <Text className="text-border text-2xl font-w-extrabold tracking-tight uppercase">
-              {dateString}
-            </Text>
-          </View>
+          }
+        />
 
-          <View className="mr-2">
-            <BrutalButton
-              onPress={onShare}
-              contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
-              pressableStyle={{ flexDirection: 'row' }}
-            >
-              <Share2 size={18} color={Colors.border} strokeWidth={3} style={{ marginRight: 8 }} />
-              <Text className="text-border font-w-extrabold uppercase text-xs">
-                {t('home.share', translationLanguage)}
-              </Text>
-            </BrutalButton>
-
-          </View>
-        </View>
-
-        <Animated.View>
+        <ContentContainer>
           <View
             className="absolute -top-4 right-3 px-3 py-1 z-50"
             style={{
@@ -137,8 +123,6 @@ export default function Index() {
           </View>
 
           <BrutalCard>
-
-
             <View className="flex-row justify-start mb-8">
               <BrutalButton
                 onPress={() => toggleFavorite(todayWord.id)}
@@ -155,23 +139,10 @@ export default function Index() {
               </BrutalButton>
             </View>
 
-            <View className="flex-row items-center mb-3">
-              <Text
-                className="text-5xl font-w-extrabold text-text-main flex-1 mr-3"
-                numberOfLines={2}
-                adjustsFontSizeToFit
-              >
-                {displayWord}
-              </Text>
-              <BrutalButton
-                borderWidth={2}
-                backgroundColor={Colors.accentYellow}
-                style={{ width: 48, height: 48 }}
-                contentContainerStyle={{ height: '100%' }}
-              >
-                <Volume2 size={24} color={Colors.border} strokeWidth={2.5} />
-              </BrutalButton>
-            </View>
+            <BrutalWordTitle
+              word={displayWord}
+              onAudioPress={() => console.log('Audio playback not implemented yet')}
+            />
 
             <View className="flex-row items-center flex-wrap gap-2 mb-5">
               {hasArticle && articleColors && (
@@ -313,6 +284,7 @@ export default function Index() {
                   className="text-sm text-text-main font-w-medium leading-relaxed mt-2"
                 >
                   {content.etymology.text || t('common.notFound', translationLanguage)}
+
                 </Text>
 
                 {content.etymology.rootWord && (
@@ -336,7 +308,7 @@ export default function Index() {
               </View>
             </View>
           </BrutalCard>
-        </Animated.View >
+        </ContentContainer>
       </ScrollView>
     </ScreenLayout>
   );

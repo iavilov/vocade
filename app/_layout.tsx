@@ -51,10 +51,10 @@ export default function RootLayout() {
         hydrateSettings(),
         hydrateWords(),
       ]);
-      
+
       // Initialize notifications (iOS/Android only)
       await initializeNotifications();
-      
+
       setIsReady(true);
     };
     init();
@@ -87,7 +87,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ flex: 1, maxWidth: 430, width: '100%', alignSelf: 'center' }}>
+      <View style={{ flex: 1, width: '100%' }}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="onboarding" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

@@ -10,6 +10,7 @@ interface DottedBackgroundProps {
 /**
  * Dotted background pattern component
  * Works on both web and native platforms
+ * (Web uses CSS for performance and full-window coverage)
  */
 export function DottedBackground({ children }: DottedBackgroundProps) {
     const patternId = React.useId();

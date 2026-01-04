@@ -4,10 +4,6 @@ import { TextStyle, ViewStyle } from 'react-native';
 
 export const NavigationStyles = {
   container: {
-    position: 'absolute',
-    bottom: 24,
-    left: 16,
-    right: 16,
     height: 80,
     backgroundColor: Colors.surface,
     borderWidth: 3,
@@ -18,8 +14,6 @@ export const NavigationStyles = {
     alignItems: 'center',
     paddingHorizontal: 16,
     ...createBrutalShadow(4, Colors.border),
-    alignSelf: 'center',
-    maxWidth: 480,
   } as ViewStyle,
 
   tabItem: {

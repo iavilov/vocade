@@ -1,7 +1,6 @@
-import { Colors } from '@/constants/design-tokens';
 import { useIsFocused } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -48,27 +47,30 @@ export function ScreenLayout({
 
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: Colors.background }}
+      style={{ flex: 1 }}
       edges={['top', 'left', 'right']}
     >
       <DottedBackground>
-        <Animated.View
-          className={`w-full self-center ${className || ''}`}
-          style={[
-            {
-              flex: 1, // Явно задаем flex здесь для веба
-              height: '100%', // Гарантируем ограничение высоты для корректного скролла
-              maxWidth: 480,
-              paddingBottom: bottomPadding,
-              paddingHorizontal: 24,
-            },
-            animatedStyle,
-            style
-          ]}
-          {...props}
-        >
-          {children}
-        </Animated.View>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Animated.View
+            className={`w-full ${className || ''}`}
+            style={[
+              {
+                flex: 1,
+                height: '100%',
+                maxWidth: 480,
+                paddingBottom: bottomPadding,
+                paddingHorizontal: 24,
+                width: '100%',
+              },
+              animatedStyle,
+              style
+            ]}
+            {...props}
+          >
+            {children}
+          </Animated.View>
+        </View>
       </DottedBackground>
     </SafeAreaView>
   );

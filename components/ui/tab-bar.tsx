@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/design-tokens';
+import { Colors, Layout } from '@/constants/design-tokens';
 import { NavigationStyles } from '@/styles/navigation';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
@@ -36,56 +36,64 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     }));
 
     return (
-        <View style={NavigationStyles.container} onLayout={onLayout}>
-            {/* Sliding Background Indicator */}
-            {containerWidth > 0 && (
-                <Animated.View
-                    style={[
-                        NavigationStyles.indicator,
-                        indicatorStyle,
-                    ]}
-                />
-            )}
+        <View style={{ position: 'absolute', bottom: 24, left: 24, right: 24, alignItems: 'center' }} pointerEvents="box-none">
+            <View
+                style={[
+                    NavigationStyles.container,
+                    { width: '100%', maxWidth: Layout.maxContentWidth } // Match ScreenLayout content width
+                ]}
+                onLayout={onLayout}
+            >
+                {/* Sliding Background Indicator */}
+                {containerWidth > 0 && (
+                    <Animated.View
+                        style={[
+                            NavigationStyles.indicator,
+                            indicatorStyle,
+                        ]}
+                    />
+                )}
 
-            {state.routes.map((route, index) => {
-                const { options } = descriptors[route.key];
-                const isFocused = state.index === index;
+                {state.routes.map((route, index) => {
+                    const { options } = descriptors[route.key];
+                    const isFocused = state.index === index;
 
-                const onPress = () => {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                    const event = navigation.emit({
-                        type: 'tabPress',
-                        target: route.key,
-                        canPreventDefault: true,
-                    });
+                    const onPress = () => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                        const event = navigation.emit({
+                            type: 'tabPress',
+                            target: route.key,
+                            canPreventDefault: true,
+                        });
 
-                    if (!isFocused && !event.defaultPrevented) {
-                        navigation.navigate(route.name, route.params);
+                        if (!isFocused && !event.defaultPrevented) {
+                            navigation.navigate(route.name, route.params);
+                        }
+                    };
+
+                    let Icon;
+                    if (route.name === 'history') {
+                        Icon = History;
+                    } else if (route.name === 'settings') {
+                        Icon = Settings;
+                    } else {
+                        Icon = GalleryVerticalEnd;
                     }
-                };
 
-                let Icon;
-                if (route.name === 'history') {
-                    Icon = History;
-                } else if (route.name === 'settings') {
-                    Icon = Settings;
-                } else {
-                    Icon = GalleryVerticalEnd;
-                }
-
-                return (
-                    <Pressable
-                        key={route.key}
-                        onPress={onPress}
-                        style={NavigationStyles.tabItem}
-                    >
-                        <AnimatedIcon
-                            Icon={Icon}
-                            isFocused={isFocused}
-                        />
-                    </Pressable>
-                );
-            })}
+                    return (
+                        <Pressable
+                            key={route.key}
+                            onPress={onPress}
+                            style={NavigationStyles.tabItem}
+                        >
+                            <AnimatedIcon
+                                Icon={Icon}
+                                isFocused={isFocused}
+                            />
+                        </Pressable>
+                    );
+                })}
+            </View>
         </View>
     );
 }

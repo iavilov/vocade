@@ -327,11 +327,11 @@ export function getUserDayNumber(registrationDate: string | null): number {
 
   const regDate = new Date(registrationDate);
   const now = new Date();
-  
+
   // Сбрасываем время до полуночи для точного расчета дней
   regDate.setHours(0, 0, 0, 0);
   now.setHours(0, 0, 0, 0);
-  
+
   const diffTime = now.getTime() - regDate.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
