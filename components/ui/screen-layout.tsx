@@ -59,7 +59,6 @@ export function ScreenLayout({
                 flex: 1,
                 height: '100%',
                 maxWidth: 480,
-                paddingBottom: bottomPadding,
                 paddingHorizontal: 24,
                 width: '100%',
               },

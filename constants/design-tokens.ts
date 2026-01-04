@@ -34,18 +34,13 @@ export const transcriptionColor = {
 
 
 export const partOfSpeechColors = {
-  noun: {
-    bg: palette.blue,
-    text: palette.ink,
-    border: palette.ink,
-  },
   verb: {
     bg: palette.yellow,
     text: palette.ink,
     border: palette.ink,
   },
   adjective: {
-    bg: palette.pink,
+    bg: palette.purple,
     text: palette.ink,
     border: palette.ink,
   },

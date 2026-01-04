@@ -64,9 +64,7 @@ export default function WordDetailPage() {
   const articleColors = hasArticle ? ARTICLE_COLORS[word.article!] : null;
   const content = getWordContent(word, translationLanguage);
 
-  const displayWord = word.part_of_speech === 'noun'
-    ? word.word_de
-    : word.word_de.toLowerCase();
+  const displayWord = word.word_de;
 
   const publishDate = new Date(); // Текущий день
   const day = publishDate.getDate();
@@ -98,7 +96,7 @@ export default function WordDetailPage() {
         className="flex-1 w-full"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 80,
+          paddingBottom: 160,
           alignItems: 'center'
         }}
       >
@@ -185,18 +183,20 @@ export default function WordDetailPage() {
                     {word.transcription_de}
                   </Text>
                 </View>
-                <View
-                  className="px-3 py-1"
-                  style={{
-                    backgroundColor: PART_OF_SPEECH_COLORS[word.part_of_speech as keyof typeof PART_OF_SPEECH_COLORS]?.bg || Colors.surface,
-                    borderWidth: 2,
-                    borderColor: Colors.border,
-                  }}
-                >
-                  <Text className="text-xs font-w-bold text-border uppercase">
-                    {word.part_of_speech}
-                  </Text>
-                </View>
+                {word.part_of_speech !== ('noun' as string) && (
+                  <View
+                    className="px-3 py-1"
+                    style={{
+                      backgroundColor: (PART_OF_SPEECH_COLORS as any)[word.part_of_speech]?.bg || Colors.surface,
+                      borderWidth: 2,
+                      borderColor: Colors.border,
+                    }}
+                  >
+                    <Text className="text-xs font-w-bold text-border uppercase">
+                      {word.part_of_speech}
+                    </Text>
+                  </View>
+                )}
               </View>
 
               {/* Translation */}

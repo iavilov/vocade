@@ -6,7 +6,7 @@ import { Colors } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
-import { ARTICLE_COLORS, Article, PART_OF_SPEECH_COLORS, PartOfSpeech } from '@/types/word';
+import { ARTICLE_COLORS, Article, PART_OF_SPEECH_COLORS } from '@/types/word';
 import { useRouter } from 'expo-router';
 import { ArrowRight, Search } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ export default function HistoryScreen() {
         className="flex-1 w-full"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 80,
+          paddingBottom: 160,
           alignItems: 'center'
         }}
       >
@@ -132,13 +132,11 @@ export default function HistoryScreen() {
               let stripColor = Colors.primary;
               if (hasArticle && item.article && ARTICLE_COLORS[item.article as NonNullable<Article>]) {
                 stripColor = ARTICLE_COLORS[item.article as NonNullable<Article>].bg;
-              } else if (item.part_of_speech && PART_OF_SPEECH_COLORS[item.part_of_speech as PartOfSpeech]) {
-                stripColor = PART_OF_SPEECH_COLORS[item.part_of_speech as PartOfSpeech].bg;
+              } else if (item.part_of_speech && (PART_OF_SPEECH_COLORS as any)[item.part_of_speech]) {
+                stripColor = (PART_OF_SPEECH_COLORS as any)[item.part_of_speech].bg;
               }
 
-              const displayWord = item.part_of_speech === 'noun'
-                ? (item.article ? `${item.article} ${item.word_de}` : item.word_de)
-                : item.word_de.toLowerCase();
+              const displayWord = item.word_de;
 
               return (
                 <BrutalButton
@@ -174,7 +172,7 @@ export default function HistoryScreen() {
                           }}
                         >
                           <Text className="text-[10px] font-w-extrabold uppercase text-border">
-                            {item.article || item.part_of_speech}
+                            {item.article || (item.part_of_speech !== ('noun' as string) ? item.part_of_speech : '')}
                           </Text>
                         </View>
                         <Text className="text-text-main text-xl font-w-extrabold">

@@ -36,7 +36,7 @@ export default function SettingsScreen() {
       <ScrollView
         className="flex-1 w-full"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 60, alignItems: 'center' }}
+        contentContainerStyle={{ paddingBottom: 160, alignItems: 'center' }}
       >
         <ScreenHeader
           title={t('settings.title', translationLanguage)}

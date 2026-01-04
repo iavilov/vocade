@@ -1,23 +1,28 @@
 import { Colors, Layout } from '@/constants/design-tokens';
-import { NavigationStyles } from '@/styles/navigation';
+import { createBrutalShadow } from '@/utils/platform-styles';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
 import { GalleryVerticalEnd, History, Settings } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { LayoutChangeEvent, Pressable, View } from 'react-native';
+import { LayoutChangeEvent, Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
-    const [containerWidth, setContainerWidth] = useState(0);
-    const tabSpace = containerWidth ? (containerWidth - 32) / state.routes.length : 100;
+    const [containerWidth, setContainerWidth] = useState(Layout.maxContentWidth);
+
+    // We use padding 16 from styles.container
+    const horizontalPadding = 16;
+    const contentWidth = containerWidth - (horizontalPadding * 2);
+    const tabSpace = contentWidth / state.routes.length;
     const indicatorWidth = 60;
 
-    const translateX = useSharedValue(16);
+    const translateX = useSharedValue(horizontalPadding + (tabSpace - indicatorWidth) / 2);
 
     useEffect(() => {
         if (containerWidth > 0) {
-            // Center the fixed-width indicator within the tab space
-            const targetX = state.index * tabSpace + 16 + (tabSpace - indicatorWidth) / 2;
+            // Calculate center of the active tab
+            const targetX = horizontalPadding + (state.index * tabSpace) + (tabSpace - indicatorWidth) / 2;
             translateX.value = withSpring(targetX, {
                 damping: 20,
                 stiffness: 150,
@@ -27,74 +32,83 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     }, [state.index, tabSpace, containerWidth]);
 
     const onLayout = (event: LayoutChangeEvent) => {
-        setContainerWidth(event.nativeEvent.layout.width);
+        const { width } = event.nativeEvent.layout;
+        if (width > 0) {
+            setContainerWidth(width);
+        }
     };
 
     const indicatorStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: translateX.value }],
-        width: indicatorWidth,
     }));
 
     return (
-        <View style={{ position: 'absolute', bottom: 24, left: 24, right: 24, alignItems: 'center' }} pointerEvents="box-none">
-            <View
-                style={[
-                    NavigationStyles.container,
-                    { width: '100%', maxWidth: Layout.maxContentWidth } // Match ScreenLayout content width
-                ]}
-                onLayout={onLayout}
-            >
-                {/* Sliding Background Indicator */}
-                {containerWidth > 0 && (
+        <>
+            {/* Bottom Gradient Mask to dim content and block touches */}
+            <LinearGradient
+                colors={['transparent', 'rgba(255,255,255,0.15)', 'rgba(255,255,255,0.90)']}
+                locations={[0, 0.4, 1]}
+                style={styles.gradientMask}
+                pointerEvents="auto"
+            />
+
+            <View style={styles.outerContainer} pointerEvents="box-none">
+                <View
+                    style={[
+                        styles.container,
+                        { maxWidth: Layout.maxContentWidth }
+                    ]}
+                    onLayout={onLayout}
+                >
+                    {/* Sliding Background Indicator */}
                     <Animated.View
                         style={[
-                            NavigationStyles.indicator,
+                            styles.indicator,
                             indicatorStyle,
                         ]}
                     />
-                )}
 
-                {state.routes.map((route, index) => {
-                    const { options } = descriptors[route.key];
-                    const isFocused = state.index === index;
+                    {state.routes.map((route, index) => {
+                        const isFocused = state.index === index;
 
-                    const onPress = () => {
-                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                        const event = navigation.emit({
-                            type: 'tabPress',
-                            target: route.key,
-                            canPreventDefault: true,
-                        });
+                        const onPress = () => {
+                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                            const event = navigation.emit({
+                                type: 'tabPress',
+                                target: route.key,
+                                canPreventDefault: true,
+                            });
 
-                        if (!isFocused && !event.defaultPrevented) {
-                            navigation.navigate(route.name, route.params);
+                            if (!isFocused && !event.defaultPrevented) {
+                                navigation.navigate(route.name, route.params);
+                            }
+                        };
+
+                        let Icon;
+                        if (route.name === 'history') {
+                            Icon = History;
+                        } else if (route.name === 'settings') {
+                            Icon = Settings;
+                        } else {
+                            Icon = GalleryVerticalEnd;
                         }
-                    };
 
-                    let Icon;
-                    if (route.name === 'history') {
-                        Icon = History;
-                    } else if (route.name === 'settings') {
-                        Icon = Settings;
-                    } else {
-                        Icon = GalleryVerticalEnd;
-                    }
-
-                    return (
-                        <Pressable
-                            key={route.key}
-                            onPress={onPress}
-                            style={NavigationStyles.tabItem}
-                        >
-                            <AnimatedIcon
-                                Icon={Icon}
-                                isFocused={isFocused}
-                            />
-                        </Pressable>
-                    );
-                })}
+                        return (
+                            <Pressable
+                                key={route.key}
+                                onPress={onPress}
+                                style={styles.tabItem}
+                            >
+                                <AnimatedIcon
+                                    Icon={Icon}
+                                    isFocused={isFocused}
+                                />
+                            </Pressable>
+                        );
+                    })}
+                </View>
             </View>
-        </View>
+        </>
     );
 }
 
@@ -123,3 +137,54 @@ function AnimatedIcon({ Icon, isFocused }: { Icon: any, isFocused: boolean }) {
         </Animated.View>
     );
 }
+
+const styles = StyleSheet.create({
+    gradientMask: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 160, // Covers the bottom area including menu and gap
+        zIndex: 0,
+    } as ViewStyle,
+    outerContainer: {
+        position: 'absolute',
+        bottom: 40,
+        left: 24,
+        right: 24,
+        alignItems: 'center',
+        zIndex: 10, // Ensure menu is above the gradient mask
+    } as ViewStyle,
+    container: {
+        width: '100%',
+        height: 82,
+        backgroundColor: Colors.surface,
+        borderWidth: 3,
+        borderColor: Colors.border,
+        borderRadius: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        ...createBrutalShadow(4, Colors.border),
+    } as ViewStyle,
+    tabItem: {
+        flex: 1,
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1,
+    } as ViewStyle,
+    indicator: {
+        position: 'absolute',
+        left: -3,
+        top: 11,
+        width: 60,
+        height: 54,
+        backgroundColor: Colors.primary,
+        borderWidth: 2,
+        borderColor: Colors.border,
+        borderRadius: 12,
+        ...createBrutalShadow(2, Colors.border),
+        zIndex: 0,
+    } as ViewStyle,
+});

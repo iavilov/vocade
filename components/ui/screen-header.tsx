@@ -45,12 +45,12 @@ export function ScreenHeader({
                 }}
                 className="px-2 py-0.5 mb-2"
             >
-                <Text className="text-border font-w-bold uppercase tracking-widest text-[10px]">
+                <Text className="text-border font-w-bold uppercase tracking-[2px] text-[10px]">
                     {badgeText}
                 </Text>
             </View>
             <Text
-                className="text-border text-2xl font-w-extrabold tracking-tight uppercase"
+                className="text-border text-2xl font-w-extrabold tracking-[2px] uppercase leading-[40px]"
                 style={{ fontSize: title.length > 15 ? 24 : 32 }}
             >
                 {title}

@@ -48,9 +48,10 @@ export default function Index() {
   const articleColors = hasArticle ? ARTICLE_COLORS[todayWord.article!] : null;
   const content = getWordContent(todayWord, translationLanguage);
 
-  const displayWord = todayWord.part_of_speech === 'noun'
-    ? todayWord.word_de
-    : todayWord.word_de.toLowerCase();
+  // Nouns are capitalized, other parts of speech are lowercase. 
+  // We keep the logic but avoid explicit 'noun' string check if possible, 
+  // or just use the word as provided in the database if it's already correctly capitalized.
+  const displayWord = todayWord.word_de;
 
   const publishDate = new Date();
   const day = publishDate.getDate();
@@ -82,7 +83,7 @@ export default function Index() {
         className="flex-1 w-full"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 80,
+          paddingBottom: 160,
           alignItems: 'center'
         }}
       >
@@ -174,18 +175,20 @@ export default function Index() {
                   {todayWord.transcription_de}
                 </Text>
               </View>
-              <View
-                className="px-3 py-1"
-                style={{
-                  backgroundColor: PART_OF_SPEECH_COLORS[todayWord.part_of_speech]?.bg || Colors.surface,
-                  borderWidth: 1,
-                  borderColor: Colors.border,
-                }}
-              >
-                <Text className="text-xs font-w-bold text-border uppercase">
-                  {todayWord.part_of_speech}
-                </Text>
-              </View>
+              {todayWord.part_of_speech !== ('noun' as string) && (
+                <View
+                  className="px-3 py-1"
+                  style={{
+                    backgroundColor: (PART_OF_SPEECH_COLORS as any)[todayWord.part_of_speech]?.bg || Colors.surface,
+                    borderWidth: 1,
+                    borderColor: Colors.border,
+                  }}
+                >
+                  <Text className="text-xs font-w-bold text-border uppercase">
+                    {todayWord.part_of_speech}
+                  </Text>
+                </View>
+              )}
 
             </View>
 

@@ -2,7 +2,7 @@ import { articleColors, partOfSpeechColors } from '@/constants/design-tokens';
 
 export type Article = 'der' | 'die' | 'das' | 'none' | null;
 
-export type PartOfSpeech = 'noun' | 'verb' | 'adjective';
+export type PartOfSpeech = 'verb' | 'adjective';
 
 export type Level = 'beginner' | 'intermediate' | 'advanced';
 
@@ -55,7 +55,7 @@ export interface Word {
   transcription_de: string;
   word_de: string;
   article: Article;
-  part_of_speech: PartOfSpeech;
+  part_of_speech: PartOfSpeech | 'noun';
   translations: Translations;
   content: WordContent;
   media: WordMedia;
