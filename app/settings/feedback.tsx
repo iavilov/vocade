@@ -32,7 +32,6 @@ export default function FeedbackScreen() {
                             shadowOffset: { width: 2, height: 2 },
                             shadowOpacity: 1,
                             shadowRadius: 0,
-                            transform: [{ rotate: '-1deg' }],
                         }}
                     >
                         <Text style={{ fontSize: 10, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>

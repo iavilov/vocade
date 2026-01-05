@@ -87,7 +87,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ flex: 1, width: '100%' }}>
+      <View style={{ flex: 1, width: '100%', backgroundColor: Colors.background }}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="onboarding" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

@@ -146,6 +146,12 @@ export const UI_TRANSLATIONS = {
             en: 'App Language',
             de: 'App-Sprache',
         },
+        selectLanguage: {
+            ru: 'Выберите язык',
+            uk: 'Оберіть мову',
+            en: 'Select Language',
+            de: 'Sprache auswählen',
+        },
         notifications: {
             ru: 'Уведомления',
             uk: 'Сповіщення',
@@ -206,11 +212,23 @@ export const UI_TRANSLATIONS = {
             en: 'Terms',
             de: 'AGB',
         },
+        termsDescription: {
+            ru: 'Условия использования приложения',
+            uk: 'Умови використання додатка',
+            en: 'Read our Terms of Service',
+            de: 'Nutzungsbedingungen lesen',
+        },
         privacy: {
             ru: 'Конфиденциальность',
             uk: 'Конфіденційність',
             en: 'Privacy',
             de: 'Datenschutz',
+        },
+        privacyDescription: {
+            ru: 'Как мы защищаем ваши данные',
+            uk: 'Як ми захищаємо ваші дані',
+            en: 'How we protect your data',
+            de: 'Datenschutzerklärung',
         },
         logout: {
             ru: 'Выйти',

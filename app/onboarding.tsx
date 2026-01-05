@@ -41,7 +41,6 @@ export default function OnboardingScreen() {
                 borderWidth: 3,
                 borderColor: Colors.border,
                 ...createBrutalShadow(3, Colors.border),
-                transform: [{ rotate: '-1deg' }],
               }}
               className="px-4 py-2 mb-4 self-start"
             >
@@ -85,7 +84,7 @@ export default function OnboardingScreen() {
                 const isSelected = selectedLevel === option.code;
                 const levelKey = `onboarding.level${option.code.charAt(0).toUpperCase() + option.code.slice(1)}` as any;
                 const descKey = `${levelKey}Desc` as any;
-                
+
                 return (
                   <BrutalButton
                     key={option.code}

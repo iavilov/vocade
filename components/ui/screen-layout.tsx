@@ -46,11 +46,11 @@ export function ScreenLayout({
   }));
 
   return (
-    <SafeAreaView
-      style={{ flex: 1 }}
-      edges={['top', 'left', 'right']}
-    >
-      <DottedBackground>
+    <DottedBackground>
+      <SafeAreaView
+        style={{ flex: 1 }}
+        edges={['top', 'left', 'right']}
+      >
         <View style={{ flex: 1, alignItems: 'center' }}>
           <Animated.View
             className={`w-full ${className || ''}`}
@@ -70,7 +70,7 @@ export function ScreenLayout({
             {children}
           </Animated.View>
         </View>
-      </DottedBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </DottedBackground>
   );
 }

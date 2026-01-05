@@ -7,7 +7,6 @@ interface ScreenHeaderProps extends ViewProps {
     title: string;
     badgeText: string;
     badgeColor?: string;
-    badgeRotate?: string;
     leftElement?: React.ReactNode;
     rightElement?: React.ReactNode;
     titleAlign?: 'left' | 'right';
@@ -22,7 +21,6 @@ export function ScreenHeader({
     title,
     badgeText,
     badgeColor = Colors.accentYellow,
-    badgeRotate = '-2deg',
     leftElement,
     rightElement,
     titleAlign = 'left',
@@ -41,7 +39,6 @@ export function ScreenHeader({
                     borderWidth: 2,
                     borderColor: Colors.border,
                     ...createBrutalShadow(2, Colors.border),
-                    transform: [{ rotate: badgeRotate }],
                 }}
                 className="px-2 py-0.5 mb-2"
             >
@@ -50,7 +47,7 @@ export function ScreenHeader({
                 </Text>
             </View>
             <Text
-                className="text-border text-2xl font-w-extrabold tracking-[2px] uppercase leading-[40px]"
+                className="text-border text-2xl font-w-extrabold uppercase leading-[40px] tracking-[1px]"
                 style={{ fontSize: title.length > 15 ? 24 : 32 }}
             >
                 {title}

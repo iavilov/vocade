@@ -40,7 +40,6 @@ export default function HistoryScreen() {
           title={t('tabs.history', translationLanguage)}
           badgeText={t('history.library', translationLanguage)}
           badgeColor={Colors.accentPink}
-          badgeRotate="-1deg"
           className="pb-6"
         />
 

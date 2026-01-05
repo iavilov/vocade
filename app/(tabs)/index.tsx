@@ -115,7 +115,6 @@ export default function Index() {
               borderWidth: 2,
               borderColor: Colors.border,
               ...createBrutalShadow(2, Colors.border),
-              transform: [{ rotate: '3deg' }],
             }}
           >
             <Text className="text-md font-w-extrabold uppercase text-border">
