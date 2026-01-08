@@ -1,7 +1,9 @@
-import { BrutalButton } from '@/components/ui/brutal-button';
+import { BrutalPressable } from '@/components/ui/brutal-pressable';
 import { BrutalSwitch } from '@/components/ui/brutal-switch';
+import { ContentContainer } from '@/components/ui/content-container';
+import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
-import { Colors } from '@/constants/design-tokens';
+import { Border, Colors } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import {
   getNotificationSettings,
@@ -10,16 +12,17 @@ import {
 } from '@/lib/notifications';
 import { useSettingsStore } from '@/store/settings-store';
 import { createBrutalShadow } from '@/utils/platform-styles';
-import { useRouter } from 'expo-router';
-import { Bell, ChevronLeft, Clock } from 'lucide-react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Bell, ChevronDown, Clock, Lightbulb } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
+import { Alert, Platform, ScrollView, Text, View } from 'react-native';
+import Animated, { Easing, FadeInDown, FadeOutUp } from 'react-native-reanimated';
 
 export default function NotificationsScreen() {
-  const router = useRouter();
   const { translationLanguage } = useSettingsStore();
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [notificationTime, setNotificationTime] = useState('09:00');
+  const [notificationTime, setNotificationTime] = useState(new Date());
+  const [showTimePicker, setShowTimePicker] = useState(false);
   const [hasPermission, setHasPermission] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,7 +35,13 @@ export default function NotificationsScreen() {
     try {
       const settings = await getNotificationSettings();
       setNotificationsEnabled(settings.enabled);
-      setNotificationTime(settings.time);
+
+      // Parse time string to Date object
+      const [hours, minutes] = settings.time.split(':');
+      const date = new Date();
+      date.setHours(parseInt(hours, 10));
+      date.setMinutes(parseInt(minutes, 10));
+      setNotificationTime(date);
 
       // Check permission status
       const permission = await requestNotificationPermissions();
@@ -59,28 +68,34 @@ export default function NotificationsScreen() {
     }
 
     setNotificationsEnabled(value);
-    await saveNotificationSettings(value, notificationTime);
+    const timeString = formatTime(notificationTime);
+    await saveNotificationSettings(value, timeString);
   };
 
-  const handleTimeChange = async (time: string) => {
-    setNotificationTime(time);
-    if (notificationsEnabled) {
-      await saveNotificationSettings(true, time);
+  const handleTimeChange = (event: any, selectedDate?: Date) => {
+    // On Android, picker closes after selection
+    if (Platform.OS === 'android') {
+      setShowTimePicker(false);
+    }
+
+    if (selectedDate) {
+      setNotificationTime(selectedDate);
+      const timeString = formatTime(selectedDate);
+      if (notificationsEnabled) {
+        saveNotificationSettings(true, timeString);
+      }
     }
   };
 
-  const timeOptions = [
-    '07:00',
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '18:00',
-    '19:00',
-    '20:00',
-    '21:00',
-  ];
+  const formatTime = (date: Date): string => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  const openTimePicker = () => {
+    setShowTimePicker(true);
+  };
 
   if (isLoading) {
     return (
@@ -99,101 +114,137 @@ export default function NotificationsScreen() {
       <ScrollView
         className="flex-1 w-full"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={{ paddingBottom: 160, alignItems: 'center' }}
       >
-        {/* Header */}
-        <View className="flex-row items-center justify-between pt-8 pb-6 w-full">
-          <Pressable onPress={() => router.back()} className="mr-4">
-            <View
-              className="w-12 h-12 items-center justify-center rounded-full"
-              style={{
-                backgroundColor: Colors.surface,
-                borderWidth: 3,
-                borderColor: Colors.border,
-              }}
-            >
-              <ChevronLeft size={24} color={Colors.border} strokeWidth={2.5} />
+        <ScreenHeader
+          title={t('settings.notifications', translationLanguage)}
+          showBackButton
+          badgeText={t('settings.title', translationLanguage)}
+          badgeColor={Colors.primary}
+        />
+
+        {/* Daily Notifications Toggle Card */}
+        <ContentContainer className="mb-6">
+          <View
+            className="w-full p-5 rounded-xl"
+            style={{
+              backgroundColor: Colors.surface,
+              borderWidth: Border.primary,
+              borderColor: Colors.border,
+              ...createBrutalShadow(4, Colors.border),
+            }}
+          >
+            <View className="flex-row items-start justify-between mb-3">
+              <View className="flex-row items-center flex-1">
+                <Bell size={22} color={Colors.border} strokeWidth={2.5} />
+                <Text className="ml-3 text-border text-base font-w-extrabold">
+                  {t('settings.dailyNotifications', translationLanguage)}
+                </Text>
+              </View>
+              <BrutalSwitch
+                value={notificationsEnabled}
+                onValueChange={handleToggleNotifications}
+              />
             </View>
-          </Pressable>
-
-          <View className="flex-1">
-            <Text className="text-border text-3xl font-w-extrabold tracking-tight uppercase">
-              {t('settings.notifications', translationLanguage)}
+            <Text className="text-text-muted text-sm font-w-medium">
+              {t('notifications.description', translationLanguage)}
             </Text>
           </View>
-        </View>
+        </ContentContainer>
 
-        {/* Main Toggle */}
-        <View
-          className="w-full mb-6 p-6 rounded-xl"
-          style={{
-            backgroundColor: Colors.surface,
-            borderWidth: 3,
-            borderColor: Colors.border,
-            ...createBrutalShadow(4, Colors.border),
-          }}
-        >
-          <View className="flex-row items-center mb-2">
-            <Bell size={24} color={Colors.border} strokeWidth={2.5} />
-            <Text className="ml-3 text-border text-lg font-w-extrabold">
-              {t('settings.dailyNotifications', translationLanguage)}
-            </Text>
-          </View>
-          <Text className="text-text-muted text-sm font-w-medium mb-4">
-            {t('notifications.description', translationLanguage)}
-          </Text>
-          <BrutalSwitch value={notificationsEnabled} onValueChange={handleToggleNotifications} />
-        </View>
-
-        {/* Time Picker (only show if enabled) */}
+        {/* Time Selection (only show if enabled) */}
         {notificationsEnabled && (
-          <View className="w-full mb-6">
-            <View className="flex-row items-center mb-4">
+          <ContentContainer className="mb-6">
+            <View className="flex-row items-center mb-3">
               <Clock size={20} color={Colors.border} strokeWidth={2.5} />
               <Text className="ml-2 text-border text-base font-w-extrabold uppercase">
                 {t('settings.time', translationLanguage)}
               </Text>
             </View>
 
-            <View className="flex-row flex-wrap gap-3">
-              {timeOptions.map((time) => (
-                <BrutalButton
-                  key={time}
-                  onPress={() => handleTimeChange(time)}
-                  isActive={time === notificationTime}
-                  backgroundColor={time === notificationTime ? Colors.primary : Colors.surface}
-                  borderWidth={2}
-                  contentContainerStyle={{
-                    paddingVertical: 12,
-                    paddingHorizontal: 20,
-                  }}
-                >
-                  <Text
-                    className={`text-sm font-w-extrabold ${
-                      time === notificationTime ? 'text-border' : 'text-text-muted'
-                    }`}
+            {/* Time Picker Button */}
+            <BrutalPressable
+              onPress={openTimePicker}
+              shadowOffset={4}
+              borderRadius={12}
+              style={{ width: '100%' }}
+              contentContainerStyle={{ width: '100%', height: 96 }}
+            >
+              <View className="flex-row items-center justify-between w-full px-6">
+                <Text className="text-border text-4xl font-w-extrabold">
+                  {formatTime(notificationTime)}
+                </Text>
+                <ChevronDown size={28} color={Colors.border} strokeWidth={2.5} />
+              </View>
+            </BrutalPressable>
+
+            {/* Timezone Caption */}
+            <Text className="text-text-muted text-xs font-w-medium mt-2">
+              {t('notifications.timezone', translationLanguage).replace('{zone}', 'CET')}
+            </Text>
+
+            {/* Native Time Picker */}
+            {showTimePicker && (
+              <>
+                {Platform.OS === 'ios' ? (
+                  <Animated.View
+                    entering={FadeInDown.duration(600).easing(Easing.out(Easing.exp))}
+                    exiting={FadeOutUp.duration(300)}
+                    className="mt-4"
                   >
-                    {time}
-                  </Text>
-                </BrutalButton>
-              ))}
-            </View>
-          </View>
+                    <DateTimePicker
+                      value={notificationTime}
+                      mode="time"
+                      display="spinner"
+                      onChange={handleTimeChange}
+                      style={{ height: 200, width: '100%' }}
+                      textColor={Colors.border}
+                      themeVariant="light"
+                    />
+                    <BrutalPressable
+                      onPress={() => setShowTimePicker(false)}
+                      className="mt-4"
+                      backgroundColor={Colors.primary}
+                      borderRadius={8}
+                      shadowOffset={3}
+                      style={{ width: '100%' }}
+                      contentContainerStyle={{ paddingVertical: 14 }}
+                    >
+                      <Text className="text-border text-sm font-w-extrabold uppercase">
+                        {t('settings.done', translationLanguage)}
+                      </Text>
+                    </BrutalPressable>
+                  </Animated.View>
+                ) : (
+                  <DateTimePicker
+                    value={notificationTime}
+                    mode="time"
+                    display="default"
+                    onChange={handleTimeChange}
+                  />
+                )}
+              </>
+            )}
+          </ContentContainer>
         )}
 
-        {/* Info */}
-        <View
-          className="w-full p-4 rounded-xl"
-          style={{
-            backgroundColor: Colors.accentBlue,
-            borderWidth: 2,
-            borderColor: Colors.border,
-          }}
-        >
-          <Text className="text-border text-xs font-w-bold">
-            💡 {t('notifications.info', translationLanguage)}
-          </Text>
-        </View>
+        {/* Info Card */}
+        <ContentContainer>
+          <View
+            className="w-full p-5 rounded-xl flex-row"
+            style={{
+              backgroundColor: Colors.accentBlue,
+              borderWidth: Border.primary,
+              borderColor: Colors.border,
+              ...createBrutalShadow(4, Colors.border),
+            }}
+          >
+            <Lightbulb size={22} color={Colors.border} strokeWidth={2.5} className="mr-3 flex-shrink-0" />
+            <Text className="text-border text-sm font-w-bold flex-1">
+              {t('notifications.info', translationLanguage)}
+            </Text>
+          </View>
+        </ContentContainer>
       </ScrollView>
     </ScreenLayout>
   );

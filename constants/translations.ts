@@ -200,11 +200,23 @@ export const UI_TRANSLATIONS = {
             en: 'Rate the app',
             de: 'App bewerten',
         },
+        rateDescription: {
+            ru: 'Нравится Vocade? Дайте нам знать!',
+            uk: 'Подобається Vocade? Дайте нам знати!',
+            en: 'Love Vocade? Let us know!',
+            de: 'Gefällt вам Vocade? Lassen Sie es uns wissen!',
+        },
         feedback: {
             ru: 'Обратная связь',
             uk: 'Зворотний зв\'язок',
             en: 'Feedback',
             de: 'Feedback',
+        },
+        feedbackDescription: {
+            ru: 'Сообщить об ошибке или предложить идею',
+            uk: 'Повідомити про помилку або запропонувати ідею',
+            en: 'Report a bug or suggest features',
+            de: 'Fehler melden oder Funktionen vorschlagen',
         },
         terms: {
             ru: 'Условия',
@@ -293,6 +305,12 @@ export const UI_TRANSLATIONS = {
             uk: 'Сповіщення доступні лише в iOS і Android додатках',
             en: 'Notifications are available only in iOS and Android apps',
             de: 'Benachrichtigungen sind nur in iOS- und Android-Apps verfügbar',
+        },
+        timezone: {
+            ru: 'На основе вашего текущего часового пояса ({zone})',
+            uk: 'На основі вашого поточного часового поясу ({zone})',
+            en: 'Based on your current timezone ({zone})',
+            de: 'Basierend auf Ihrer aktuellen Zeitzone ({zone})',
         },
     },
     onboarding: {

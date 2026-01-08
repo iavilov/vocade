@@ -105,16 +105,8 @@ export default function WordDetailPage() {
           title={dateString}
           badgeText={t('history.datum', translationLanguage)}
           badgeColor={Colors.accentYellow}
-          titleAlign="right"
-          leftElement={
-            <BrutalButton
-              onPress={handleBack}
-              style={{ width: 48, height: 48, marginRight: 4 }}
-              contentContainerStyle={{ height: '100%' }}
-            >
-              <ArrowLeft size={24} color={Colors.border} strokeWidth={3} />
-            </BrutalButton>
-          }
+          showBackButton
+          onBackPress={handleBack}
         />
 
         <ContentContainer>

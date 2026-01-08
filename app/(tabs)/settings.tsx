@@ -117,24 +117,24 @@ export default function SettingsScreen() {
             <SettingItem
               icon={<Languages size={20} color={Colors.border} strokeWidth={2.5} />}
               iconBgColor={Colors.accentYellow}
-              title="App Language"
+              title={t('settings.language', translationLanguage)}
               subtitle={currentLanguageName}
               onPress={() => router.push('/settings/language')}
             />
             <SettingItem
               icon={<TrendingUp size={20} color={Colors.border} strokeWidth={2.5} />}
               iconBgColor={Colors.accentPink}
-              title="Learning Level"
+              title={t('settings.level', translationLanguage)}
               subtitle={currentLevelName}
               onPress={() => router.push('/settings/level')}
               showDivider={Platform.OS !== 'web'}
             />
-            {Platform.OS !== 'web' && (
+            {Platform.OS === 'ios' && (
               <SettingItem
                 icon={<Bell size={20} color={Colors.border} strokeWidth={2.5} />}
                 iconBgColor={Colors.accentBlue}
                 title={t('settings.notifications', translationLanguage)}
-                subtitle="Word of the day reminders"
+                subtitle={t('settings.reminders', translationLanguage)}
                 onPress={() => router.push('/settings/notifications')}
                 showDivider={false}
               />
@@ -160,28 +160,28 @@ export default function SettingsScreen() {
             <SettingItem
               icon={<Star size={20} color={Colors.border} strokeWidth={2.5} />}
               iconBgColor={Colors.accentPink}
-              title="Rate the App"
-              subtitle="Love Vocade? Let us know!"
+              title={t('settings.rate', translationLanguage)}
+              subtitle={t('settings.rateDescription', translationLanguage)}
               onPress={() => router.push('/settings/rate')}
             />
             <SettingItem
               icon={<MessageSquare size={20} color={Colors.border} strokeWidth={2.5} />}
               iconBgColor="#93C5FD"
-              title="Feedback"
-              subtitle="Report a bug or suggest features"
+              title={t('settings.feedback', translationLanguage)}
+              subtitle={t('settings.feedbackDescription', translationLanguage)}
               onPress={() => router.push('/settings/feedback')}
             />
             <SettingItem
               icon={<Gavel size={20} color={Colors.border} strokeWidth={2.5} />}
               iconBgColor="#FDE68A"
-              title="Terms"
+              title={t('settings.terms', translationLanguage)}
               subtitle={t('settings.termsDescription', translationLanguage)}
               onPress={() => Linking.openURL('https://vocade.app/terms')}
             />
             <SettingItem
               icon={<ShieldCheck size={20} color={Colors.border} strokeWidth={2.5} />}
               iconBgColor="#86EFAC"
-              title="Privacy"
+              title={t('settings.privacy', translationLanguage)}
               subtitle={t('settings.privacyDescription', translationLanguage)}
               onPress={() => Linking.openURL('https://vocade.app/privacy')}
               showDivider={false}

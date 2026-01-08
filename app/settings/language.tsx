@@ -1,17 +1,16 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
 import { BrutalText } from '@/components/ui/brutal-text';
+import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
 import { Colors } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
 import { LANGUAGE_OPTIONS } from '@/types/settings';
-import { useRouter } from 'expo-router';
-import { ArrowLeft, Check } from 'lucide-react-native';
+import { Check } from 'lucide-react-native';
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 export default function LanguageScreen() {
-    const router = useRouter();
     const { translationLanguage, setTranslationLanguage } = useSettingsStore();
 
 
@@ -32,38 +31,12 @@ export default function LanguageScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 80 }}
             >
-                <View className="flex-row items-end justify-between pt-8 pb-10 w-full">
-                    <BrutalButton
-                        onPress={() => router.back()}
-                        style={{ width: 48, height: 48, marginRight: 4 }}
-                        contentContainerStyle={{ height: '100%' }}
-                    >
-                        <ArrowLeft size={24} color={Colors.border} strokeWidth={3} />
-                    </BrutalButton>
-                    <View className="flex-col items-end">
-                        <View
-                            style={{
-                                backgroundColor: Colors.accentYellow,
-                                borderWidth: 2,
-                                borderColor: Colors.border,
-                                paddingHorizontal: 8,
-                                paddingVertical: 2,
-                                marginBottom: 4,
-                                shadowColor: Colors.border,
-                                shadowOffset: { width: 2, height: 2 },
-                                shadowOpacity: 1,
-                                shadowRadius: 0,
-                            }}
-                        >
-                            <Text style={{ fontSize: 10, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>
-                                {t('settings.title', translationLanguage)}
-                            </Text>
-                        </View>
-                        <Text style={{ fontSize: 24, fontWeight: '900', color: Colors.border, textTransform: 'uppercase' }}>
-                            {t('settings.selectLanguage', translationLanguage)}
-                        </Text>
-                    </View>
-                </View>
+                <ScreenHeader
+                    title={t('settings.selectLanguage', translationLanguage)}
+                    badgeText={t('settings.title', translationLanguage)}
+                    badgeColor={Colors.primary}
+                    showBackButton
+                />
 
                 <View className="flex-col gap-4 w-full pr-1">
                     {LANGUAGE_OPTIONS.map((option) => {
