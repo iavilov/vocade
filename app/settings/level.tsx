@@ -94,7 +94,7 @@ export default function LevelScreen() {
                                 </View>
 
                                 <View className="flex-1">
-                                    <Text className="text-border font-w-extrabold text-xl uppercase">
+                                    <Text className="text-border font-w-bold text-xl uppercase">
                                         {option.name.en}
                                     </Text>
                                     <Text className="text-text-muted font-w-bold text-xs uppercase" style={{ opacity: 0.7 }}>

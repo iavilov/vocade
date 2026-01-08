@@ -42,7 +42,7 @@ export default function HistoryScreen() {
           title={t('tabs.history', translationLanguage)}
           badgeText={t('history.library', translationLanguage)}
           badgeColor={Colors.accentPink}
-          className="pb-6"
+          titleAlign="left"
         />
 
         <ContentContainer className="mb-8">
@@ -62,7 +62,7 @@ export default function HistoryScreen() {
             <TextInput
               placeholder={t('history.search', translationLanguage).toUpperCase()}
               placeholderTextColor={Colors.textMuted}
-              className="flex-1 text-border font-w-extrabold text-base"
+              className="flex-1 text-border font-w-bold text-base"
               style={[
                 { paddingVertical: 0 },
                 Platform.OS === 'web' && ({ outlineStyle: 'none' } as any),
@@ -81,7 +81,7 @@ export default function HistoryScreen() {
             borderRadius={4}
           >
             <Text
-              className={`text-xs font-w-extrabold uppercase tracking-wide ${activeTab === 'all' ? 'text-border' : 'text-text-muted'
+              className={`text-xs font-w-bold uppercase tracking-wide ${activeTab === 'all' ? 'text-border' : 'text-text-muted'
                 }`}
             >
               {t('history.all', translationLanguage)}
@@ -90,7 +90,7 @@ export default function HistoryScreen() {
               className="absolute -top-[6px] -right-[-6px] bg-white border-2 border-border h-7 min-w-[28px] items-center justify-center rounded-full z-10 px-1"
               style={{ borderColor: Colors.border }}
             >
-              <Text className="text-[11px] font-w-extrabold">{allWords.length}</Text>
+              <Text className="text-[11px] font-w-bold">{allWords.length}</Text>
             </View>
           </BrutalButton>
 
@@ -102,7 +102,7 @@ export default function HistoryScreen() {
             pressableStyle={{ width: '100%' }}
           >
             <Text
-              className={`text-xs font-w-extrabold uppercase tracking-wide ${activeTab === 'favorites' ? 'text-border' : 'text-text-muted'
+              className={`text-xs font-w-bold uppercase tracking-wide ${activeTab === 'favorites' ? 'text-border' : 'text-text-muted'
                 }`}
             >
               {t('history.favorites', translationLanguage)}
@@ -182,11 +182,11 @@ export default function HistoryScreen() {
                               width: 52, // Fixed width for alignment
                             }}
                           >
-                            <Text className="text-[10px] font-w-extrabold uppercase text-border text-center">
+                            <Text className="text-[10px] font-w-bold uppercase text-border text-center">
                               {displayLabel}
                             </Text>
                           </View>
-                          <Text className="text-text-main text-xl font-w-extrabold">
+                          <Text className="text-text-main text-xl font-w-bold">
                             {displayWord}
                           </Text>
                         </View>

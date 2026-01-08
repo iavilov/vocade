@@ -137,7 +137,7 @@ export default function NotificationsScreen() {
             <View className="flex-row items-start justify-between mb-3">
               <View className="flex-row items-center flex-1">
                 <Bell size={22} color={Colors.border} strokeWidth={2.5} />
-                <Text className="ml-3 text-border text-base font-w-extrabold">
+                <Text className="ml-3 text-border text-base font-w-bold">
                   {t('settings.dailyNotifications', translationLanguage)}
                 </Text>
               </View>
@@ -157,7 +157,7 @@ export default function NotificationsScreen() {
           <ContentContainer className="mb-6">
             <View className="flex-row items-center mb-3">
               <Clock size={20} color={Colors.border} strokeWidth={2.5} />
-              <Text className="ml-2 text-border text-base font-w-extrabold uppercase">
+              <Text className="ml-2 text-border text-base font-w-bold uppercase">
                 {t('settings.time', translationLanguage)}
               </Text>
             </View>
@@ -171,7 +171,7 @@ export default function NotificationsScreen() {
               contentContainerStyle={{ width: '100%', height: 96 }}
             >
               <View className="flex-row items-center justify-between w-full px-6">
-                <Text className="text-border text-4xl font-w-extrabold">
+                <Text className="text-border text-4xl font-w-bold">
                   {formatTime(notificationTime)}
                 </Text>
                 <ChevronDown size={28} color={Colors.border} strokeWidth={2.5} />
@@ -210,7 +210,7 @@ export default function NotificationsScreen() {
                       style={{ width: '100%' }}
                       contentContainerStyle={{ paddingVertical: 14 }}
                     >
-                      <Text className="text-border text-sm font-w-extrabold uppercase">
+                      <Text className="text-border text-sm font-w-bold uppercase">
                         {t('settings.done', translationLanguage)}
                       </Text>
                     </BrutalPressable>

@@ -52,7 +52,7 @@ export default function WordDetailPage() {
             }}
           >
             <ArrowLeft size={20} color={Colors.border} strokeWidth={3} className="mr-2" />
-            <Text className="text-border font-w-extrabold uppercase text-sm">
+            <Text className="text-border font-w-bold uppercase text-sm">
               {t('history.back', translationLanguage)}
             </Text>
           </TouchableOpacity>
@@ -134,7 +134,7 @@ export default function WordDetailPage() {
                   pressableStyle={{ flexDirection: 'row' }}
                 >
                   <Share2 size={18} color={Colors.border} strokeWidth={3} style={{ marginRight: 8 }} />
-                  <Text className="text-border font-w-extrabold uppercase text-xs">
+                  <Text className="text-border font-w-bold uppercase text-xs">
                     {t('home.share', translationLanguage)}
                   </Text>
                 </BrutalButton>
@@ -157,7 +157,7 @@ export default function WordDetailPage() {
                       ...createBrutalShadow(2, Colors.border),
                     }}>
                     <Text
-                      className="font-w-extrabold text-sm uppercase"
+                      className="font-w-bold text-sm uppercase"
                       style={{
                         color: articleColors.text
                       }}>
@@ -227,7 +227,7 @@ export default function WordDetailPage() {
                     }}
                   />
                   <Text
-                    className="text-[10px] font-w-extrabold text-text-main uppercase tracking-widest"
+                    className="text-[10px] font-w-bold text-text-main uppercase tracking-widest"
                   >
                     {t('home.beispiel', translationLanguage)}
                   </Text>
@@ -278,7 +278,7 @@ export default function WordDetailPage() {
                       }}
                     />
                     <Text
-                      className="text-[10px] font-w-extrabold text-text-main uppercase tracking-widest"
+                      className="text-[10px] font-w-bold text-text-main uppercase tracking-widest"
                     >
                       {t('home.etymologie', translationLanguage)}
                     </Text>

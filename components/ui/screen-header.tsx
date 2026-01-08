@@ -29,7 +29,7 @@ export function ScreenHeader({
     badgeColor = Colors.accentYellow,
     leftElement,
     rightElement,
-    titleAlign = 'left',
+    titleAlign,
     maxWidth = Layout.maxContentWidth,
     showBackButton = false,
     onBackPress,
@@ -38,7 +38,14 @@ export function ScreenHeader({
     ...props
 }: ScreenHeaderProps) {
     const router = useRouter();
-    const isRight = titleAlign === 'right';
+
+    // Determine the layout type based on props
+    // State 1: secondary screen (showBackButton) -> align title right
+    // State 2: primary tab screen (no back button, no right element) -> align title right
+    // State 3: home screen (no back button, has right element) -> align title left
+    const isHome = !showBackButton && !!rightElement;
+    const align = titleAlign || (isHome ? 'left' : 'right');
+    const isRight = align === 'right';
 
     const handleBackPress = () => {
         if (onBackPress) {
@@ -48,26 +55,8 @@ export function ScreenHeader({
         }
     };
 
-    // Back button for secondary screens
-    const BackButton = (
-        <Animated.View
-            entering={FadeInDown.duration(100)}
-            className="mt-4"
-        >
-            <BrutalPressable
-                onPress={handleBackPress}
-                borderRadius={24}
-                shadowOffset={2}
-                style={{ width: 48, height: 48 }}
-                contentContainerStyle={{ width: '100%', height: '100%' }}
-            >
-                <ChevronLeft size={24} color={Colors.border} strokeWidth={2.5} />
-            </BrutalPressable>
-        </Animated.View>
-    );
-
     const TitleBlock = (
-        <View className={`flex-col items-end ${isRight ? 'flex-row-reverse' : ''}`}>
+        <View className={`flex-col ${isRight ? 'items-end' : 'items-start'}`}>
             {badgeText && (
                 <View
                     style={{
@@ -76,17 +65,17 @@ export function ScreenHeader({
                         borderColor: Colors.border,
                         ...createBrutalShadow(2, Colors.border),
                     }}
-                    className={`px-2 py-0.5`}
+                    className={`px-2 py-0.5 mb-1`}
                 >
                     <Text
-                        className="text-border font-w-extrabold uppercase tracking-[2px] text-[11px]"
+                        className="text-border font-w-bold uppercase tracking-[2px] text-[11px]"
                     >
                         {badgeText}
                     </Text>
                 </View>
             )}
             <Text
-                className="text-xl font-w-extrabold uppercase tracking-[1px]"
+                className="text-xl font-w-bold uppercase tracking-[1px]"
                 style={{ color: Colors.gray800 }}
             >
                 {title}
@@ -94,36 +83,38 @@ export function ScreenHeader({
         </View>
     );
 
-    // If showBackButton is true, use the back button layout
-    if (showBackButton) {
-        return (
-
-            <View
-                className={`flex-row items-center w-full pt-6 pb-8 ${className}`}
-                style={[{ maxWidth }, style]}
-                {...props}
-            >
-                {BackButton}
-                <View className="flex-1 ml-4">
-                    {TitleBlock}
-                </View>
-            </View>
-
-
-        );
-    }
-
-    // Default layout for main screens
     return (
         <View
-            className={`flex-row items-center justify-between pt-8 pb-10 w-full ${className}`}
+            className={`flex-row items-center justify-between w-full pt-8 pb-10 ${className}`}
             style={[{ maxWidth }, style]}
             {...props}
         >
-            {leftElement}
-            {!isRight && TitleBlock}
-            {rightElement}
-            {isRight && TitleBlock}
+            {/* Left Slot: Back Button or Title (if left-aligned) */}
+            <View className="flex-1 items-start">
+                {showBackButton ? (
+                    <Animated.View
+                        entering={FadeInDown.duration(100)}
+                    >
+                        <BrutalPressable
+                            onPress={handleBackPress}
+                            borderRadius={24}
+                            shadowOffset={2}
+                            style={{ width: 48, height: 48 }}
+                            contentContainerStyle={{ width: '100%', height: '100%' }}
+                        >
+                            <ChevronLeft size={24} color={Colors.border} strokeWidth={2.5} />
+                        </BrutalPressable>
+                    </Animated.View>
+                ) : (
+                    !isRight && TitleBlock
+                )}
+                {leftElement}
+            </View>
+
+            {/* Right Slot: Title (if right-aligned) or Right Element */}
+            <View className="flex-1 items-end">
+                {isRight ? TitleBlock : rightElement}
+            </View>
         </View>
     );
 }

@@ -158,11 +158,10 @@ export const Border = {
 
 
 export const FontNames = {
-  regular: 'Manrope_400Regular',
-  medium: 'Manrope_500Medium',
-  semibold: 'Manrope_600SemiBold',
-  bold: 'Manrope_700Bold',
-  extrabold: 'Manrope_800ExtraBold',
+  regular: 'IBMPlexSans_400Regular',
+  medium: 'IBMPlexSans_500Medium',
+  semibold: 'IBMPlexSans_600SemiBold',
+  bold: 'IBMPlexSans_700Bold',
 } as const;
 
 export const fontFamily = {
@@ -170,5 +169,4 @@ export const fontFamily = {
   'w-medium': [FontNames.medium, 'sans-serif'],
   'w-semibold': [FontNames.semibold, 'sans-serif'],
   'w-bold': [FontNames.bold, 'sans-serif'],
-  'w-extrabold': [FontNames.extrabold, 'sans-serif'],
 };

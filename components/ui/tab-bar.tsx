@@ -1,4 +1,4 @@
-import { Border, Colors, Layout } from '@/constants/design-tokens';
+import { Border, Colors, FontNames, Layout } from '@/constants/design-tokens';
 import { createBrutalShadow } from '@/utils/platform-styles';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 10,
-        fontFamily: 'Manrope_800ExtraBold',
+        fontFamily: FontNames.regular,
         letterSpacing: 0.5,
         color: Colors.border,
         marginTop: 6,

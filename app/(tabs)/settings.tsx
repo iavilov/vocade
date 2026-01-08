@@ -53,7 +53,7 @@ function SettingItem({ icon, iconBgColor, title, subtitle, onPress, showDivider 
             {icon}
           </View>
           <View className="flex-1">
-            <Text className="text-border font-w-extrabold text-sm uppercase">
+            <Text className="text-border font-w-bold text-sm uppercase">
               {title}
             </Text>
             {subtitle && (
@@ -93,6 +93,7 @@ export default function SettingsScreen() {
           title={t('settings.title', translationLanguage)}
           badgeText={t('settings.account', translationLanguage)}
           badgeColor={Colors.primary}
+          titleAlign="left"
         />
 
         {/* ACCOUNT Section */}
@@ -203,7 +204,7 @@ export default function SettingsScreen() {
           >
             <View className="flex-row items-center justify-center">
               <LogOut size={20} color={Colors.border} strokeWidth={2.5} style={{ marginRight: 8 }} />
-              <Text className="text-border font-w-extrabold text-sm uppercase tracking-wide">
+              <Text className="text-border font-w-bold text-sm uppercase tracking-wide">
                 {t('settings.logout', translationLanguage)}
               </Text>
             </View>

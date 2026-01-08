@@ -66,13 +66,13 @@ export default function LanguageScreen() {
                                         borderRadius: 8,
                                     }}
                                 >
-                                    <Text className="text-border font-w-extrabold text-lg uppercase">
+                                    <Text className="text-border font-w-bold text-lg uppercase">
                                         {option.code}
                                     </Text>
                                 </View>
 
                                 <View className="flex-1">
-                                    <BrutalText className="text-border font-w-extrabold text-xl uppercase">
+                                    <BrutalText className="text-border font-w-bold text-xl uppercase">
                                         {option.name}
                                     </BrutalText>
                                     <BrutalText className="text-text-muted font-w-bold text-xs uppercase" style={{ opacity: 0.7 }}>

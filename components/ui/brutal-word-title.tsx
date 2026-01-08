@@ -21,7 +21,7 @@ export function BrutalWordTitle({ word, onAudioPress }: BrutalWordTitleProps) {
     return (
         <View className="flex-row items-center mb-6">
             <Text
-                className={`${getFontSizeClass(word)} font-w-extrabold text-text-main flex-1 mr-3 flex-shrink`}
+                className={`${getFontSizeClass(word)} font-w-bold text-text-main flex-1 mr-3 flex-shrink`}
                 numberOfLines={2}
                 adjustsFontSizeToFit
             >

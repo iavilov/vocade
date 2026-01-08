@@ -44,11 +44,11 @@ export default function OnboardingScreen() {
               }}
               className="px-4 py-2 mb-4 self-start"
             >
-              <Text className="text-border text-2xl font-w-extrabold uppercase">
+              <Text className="text-border text-2xl font-w-bold uppercase">
                 VOCADE
               </Text>
             </View>
-            <Text className="text-border text-4xl font-w-extrabold tracking-tight uppercase mb-3">
+            <Text className="text-border text-4xl font-w-bold tracking-tight uppercase mb-3">
               {t('onboarding.welcome', translationLanguage)}
             </Text>
             <Text className="text-text-muted text-lg font-w-medium">
@@ -67,12 +67,12 @@ export default function OnboardingScreen() {
                 borderRadius: 4,
               }}
             >
-              <Text className="text-border text-xs font-w-extrabold uppercase tracking-wide">
+              <Text className="text-border text-xs font-w-bold uppercase tracking-wide">
                 {t('onboarding.step', translationLanguage)} 1/1
               </Text>
             </View>
 
-            <Text className="text-border text-2xl font-w-extrabold mb-2">
+            <Text className="text-border text-2xl font-w-bold mb-2">
               {t('onboarding.levelQuestion', translationLanguage)}
             </Text>
             <Text className="text-text-muted text-base font-w-medium mb-6">
@@ -101,7 +101,7 @@ export default function OnboardingScreen() {
                   >
                     <View className="flex-row items-center justify-between w-full">
                       <View className="flex-1">
-                        <Text className="text-border text-xl font-w-extrabold mb-1">
+                        <Text className="text-border text-xl font-w-bold mb-1">
                           {t(levelKey, translationLanguage)}
                         </Text>
                         <Text className="text-text-muted text-sm font-w-medium">
@@ -117,7 +117,7 @@ export default function OnboardingScreen() {
                             borderColor: Colors.border,
                           }}
                         >
-                          <Text className="text-background text-lg font-w-extrabold">✓</Text>
+                          <Text className="text-background text-lg font-w-bold">✓</Text>
                         </View>
                       )}
                     </View>
@@ -140,7 +140,7 @@ export default function OnboardingScreen() {
                 paddingVertical: 18,
               }}
             >
-              <Text className="text-border text-lg font-w-extrabold uppercase tracking-wide">
+              <Text className="text-border text-lg font-w-bold uppercase tracking-wide">
                 {t('onboarding.continue', translationLanguage)}
               </Text>
             </BrutalButton>

@@ -102,7 +102,7 @@ export default function Index() {
                 pressableStyle={{ flexDirection: 'row' }}
               >
                 <Share2 size={18} color={Colors.border} strokeWidth={3} style={{ marginRight: 8 }} />
-                <Text className="text-border font-w-extrabold uppercase text-xs">
+                <Text className="text-border font-w-bold uppercase text-xs">
                   {t('home.share', translationLanguage)}
                 </Text>
               </BrutalButton>
@@ -120,7 +120,7 @@ export default function Index() {
               ...createBrutalShadow(2, Colors.border),
             }}
           >
-            <Text className="text-md font-w-extrabold uppercase text-border">
+            <Text className="text-md font-w-bold uppercase text-border">
               {t('home.wordOfTheDay', translationLanguage)}
             </Text>
           </View>
@@ -159,7 +159,7 @@ export default function Index() {
                     ...createBrutalShadow(2, Colors.border),
                   }}>
                   <Text
-                    className="font-w-extrabold text-sm uppercase"
+                    className="font-w-bold text-sm uppercase"
                     style={{
                       color: articleColors.text
                     }}>
@@ -197,19 +197,20 @@ export default function Index() {
             </View>
 
             <View className="mb-6">
-              <Text className="text-xl text-text-main font-w-bold">
+              <Text className="text-xl text-text-main font-w-semibold">
                 {content.translation}
               </Text>
             </View>
 
             <View className="h-0.5 w-full bg-border mb-6" />
 
+            {/* Example Sentence */}
             <View
-              className="p-5 my-6 relative"
+              className="p-4 my-6 relative"
               style={{
                 borderWidth: 2,
                 borderColor: Colors.border,
-                borderRadius: 4,
+                borderRadius: 8,
                 backgroundColor: Colors.gray50,
 
               }}
@@ -219,11 +220,11 @@ export default function Index() {
                 style={{
                   borderWidth: 2,
                   borderColor: Colors.border,
-                  ...createBrutalShadow(2, Colors.border),
+                  borderRadius: 4,
                 }}
               >
                 <Text
-                  className="text-[10px] font-w-extrabold text-text-main uppercase tracking-widest"
+                  className="text-[11px] font-w-semibold uppercase tracking-[1.5px]"
                 >
                   {t('home.beispiel', translationLanguage)}
                 </Text>
@@ -231,30 +232,32 @@ export default function Index() {
 
               <HighlightedText
                 text={content.exampleSentence.de}
-                textClassName="text-xl text-text-main font-w-bold leading-[36px] mt-2"
-                highlightClassName="text-lg"
+                textClassName="text-[16px] text-text-main font-w-medium leading-[22px] mt-3"
+                highlightClassName="text-[16px] font-w-semibold"
               />
 
               <View
                 className="mt-4"
               >
                 <Text
-                  className="text-[16px] text-text-muted font-w-medium"
+                  className="text-[14px] text-text-muted font-w-regular opacity-70"
                   style={Platform.OS === 'ios' ? { transform: [{ skewX: '-12deg' }] } : { fontStyle: 'italic' }}
                 >
                   {content.exampleSentence.translation}
                 </Text>
               </View>
             </View>
+            {/* Example Sentence End */}
 
 
+            {/* Etymology */}
             <View className="pb-6">
               <View
-                className="bg-green-50 p-5 mt-4 relative"
+                className="bg-green-50 p-4 mt-4 relative"
                 style={{
                   borderWidth: 2,
                   borderColor: Colors.border,
-                  borderRadius: 4,
+                  borderRadius: 8,
 
                 }}
               >
@@ -262,20 +265,20 @@ export default function Index() {
                   className="bg-white absolute -top-4 left-4 px-3 py-1 flex-row items-center"
                   style={{
                     borderWidth: 2,
+                    borderRadius: 4,
                     borderColor: Colors.border,
-                    ...createBrutalShadow(2, Colors.border),
                   }}
                 >
 
                   <Text
-                    className="text-[10px] font-w-extrabold text-text-main uppercase tracking-widest"
+                    className="text-[11px] font-w-semibold uppercase tracking-[1.5px]"
                   >
                     {t('home.etymologie', translationLanguage)}
                   </Text>
                 </View>
 
                 <Text
-                  className="text-sm text-text-main font-w-medium leading-relaxed mt-2"
+                  className="text-[14px] text-text-main font-w-regular leading-[20px]"
                 >
                   {content.etymology.text || t('common.notFound', translationLanguage)}
 
@@ -283,7 +286,7 @@ export default function Index() {
 
                 {content.etymology.rootWord && (
                   <View className="mt-4 flex-row items-center">
-                    <Text className="text-xs text-text-muted font-w-bold uppercase tracking-wider mr-2">
+                    <Text className="text-[12px] text-text-muted font-w-semibold uppercase tracking-[1.5px] opacity-60">
                       {t('home.root', translationLanguage)}:
                     </Text>
                     <View
@@ -291,9 +294,10 @@ export default function Index() {
                       style={{
                         borderWidth: 2,
                         borderColor: Colors.border,
+                        borderRadius: 4,
                       }}
                     >
-                      <Text className="text-xs font-w-bold text-text-main">
+                      <Text className="text-xs font-w-semibold text-text-main">
                         {content.etymology.rootWord}
                       </Text>
                     </View>
@@ -301,6 +305,8 @@ export default function Index() {
                 )}
               </View>
             </View>
+            {/* Etymology End */}
+
           </BrutalCard>
         </ContentContainer>
       </ScrollView>
