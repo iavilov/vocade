@@ -1,4 +1,4 @@
-import { BrutalPressable } from '@/components/ui/brutal-pressable';
+import { BrutalButton } from '@/components/ui/brutal-button';
 import { BrutalSwitch } from '@/components/ui/brutal-switch';
 import { ContentContainer } from '@/components/ui/content-container';
 import { ScreenHeader } from '@/components/ui/screen-header';
@@ -163,7 +163,7 @@ export default function NotificationsScreen() {
             </View>
 
             {/* Time Picker Button */}
-            <BrutalPressable
+            <BrutalButton
               onPress={openTimePicker}
               shadowOffset={4}
               borderRadius={12}
@@ -176,7 +176,7 @@ export default function NotificationsScreen() {
                 </Text>
                 <ChevronDown size={28} color={Colors.border} strokeWidth={2.5} />
               </View>
-            </BrutalPressable>
+            </BrutalButton>
 
             {/* Timezone Caption */}
             <Text className="text-text-muted text-xs font-w-medium mt-2">
@@ -201,7 +201,7 @@ export default function NotificationsScreen() {
                       textColor={Colors.border}
                       themeVariant="light"
                     />
-                    <BrutalPressable
+                    <BrutalButton
                       onPress={() => setShowTimePicker(false)}
                       className="mt-4"
                       backgroundColor={Colors.primary}
@@ -213,7 +213,7 @@ export default function NotificationsScreen() {
                       <Text className="text-border text-sm font-w-bold uppercase">
                         {t('settings.done', translationLanguage)}
                       </Text>
-                    </BrutalPressable>
+                    </BrutalButton>
                   </Animated.View>
                 ) : (
                   <DateTimePicker

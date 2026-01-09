@@ -1,6 +1,6 @@
 import { Colors } from '@/constants/design-tokens';
 import React from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, Text } from 'react-native';
 
 interface HighlightedTextProps {
     text: string;
@@ -21,30 +21,21 @@ export function HighlightedText({ text, textClassName = '', highlightClassName =
                 if (part.startsWith('**') && part.endsWith('**')) {
                     const word = part.slice(2, -2);
                     return (
-                        <View
+                        <Text
                             key={index}
+                            className={`text-border font-w-semibold ${highlightClassName}`}
                             style={{
                                 backgroundColor: Colors.accentYellow,
-                                borderWidth: 1,
+                                borderWidth: 1.5,
                                 borderColor: Colors.border,
-                                borderRadius: 4,
+                                borderRadius: 6,
                                 paddingHorizontal: 6,
-                                paddingVertical: 0,
+                                paddingVertical: Platform.select({ web: 2, default: 1 }),
                                 marginHorizontal: 2,
-                                transform: [{
-                                    translateY: Platform.select({
-                                        ios: 11,
-                                        android: 11,
-                                        web: 0,
-                                        default: 0
-                                    })
-                                }],
                             }}
                         >
-                            <Text className={`text-border font-w-semibold ${highlightClassName}`}>
-                                {word}
-                            </Text>
-                        </View>
+                            {word}
+                        </Text>
                     );
                 }
                 return <Text key={index}>{part}</Text>;

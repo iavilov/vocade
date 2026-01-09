@@ -116,11 +116,11 @@ export const colors = {
 } as const;
 
 export const borderRadius = {
-  brutal: '0.5rem',
-  'brutal-lg': '0.75rem',
-  pill: '9999px',
-  card: '0.75rem',
-  button: '0.5rem',
+  SHARP: 0,
+  SMALL: 4,
+  MEDIUM: 12,
+  LARGE: 20,
+  ROUND: 999,
 };
 
 export const borderWidth = {

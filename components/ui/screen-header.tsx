@@ -1,11 +1,11 @@
-import { Colors, Layout } from '@/constants/design-tokens';
+import { Colors, Layout, borderRadius as tokensBorderRadius } from '@/constants/design-tokens';
 import { createBrutalShadow } from '@/utils/platform-styles';
 import { useRouter } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
 import React from 'react';
 import { Text, View, ViewProps } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { BrutalPressable } from './brutal-pressable';
+import { BrutalButton } from './brutal-button';
 
 interface ScreenHeaderProps extends ViewProps {
     title: string;
@@ -63,7 +63,8 @@ export function ScreenHeader({
                         backgroundColor: badgeColor,
                         borderWidth: 2,
                         borderColor: Colors.border,
-                        ...createBrutalShadow(2, Colors.border),
+                        borderRadius: tokensBorderRadius.SHARP,
+                        ...createBrutalShadow(1, Colors.border),
                     }}
                     className={`px-2 py-0.5 mb-1`}
                 >
@@ -95,15 +96,15 @@ export function ScreenHeader({
                     <Animated.View
                         entering={FadeInDown.duration(100)}
                     >
-                        <BrutalPressable
+                        <BrutalButton
                             onPress={handleBackPress}
-                            borderRadius={24}
+                            borderRadius={tokensBorderRadius.ROUND}
                             shadowOffset={2}
                             style={{ width: 48, height: 48 }}
                             contentContainerStyle={{ width: '100%', height: '100%' }}
                         >
                             <ChevronLeft size={24} color={Colors.border} strokeWidth={2.5} />
-                        </BrutalPressable>
+                        </BrutalButton>
                     </Animated.View>
                 ) : (
                     !isRight && TitleBlock
