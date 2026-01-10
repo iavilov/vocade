@@ -5,6 +5,7 @@
 
 import { TranslationLanguage } from '@/types/settings';
 import { Word } from '@/types/word';
+export type { TranslationLanguage };
 export { t } from '@/constants/translations';
 
 /**

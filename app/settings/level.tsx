@@ -2,7 +2,7 @@ import { BrutalButton } from '@/components/ui/brutal-button';
 import { BrutalText } from '@/components/ui/brutal-text';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
-import { Colors } from '@/constants/design-tokens';
+import { Colors, borderRadius } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
@@ -24,12 +24,7 @@ export default function LevelScreen() {
     };
 
     const getLevelBadgeColor = (code: LanguageLevel) => {
-        switch (code) {
-            case 'beginner': return '#86EFAC'; // Green
-            case 'intermediate': return '#93C5FD'; // Blue
-            case 'advanced': return '#F9A8D4'; // Pink
-            default: return Colors.surface;
-        }
+        return (Colors.levelColors as any)[code] || Colors.surface;
     };
 
     const getLevelIcon = (code: LanguageLevel) => {
@@ -80,6 +75,7 @@ export default function LevelScreen() {
                                     alignItems: 'center'
                                 }}
                                 borderWidth={3}
+                                borderRadius={borderRadius.LARGE}
                                 backgroundColor={isSelected ? badgeColor : 'white'}
                             >
                                 <View
@@ -87,7 +83,7 @@ export default function LevelScreen() {
                                     style={{
                                         backgroundColor: isSelected ? 'white' : badgeColor,
                                         borderColor: Colors.border,
-                                        borderRadius: 8,
+                                        borderRadius: borderRadius.SMALL,
                                     }}
                                 >
                                     {getLevelIcon(option.code)}
@@ -103,9 +99,10 @@ export default function LevelScreen() {
                                 </View>
 
                                 <View
-                                    className="w-8 h-8 rounded-full items-center justify-center"
+                                    className="w-8 h-8 items-center justify-center"
                                     style={{
                                         borderWidth: 2,
+                                        borderRadius: borderRadius.ROUND,
                                         borderColor: isSelected ? Colors.border : '#D1D5DB',
                                         backgroundColor: isSelected ? Colors.surface : 'transparent',
                                     }}
@@ -124,7 +121,7 @@ export default function LevelScreen() {
                         borderWidth: 2,
                         borderColor: Colors.border,
                         borderStyle: 'dashed',
-                        borderRadius: 12,
+                        borderRadius: borderRadius.MEDIUM,
                     }}
                 >
                     <BrutalText className="text-text-muted text-sm font-w-medium text-center leading-relaxed">

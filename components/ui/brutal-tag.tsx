@@ -1,4 +1,4 @@
-import { Border, Colors } from '@/constants/design-tokens';
+import { Border, Colors, borderRadius as tokensBorderRadius } from '@/constants/design-tokens';
 import { createBrutalShadow } from '@/utils/platform-styles';
 import React from 'react';
 import { Text, TextStyle, View, ViewProps } from 'react-native';
@@ -26,9 +26,9 @@ export function BrutalTag({
   backgroundColor = Colors.surface,
   textColor = Colors.border,
   borderColor = Colors.border,
-  borderWidth = Border.primary,
-  borderRadius = 6,
-  shadowOffset = 1,
+  borderWidth = Border.secondary,
+  borderRadius = tokensBorderRadius.SMALL,
+  shadowOffset = 0,
   paddingHorizontal = 10,
   paddingVertical = 6,
   uppercase = true,

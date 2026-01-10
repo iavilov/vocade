@@ -2,7 +2,7 @@ import { BrutalButton } from '@/components/ui/brutal-button';
 import { BrutalText } from '@/components/ui/brutal-text';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
-import { Colors } from '@/constants/design-tokens';
+import { Colors, borderRadius } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
 import { LANGUAGE_OPTIONS } from '@/types/settings';
@@ -15,13 +15,7 @@ export default function LanguageScreen() {
 
 
     const getLanguageBadgeColor = (code: string) => {
-        switch (code) {
-            case 'ru': return '#00E090'; // Green
-            case 'uk': return '#93C5FD'; // Blue
-            case 'en': return '#F9A8D4'; // Pink
-            case 'de': return '#FFDE00'; // Yellow
-            default: return Colors.surface;
-        }
+        return (Colors.languageColors as any)[code] || Colors.surface;
     };
 
     return (
@@ -56,6 +50,7 @@ export default function LanguageScreen() {
                                     alignItems: 'center'
                                 }}
                                 borderWidth={3}
+                                borderRadius={borderRadius.LARGE}
                                 backgroundColor={isSelected ? badgeColor : 'white'}
                             >
                                 <View
@@ -63,7 +58,7 @@ export default function LanguageScreen() {
                                     style={{
                                         backgroundColor: isSelected ? 'white' : badgeColor,
                                         borderColor: Colors.border,
-                                        borderRadius: 8,
+                                        borderRadius: borderRadius.SMALL,
                                     }}
                                 >
                                     <Text className="text-border font-w-bold text-lg uppercase">
@@ -81,9 +76,10 @@ export default function LanguageScreen() {
                                 </View>
 
                                 <View
-                                    className="w-8 h-8 rounded-full items-center justify-center"
+                                    className="w-8 h-8 items-center justify-center"
                                     style={{
                                         borderWidth: 2,
+                                        borderRadius: borderRadius.ROUND,
                                         borderColor: isSelected ? Colors.border : '#D1D5DB',
                                         backgroundColor: isSelected ? Colors.surface : 'transparent',
                                     }}

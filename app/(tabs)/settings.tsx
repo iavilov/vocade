@@ -3,7 +3,7 @@ import { BrutalDashedLine } from '@/components/ui/brutal-dashed-line';
 import { ContentContainer } from '@/components/ui/content-container';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
-import { Border, Colors } from '@/constants/design-tokens';
+import { Border, Colors, borderRadius } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
 import { LANGUAGE_OPTIONS, LEVEL_OPTIONS } from '@/types/settings';
@@ -47,7 +47,7 @@ function SettingItem({ icon, iconBgColor, title, subtitle, onPress, showDivider 
               backgroundColor: iconBgColor,
               borderWidth: Border.secondary,
               borderColor: Colors.border,
-              borderRadius: 8,
+              borderRadius: borderRadius.MEDIUM,
             }}
           >
             {icon}
@@ -91,7 +91,7 @@ export default function SettingsScreen() {
       >
         <ScreenHeader
           title={t('settings.title', translationLanguage)}
-          badgeText={t('settings.account', translationLanguage)}
+          badgeText={t('settings.account', translationLanguage).toUpperCase()}
           badgeColor={Colors.primary}
           titleAlign="left"
         />
@@ -101,11 +101,12 @@ export default function SettingsScreen() {
           <View
             style={{
               backgroundColor: Colors.surface,
-              borderWidth: Border.primary,
+              borderWidth: 4,
               borderColor: Colors.border,
-              borderRadius: 12,
+              borderRadius: borderRadius.LARGE,
               overflow: 'hidden',
               ...createBrutalShadow(4, Colors.border),
+              paddingVertical: 8,
             }}
           >
             <SettingItem
@@ -151,11 +152,12 @@ export default function SettingsScreen() {
           <View
             style={{
               backgroundColor: Colors.surface,
-              borderWidth: Border.primary,
+              borderWidth: 4,
               borderColor: Colors.border,
-              borderRadius: 12,
+              borderRadius: borderRadius.LARGE,
               overflow: 'hidden',
               ...createBrutalShadow(4, Colors.border),
+              paddingVertical: 8,
             }}
           >
             <SettingItem
@@ -198,6 +200,7 @@ export default function SettingsScreen() {
             borderWidth={Border.primary}
             borderColor={Colors.border}
             backgroundColor="transparent"
+            borderRadius={borderRadius.SMALL}
             style={{ width: '100%' }}
             contentContainerStyle={{}}
             pressableStyle={{ padding: 14, width: '100%' }}
@@ -213,7 +216,14 @@ export default function SettingsScreen() {
 
         {/* Version */}
         <ContentContainer className="mt-4 mb-4 items-center">
-          <Text style={{ fontSize: 10, fontWeight: '600', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 1 }}>
+          <Text style={{
+            fontSize: 10,
+            fontWeight: '600',
+            color: Colors.textMuted,
+            textTransform: 'uppercase',
+            letterSpacing: 1,
+            fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace'
+          }}>
             {t('settings.version', translationLanguage)} 1.0.4 (Build 42)
           </Text>
         </ContentContainer>

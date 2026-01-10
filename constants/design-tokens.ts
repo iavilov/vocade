@@ -47,6 +47,20 @@ export const partOfSpeechColors = {
 } as const;
 
 
+export const languageColors = {
+  ru: palette.vibrantGreen,
+  uk: palette.articleDer,
+  en: palette.articleDie,
+  de: palette.yellow,
+} as const;
+
+export const levelColors = {
+  beginner: palette.vibrantGreen,
+  intermediate: palette.articleDer,
+  advanced: palette.articleDie,
+} as const;
+
+
 export const Colors = {
   background: palette.bgMain,
   surface: palette.cardBg,
@@ -80,6 +94,8 @@ export const Colors = {
   articleColors,
   partOfSpeechColors,
   transcriptionColor,
+  languageColors,
+  levelColors,
 } as const;
 
 export const colors = {

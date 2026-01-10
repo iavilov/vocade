@@ -8,6 +8,7 @@ export const palette = {
   blue: '#60A5FA',
   purple: '#C084FC',
   orange: '#FB923C',
+  vibrantGreen: '#00E090',
   articleDer: '#93C5FD',
   articleDie: '#F9A8D4',
   articleDas: '#6BCF7F',

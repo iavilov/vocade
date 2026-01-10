@@ -1,4 +1,4 @@
-import { Border, Colors, FontNames, Layout } from '@/constants/design-tokens';
+import { Border, borderRadius, Colors, FontNames, Layout } from '@/constants/design-tokens';
 import { createBrutalShadow } from '@/utils/platform-styles';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.surface,
         borderWidth: Border.primary,
         borderColor: Colors.border,
-        borderRadius: 12,
+        borderRadius: borderRadius.LARGE,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 10,
-        fontFamily: FontNames.regular,
+        fontFamily: FontNames.semibold,
         letterSpacing: 0.5,
         color: Colors.border,
         marginTop: 6,
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary,
         borderWidth: Border.secondary,
         borderColor: Colors.border,
-        borderRadius: 8,
+        borderRadius: borderRadius.MEDIUM,
         left: -3,
         ...createBrutalShadow(2, Colors.border),
         zIndex: 0,

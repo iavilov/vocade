@@ -1,8 +1,9 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
+import { BrutalTag } from '@/components/ui/brutal-tag';
 import { ContentContainer } from '@/components/ui/content-container';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
-import { Border, Colors } from '@/constants/design-tokens';
+import { Border, Colors, borderRadius } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import { useSettingsStore } from '@/store/settings-store';
 import { useWordStore } from '@/store/word-store';
@@ -51,11 +52,12 @@ export default function HistoryScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               backgroundColor: Colors.surface,
-              borderWidth: 3,
+              borderWidth: Border.primary,
               borderColor: Colors.border,
-              borderRadius: 12,
+              borderRadius: borderRadius.SMALL,
               paddingHorizontal: 16,
               height: 56,
+              ...createBrutalShadow(2, Colors.border),
             }}
           >
             <Search size={22} color={Colors.border} strokeWidth={3} style={{ marginRight: 12 }} />
@@ -78,7 +80,7 @@ export default function HistoryScreen() {
             className="flex-1"
             contentContainerStyle={{ paddingVertical: 12, width: '100%' }}
             pressableStyle={{ width: '100%' }}
-            borderRadius={4}
+            borderRadius={borderRadius.SMALL}
           >
             <Text
               className={`text-xs font-w-bold uppercase tracking-wide ${activeTab === 'all' ? 'text-border' : 'text-text-muted'
@@ -100,6 +102,7 @@ export default function HistoryScreen() {
             className="flex-1"
             contentContainerStyle={{ paddingVertical: 12, width: '100%' }}
             pressableStyle={{ width: '100%' }}
+            borderRadius={borderRadius.SMALL}
           >
             <Text
               className={`text-xs font-w-bold uppercase tracking-wide ${activeTab === 'favorites' ? 'text-border' : 'text-text-muted'
@@ -152,6 +155,8 @@ export default function HistoryScreen() {
                   <BrutalButton
                     onPress={() => router.push(`/history/${item.id}`)}
                     borderWidth={Border.primary}
+                    borderRadius={borderRadius.LARGE}
+                    shadowOffset={4}
                     style={{ marginBottom: 16, width: '100%' }}
                     contentContainerStyle={{ width: '100%' }}
                     pressableStyle={{
@@ -172,20 +177,18 @@ export default function HistoryScreen() {
                     <View className="flex-1 p-4 flex-row items-center justify-between">
                       <View className="flex-1 mr-2">
                         <View className="flex-row items-center mb-1">
-                          <View
-                            className="px-1.5 py-0.5 justify-center items-center mr-3"
-                            style={{
-                              backgroundColor: stripColor,
-                              borderWidth: 1.5,
-                              borderColor: Colors.border,
-                              ...createBrutalShadow(2, Colors.border),
-                              width: 52, // Fixed width for alignment
-                            }}
-                          >
-                            <Text className="text-[10px] font-w-bold uppercase text-border text-center">
-                              {displayLabel}
-                            </Text>
-                          </View>
+                          <BrutalTag
+                            text={displayLabel || ''}
+                            backgroundColor={stripColor}
+                            textColor={Colors.border}
+                            borderWidth={Border.secondary}
+                            borderRadius={borderRadius.SMALL}
+                            shadowOffset={0}
+                            style={{ width: 60, marginRight: 12 }}
+                            paddingHorizontal={4}
+                            paddingVertical={4}
+                            textClassName="text-[10px] text-center"
+                          />
                           <Text className="text-text-main text-xl font-w-bold">
                             {displayWord}
                           </Text>
@@ -196,10 +199,11 @@ export default function HistoryScreen() {
                       </View>
 
                       <View
-                        className="w-10 h-10 rounded-full items-center justify-center bg-background"
+                        className="w-10 h-10 items-center justify-center bg-background"
                         style={{
                           borderWidth: Border.secondary,
                           borderColor: Colors.border,
+                          borderRadius: borderRadius.ROUND,
                         }}
                       >
                         <ArrowRight size={20} color={Colors.border} strokeWidth={2.5} />

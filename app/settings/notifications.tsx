@@ -3,7 +3,7 @@ import { BrutalSwitch } from '@/components/ui/brutal-switch';
 import { ContentContainer } from '@/components/ui/content-container';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
-import { Border, Colors } from '@/constants/design-tokens';
+import { Border, Colors, borderRadius } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import {
   getNotificationSettings,
@@ -126,11 +126,12 @@ export default function NotificationsScreen() {
         {/* Daily Notifications Toggle Card */}
         <ContentContainer className="mb-6">
           <View
-            className="w-full p-5 rounded-xl"
+            className="w-full p-5"
             style={{
               backgroundColor: Colors.surface,
               borderWidth: Border.primary,
               borderColor: Colors.border,
+              borderRadius: borderRadius.LARGE,
               ...createBrutalShadow(4, Colors.border),
             }}
           >
@@ -166,7 +167,7 @@ export default function NotificationsScreen() {
             <BrutalButton
               onPress={openTimePicker}
               shadowOffset={4}
-              borderRadius={12}
+              borderRadius={borderRadius.MEDIUM}
               style={{ width: '100%' }}
               contentContainerStyle={{ width: '100%', height: 96 }}
             >
@@ -205,7 +206,7 @@ export default function NotificationsScreen() {
                       onPress={() => setShowTimePicker(false)}
                       className="mt-4"
                       backgroundColor={Colors.primary}
-                      borderRadius={8}
+                      borderRadius={borderRadius.SMALL}
                       shadowOffset={3}
                       style={{ width: '100%' }}
                       contentContainerStyle={{ paddingVertical: 14 }}
@@ -231,11 +232,12 @@ export default function NotificationsScreen() {
         {/* Info Card */}
         <ContentContainer>
           <View
-            className="w-full p-5 rounded-xl flex-row"
+            className="w-full p-5 flex-row"
             style={{
               backgroundColor: Colors.accentBlue,
               borderWidth: Border.primary,
               borderColor: Colors.border,
+              borderRadius: borderRadius.LARGE,
               ...createBrutalShadow(4, Colors.border),
             }}
           >
