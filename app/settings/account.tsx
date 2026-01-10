@@ -143,7 +143,7 @@ export default function AccountScreen() {
                         {t('account.signIn', translationLanguage)}
                     </Text>
                     <BrutalButton
-                        onPress={() => Alert.alert('Coming soon', 'Auth screens will be available soon')}
+                        onPress={() => router.push('/auth/login')}
                         backgroundColor={Colors.primary}
                         pressableStyle={{ paddingVertical: 12, paddingHorizontal: 24 }}
                     >

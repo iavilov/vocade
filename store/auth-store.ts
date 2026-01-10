@@ -33,6 +33,8 @@ interface AuthStore {
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
   signOut: () => Promise<void>;
   deleteAccount: () => Promise<{ success: boolean; error?: string }>;
+  signInWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  signUpWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
 }
 
 export const useAuthStore = create<AuthStore>((set, get) => ({
@@ -215,6 +217,42 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       console.error('[Auth] Delete account error:', error);
       set({ isLoading: false });
       return { success: false, error: 'Failed to delete account' };
+    }
+  },
+
+  // Sign in with email
+  signInWithEmail: async (email, password) => {
+    try {
+      set({ isLoading: true });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      return { success: true };
+    } catch (error: any) {
+      console.error('[Auth] Sign in error:', error);
+      set({ isLoading: false });
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Sign up with email
+  signUpWithEmail: async (email, password) => {
+    try {
+      set({ isLoading: true });
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      return { success: true };
+    } catch (error: any) {
+      console.error('[Auth] Sign up error:', error);
+      set({ isLoading: false });
+      return { success: false, error: error.message };
     }
   },
 }));
