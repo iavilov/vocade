@@ -23,7 +23,25 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro",
+      "build": {
+        "babel": {
+          "include": ["@expo/vector-icons"]
+        }
+      },
+      "name": "Wortday",
+      "shortName": "Wortday",
+      "lang": "en",
+      "scope": "/",
+      "startUrl": "/",
+      "backgroundColor": "#FFFAF0",
+      "themeColor": "#6BCF7F",
+      "description": "German language learning companion - Word of the Day",
+      "dir": "auto",
+      "display": "standalone",
+      "orientation": "portrait",
+      "preferRelatedApplications": false
     },
     "plugins": [
       "expo-router",

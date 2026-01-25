@@ -1,3 +1,4 @@
+import { PWAInstallBanner } from '@/components/PWAInstallBanner';
 import { BrutalDashedLine } from '@/components/ui/brutal-dashed-line';
 import { ContentContainer } from '@/components/ui/content-container';
 import { ScreenHeader } from '@/components/ui/screen-header';
@@ -89,6 +90,9 @@ export default function SettingsScreen() {
           badgeColor={Colors.primary}
           titleAlign="left"
         />
+
+        {/* PWA Install Banner (Web only) */}
+        {Platform.OS === 'web' && <PWAInstallBanner />}
 
         {/* ACCOUNT Section */}
         <ContentContainer className="mb-6">

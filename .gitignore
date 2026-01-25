@@ -50,3 +50,6 @@ app-example
 # testing
 coverage/
 *.lcov
+
+# session memory
+docs/memory.md

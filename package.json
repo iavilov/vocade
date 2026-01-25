@@ -4,15 +4,16 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:pwa": "./scripts/build-pwa.sh",
+    "serve": "npx serve dist -l 8080",
+    "serve:https": "npx serve dist -l 8080 --ssl",
     "lint": "expo lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "build:web": "npx expo export --platform web"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@expo-google-fonts/ibm-plex-sans": "^0.4.1",

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Primary Meta Tags -->
+  <title>Wortday - German Learning Companion</title>
+  <meta name="title" content="Wortday - German Learning Companion" />
+  <meta name="description" content="Learn German with daily words, beautiful design, and effective learning techniques" />
+  <meta name="keywords" content="German, language learning, vocabulary, education, Deutsch lernen" />
+  <meta name="author" content="Wortday" />
+
+  <!-- Viewport Meta Tags -->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+  />
+
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Wortday" />
+
+  <!-- Theme Colors -->
+  <meta name="theme-color" content="#6BCF7F" />
+  <meta name="msapplication-navbutton-color" content="#6BCF7F" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#6BCF7F" />
+
+  <!-- Disable automatic detection and formatting of phone numbers -->
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://app.wortday.com/" />
+  <meta property="og:title" content="Wortday - German Learning Companion" />
+  <meta property="og:description" content="Learn German with daily words, beautiful design, and effective learning techniques" />
+  <meta property="og:image" content="https://app.wortday.com/icon-512.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://app.wortday.com/" />
+  <meta property="twitter:title" content="Wortday - German Learning Companion" />
+  <meta property="twitter:description" content="Learn German with daily words, beautiful design, and effective learning techniques" />
+  <meta property="twitter:image" content="https://app.wortday.com/icon-512.png" />
+
+  <!-- Preconnect to Supabase -->
+  <link rel="preconnect" href="https://gsobjkutscaubnbiffsn.supabase.co" />
+  <link rel="dns-prefetch" href="https://gsobjkutscaubnbiffsn.supabase.co" />
+
+  <style>
+    /* Prevent FOUC (Flash of Unstyled Content) */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: #FFFAF0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Loading spinner */
+    #root {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #E5E5E5;
+      border-top: 4px solid #6BCF7F;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* PWA specific styles - hide browser UI */
+    @media all and (display-mode: standalone) {
+      body {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+      }
+    }
+
+    /* Disable pull-to-refresh */
+    body {
+      overscroll-behavior-y: contain;
+    }
+  </style>
+</head>
+<body>
+  <!-- App root with loading indicator -->
+  <div id="root">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Service Worker Registration -->
+  <script>
+    // Register service worker for PWA functionality (PRODUCTION ONLY)
+    // Skip in development to avoid conflicts with Expo dev server
+    const isProduction = window.location.hostname !== 'localhost' &&
+                        !window.location.hostname.startsWith('192.168.') &&
+                        !window.location.hostname.startsWith('10.0.');
+
+    if ('serviceWorker' in navigator) {
+      if (isProduction) {
+        // Production: Register Service Worker
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then((registration) => {
+              console.log('ServiceWorker registered:', registration.scope);
+
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New service worker available, prompt user to refresh
+                    if (confirm('New version available! Reload to update?')) {
+                      newWorker.postMessage({ type: 'SKIP_WAITING' });
+                      window.location.reload();
+                    }
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.log('ServiceWorker registration failed:', error);
+            });
+        });
+
+        // Reload page when new service worker takes control
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          window.location.reload();
+        });
+      } else {
+        // Development: Unregister any existing Service Workers
+        console.log('[PWA] Service Worker disabled in development mode');
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => {
+            registration.unregister();
+            console.log('[PWA] Unregistered Service Worker:', registration.scope);
+          });
+        });
+      }
+    }
+
+    // Prevent zoom on double tap (iOS)
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (event) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+
+    // Add install prompt handling
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      console.log('Install prompt ready');
+    });
+
+    // Expose install function globally
+    window.showInstallPrompt = () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          }
+          deferredPrompt = null;
+        });
+      }
+    };
+  </script>
+
+  <!-- Expo/React app will be injected here -->
+</body>
+</html>

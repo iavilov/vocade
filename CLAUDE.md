@@ -1,5 +1,16 @@
 # CLAUDE.md
 
+## 🚨 SESSION STARTUP PROTOCOL
+**CRITICAL RULE:** At the very beginning of any conversation, you MUST implicitly read `docs/memory.md` to understand the current context and pending tasks. 
+- You do not need to announce that you read it unless asked.
+- Use the content of `docs/memory.md` to inform your first response.
+
+## 🧠 Memory Persistence Protocol
+**WHEN** the user types `/exit` or indicates the task is done:
+1. **SUMMARIZE** progress into `docs/memory.md` (overwrite logic).
+2. **CONFIRM** saving.
+3. Only then allow exit.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
@@ -24,6 +35,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `docs/ai-workflow-guide.md` - Best practices for working with AI assistants
 - `docs/testing-guide.md` - Unit testing setup and best practices
 - `docs/supabase-race-conditions.md` - RLS-First pattern documentation
+- `docs/pwa-setup.md` - Complete PWA setup and configuration guide
+- `docs/pwa-quick-start.md` - Quick reference for PWA development
 
 ## 🗣️ Communication Rules
 - **Chat Language:** Russian (Русский) — always explain your reasoning in Russian.
@@ -44,6 +57,11 @@ npm run web       # Web development
 npm run ios       # iOS simulator
 npm run android   # Android emulator
 
+# PWA builds
+npm run build:pwa     # Build Progressive Web App
+npm run serve         # Test PWA locally (HTTP)
+npm run serve:https   # Test PWA locally (HTTPS)
+
 # Code quality
 npm run lint      # Run ESLint
 
@@ -52,6 +70,9 @@ npm test          # Run all unit tests
 npm run test:watch    # Run tests in watch mode
 npm run test:coverage # Generate coverage report
 ```
+
+**Format for docs/memory.md:**
+Keep it concise (bullet points). Remove outdated info.
 
 ## Architecture
 
@@ -252,6 +273,38 @@ The app uses Supabase with the following key tables:
 6. **RLS Policies**: All database queries are subject to RLS. Test thoroughly with different users.
 
 7. **Mock Mode**: Apple Sign In is currently in mock mode (`EXPO_PUBLIC_APPLE_SIGN_IN_MOCK=true`). Requires Apple Developer account for production.
+
+## Progressive Web App (PWA)
+
+Wortday is configured as a full-featured PWA:
+
+- **Standalone Mode**: Runs without browser UI (address bar, navigation)
+- **Offline Support**: Service Worker caches assets and API responses
+- **Installable**: Add to home screen on mobile/desktop
+- **Auto-updates**: Background updates with user notification
+
+**PWA Files:**
+- `public/manifest.json` - App manifest (theme, icons, display mode)
+- `public/service-worker.js` - Offline caching and updates
+- `public/index.html` - Custom HTML with PWA meta tags
+- `public/icon-*.png` - App icons (144px, 192px, 384px, 512px)
+
+**Usage:**
+```typescript
+import { usePWA } from '@/hooks/usePWA';
+import { PWAInstallBanner } from '@/components/PWAInstallBanner';
+
+const { isPWA, isInstallable, install } = usePWA();
+```
+
+**Build & Deploy:**
+```bash
+npm run build:pwa   # Build PWA
+npm run serve       # Test locally
+vercel --prod       # Deploy to production
+```
+
+See `docs/pwa-setup.md` for complete documentation.
 
 ## Environment Variables
 
