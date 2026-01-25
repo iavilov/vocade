@@ -15,13 +15,24 @@ rm -rf dist/
 echo "📦 Building web bundle..."
 npx expo export --platform web
 
-# Copy PWA files to dist
+# Copy PWA files to dist (but NOT index.html - Expo generates that)
 echo "📋 Copying PWA assets..."
-cp public/index.production.html dist/index.html
 cp public/manifest.json dist/manifest.json
 cp public/service-worker.js dist/service-worker.js
+cp public/service-worker-register.js dist/service-worker-register.js
 cp public/icon-*.png dist/
 cp public/favicon.png dist/
+
+# Inject PWA meta tags and Service Worker into Expo-generated index.html
+echo "📝 Injecting PWA code into index.html..."
+# Backup original
+cp dist/index.html dist/index.original.html
+
+# Insert PWA meta tags before </head>
+perl -i -pe 's|</head>|  <!-- PWA Manifest -->\n  <link rel="manifest" href="/manifest.json" />\n  \n  <!-- PWA Icons -->\n  <link rel="apple-touch-icon" href="/icon-192.png" />\n  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />\n  <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />\n  \n  <!-- PWA Meta Tags -->\n  <meta name="mobile-web-app-capable" content="yes" />\n  <meta name="apple-mobile-web-app-capable" content="yes" />\n  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />\n  <meta name="apple-mobile-web-app-title" content="Wortday" />\n</head>|' dist/index.html
+
+# Insert Service Worker registration before </body>
+perl -i -pe 's|</body>|  <!-- Service Worker Registration -->\n  <script src="/service-worker-register.js"></script>\n</body>|' dist/index.html
 
 # Verify critical files
 echo "✅ Verifying build..."
