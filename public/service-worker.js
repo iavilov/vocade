@@ -3,12 +3,11 @@
  * Handles caching and offline functionality
  */
 
-const CACHE_NAME = 'wortday-v1';
-const RUNTIME_CACHE = 'wortday-runtime-v1';
+const CACHE_NAME = 'wortday-v2';
+const RUNTIME_CACHE = 'wortday-runtime-v2';
 
-// Assets to cache on install
+// Assets to cache on install (only static assets, NOT HTML/JS)
 const PRECACHE_ASSETS = [
-  '/',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
@@ -77,7 +76,29 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache first strategy for static assets
+  // Network first strategy for HTML and JS files (always get fresh)
+  if (request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('.js')) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          // Cache successful responses
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(RUNTIME_CACHE).then((cache) => {
+              cache.put(request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Fallback to cache only if offline
+          return caches.match(request);
+        })
+    );
+    return;
+  }
+
+  // Cache first strategy for static assets (images, fonts, CSS)
   event.respondWith(
     caches.match(request)
       .then((cachedResponse) => {
