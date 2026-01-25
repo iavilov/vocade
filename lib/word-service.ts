@@ -1,5 +1,5 @@
 /**
- * Word Service for Vocade
+ * Word Service for Wortday
  * Handles fetching words from Supabase database
  */
 

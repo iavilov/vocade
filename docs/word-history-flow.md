@@ -1,6 +1,6 @@
 # Word History Flow
 
-This document describes the "Word of the Day" mechanics and history system in Vocade.
+This document describes the "Word of the Day" mechanics and history system in Wortday.
 
 ## Core Concepts
 
@@ -66,7 +66,7 @@ Favorites are synced between AsyncStorage (offline) and Supabase database (onlin
 
 **Migration Flow:**
 1. On first app launch: Load favorites from AsyncStorage
-2. Check if migration flag `vocade-favorites-migrated` exists
+2. Check if migration flag `wortday-favorites-migrated` exists
 3. If not migrated: Call `migrateFavoritesToDatabase(favoriteIds)`
 4. Sync favorites from database to local state
 5. Set migration flag to prevent re-running
@@ -283,10 +283,10 @@ const displayWords = activeTab === 'all' ? historyWords : getFavoriteWords();
 - [ ] History → Shows 365 words (max for level)
 
 ### Favorites Migration
-- [ ] Ensure AsyncStorage has old favorites (`vocade-favorites`)
+- [ ] Ensure AsyncStorage has old favorites (`wortday-favorites`)
 - [ ] Launch app → Automatic migration
 - [ ] Check DB: Records with `is_favorite=true`
-- [ ] Check flag: `vocade-favorites-migrated` exists
+- [ ] Check flag: `wortday-favorites-migrated` exists
 
 ### Offline Mode
 - [ ] Disable internet

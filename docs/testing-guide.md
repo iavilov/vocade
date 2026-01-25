@@ -7,7 +7,7 @@
 
 ## Overview
 
-This guide covers the unit testing setup for Vocade, focusing on critical business logic and database interactions. The test suite ensures that the RLS-First pattern (documented in `supabase-race-conditions.md`) works correctly without race conditions.
+This guide covers the unit testing setup for Wortday, focusing on critical business logic and database interactions. The test suite ensures that the RLS-First pattern (documented in `supabase-race-conditions.md`) works correctly without race conditions.
 
 ---
 
@@ -23,7 +23,7 @@ This guide covers the unit testing setup for Vocade, focusing on critical busine
 ### Configuration Files
 
 ```
-vocade/
+wortday/
 ├── jest.config.js           # Jest configuration for Expo
 ├── __tests__/
 │   ├── setup.ts            # Global mocks (AsyncStorage, Platform)

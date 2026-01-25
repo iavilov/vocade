@@ -1,14 +1,14 @@
 /**
- * Word History Service for Vocade
+ * Word History Service for Wortday
  * Manages user_words_history table for view tracking and favorites
  */
 
 import { supabase } from '@/lib/supabase-client';
 import type {
-  MarkWordViewedResult,
-  ToggleFavoriteResult,
   GetFavoriteIdsResult,
   GetUserHistoryResult,
+  MarkWordViewedResult,
+  ToggleFavoriteResult,
   UserWordHistory,
 } from '@/types/word-history';
 

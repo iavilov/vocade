@@ -37,7 +37,7 @@ export default function ResetPasswordScreen() {
 
         try {
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: 'vocade://reset-password',
+                redirectTo: 'wortday://reset-password',
             });
 
             if (error) throw error;

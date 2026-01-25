@@ -13,7 +13,7 @@
 **Expo SDK:** ~54.0.29
 **TypeScript:** ~5.9.2
 
-Vocade is built as a Universal App using Expo, supporting iOS, Android, and Web (PWA) from a single codebase.
+Wortday is built as a Universal App using Expo, supporting iOS, Android, and Web (PWA) from a single codebase.
 
 **Why Expo:**
 - Simplified development workflow

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Vocade** (also known as **Wort**) is an aesthetic German language learning companion built on the "Word of the Day" concept. It's a cross-platform React Native application (iOS, Android, Web) focused on micro-learning and visual appeal.
+**Wortday** is an aesthetic German language learning companion built on the "Word of the Day" concept. It's a cross-platform React Native application (iOS, Android, Web) focused on micro-learning and visual appeal.
 
 **Key Characteristics:**
 - Neobrutalism design system with bold colors and sharp shadows

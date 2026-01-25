@@ -101,7 +101,7 @@ export default function LoginScreen() {
             if (Platform.OS === 'web') {
                 window.location.href = result.url;
             } else {
-                await WebBrowser.openAuthSessionAsync(result.url, 'vocade://auth/callback');
+                await WebBrowser.openAuthSessionAsync(result.url, 'wortday://auth/callback');
             }
         } else {
             Alert.alert(t('auth.loginError', translationLanguage), result.error || 'Unknown error');
@@ -118,7 +118,7 @@ export default function LoginScreen() {
                         {t('auth.login', translationLanguage)}
                     </Text>
                     <Text className="text-base font-w-medium text-text-muted text-center">
-                        Welcome back to Vocade!
+                        Welcome back to Wortday!
                     </Text>
                 </View>
 

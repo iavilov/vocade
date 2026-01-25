@@ -7,7 +7,7 @@
 
 ## 📋 Overview
 
-Complete documentation of the Vocade authentication system supporting Email/Password, Sign in with Apple (with mock mode), and Google Sign-In. Includes protected routes (Auth Guard), auth UI screens, and a full account management flow.
+Complete documentation of the Wortday authentication system supporting Email/Password, Sign in with Apple (with mock mode), and Google Sign-In. Includes protected routes (Auth Guard), auth UI screens, and a full account management flow.
 
 ---
 
@@ -129,9 +129,9 @@ if (url) {
 
 **Deep Linking:**
 Redirect URLs configured in Supabase Dashboard:
-- `vocade://auth/callback` (mobile)
+- `wortday://auth/callback` (mobile)
 - `http://localhost:8081` (dev)
-- `https://vocade.app` (production)
+- `https://wortday.com` (production)
 
 **Mock Mode (for development):**
 ```typescript
@@ -205,7 +205,7 @@ export const isAppleMockEnabled = () => {
 
 **Platform-specific redirects:**
 - Web: `{origin}/auth/reset-password`
-- Mobile: `vocade://auth/reset-password`
+- Mobile: `wortday://auth/reset-password`
 
 ---
 
@@ -573,7 +573,7 @@ CREATE POLICY "Users can delete own profile"
 
 ```typescript
 // In Supabase Dashboard → Authentication → Users → Add User
-// Email: test@vocade.app
+// Email: test@wortday.com
 // Password: test1234
 ```
 

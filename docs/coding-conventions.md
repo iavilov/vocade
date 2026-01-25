@@ -3,7 +3,7 @@
 **Last Updated:** 16.01.2026
 **Version:** 1.0.0
 
-This document defines coding standards and best practices for the Vocade React Native project.
+This document defines coding standards and best practices for the Wortday React Native project.
 
 ---
 

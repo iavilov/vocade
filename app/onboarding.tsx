@@ -65,7 +65,7 @@ export default function OnboardingScreen() {
               className="px-4 py-2 mb-4 self-start"
             >
               <Text className="text-border text-2xl font-w-bold uppercase">
-                VOCADE
+                WORTDAY
               </Text>
             </View>
             <Text className="text-border text-4xl font-w-bold tracking-tight uppercase mb-3">

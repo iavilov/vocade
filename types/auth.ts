@@ -1,5 +1,5 @@
 /**
- * Auth Types for Vocade
+ * Auth Types for Wortday
  * Supports Email, Apple, and Google authentication
  */
 

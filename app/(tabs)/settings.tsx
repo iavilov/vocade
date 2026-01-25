@@ -179,14 +179,14 @@ export default function SettingsScreen() {
               iconBgColor="#FDE68A"
               title={t('settings.terms', translationLanguage)}
               subtitle={t('settings.termsDescription', translationLanguage)}
-              onPress={() => Linking.openURL('https://vocade.app/terms')}
+              onPress={() => Linking.openURL('https://wortday.com/terms')}
             />
             <SettingItem
               icon={<ShieldCheck size={20} color={Colors.border} strokeWidth={2.5} />}
               iconBgColor="#86EFAC"
               title={t('settings.privacy', translationLanguage)}
               subtitle={t('settings.privacyDescription', translationLanguage)}
-              onPress={() => Linking.openURL('https://vocade.app/privacy')}
+              onPress={() => Linking.openURL('https://wortday.com/privacy')}
               showDivider={false}
             />
           </View>

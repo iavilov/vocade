@@ -72,7 +72,7 @@ export default function Index() {
         .replace('{translation}', content.translation);
 
       await Share.share({
-        message: `${message} 🚀 Vocade`,
+        message: `${message} 🚀 Wortday`,
       });
     } catch (error) {
       console.error(error);

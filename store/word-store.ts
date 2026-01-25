@@ -31,8 +31,8 @@ interface WordStore {
   reset: () => void;
 }
 
-const FAVORITES_KEY = 'vocade-favorites';
-const FAVORITES_MIGRATED_KEY = 'vocade-favorites-migrated';
+const FAVORITES_KEY = 'wortday-favorites';
+const FAVORITES_MIGRATED_KEY = 'wortday-favorites-migrated';
 
 export const useWordStore = create<WordStore>((set, get) => ({
   todayWord: null,

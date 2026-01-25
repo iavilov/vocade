@@ -1,4 +1,4 @@
-# 📱 Vocade - "Wort des Tages" (Word of the Day)
+# 📱 Wortday - "Wort des Tages" (Word of the Day)
 
 **Concept:** Aesthetic German language trainer focusing on micro-learning and visual appeal.  
 **Target Audience:** Russian-speaking expats and students (A1-C1) who appreciate design.  
@@ -189,7 +189,7 @@ app/settings/account.tsx   - Account screen UI
 ### Project Architecture (Current)
 
 ```
-vocade/
+wortday/
 ├── app/
 │   ├── (tabs)/
 │   │   ├── index.tsx            # Word of the Day (Home)

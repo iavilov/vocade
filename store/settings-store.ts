@@ -27,7 +27,7 @@ interface SettingsStore {
   reset: () => void;
 }
 
-const STORAGE_KEY = 'vocade-settings';
+const STORAGE_KEY = 'wortday-settings';
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
   // Initial state (defaults)

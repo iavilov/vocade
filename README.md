@@ -1,9 +1,9 @@
-# Vocade (Wort) 🇩🇪
+# Wortday 🇩🇪
 
-**Vocade** (also known as **Wort**) is an aesthetic German language learning companion built on the "Word of the Day" concept. Designed with a focus on micro-learning and visual appeal, it helps users expand their vocabulary one card at a time.
+**Wortday** is an aesthetic German language learning companion built on the "Word of the Day" concept. Designed with a focus on micro-learning and visual appeal, it helps users expand their vocabulary one card at a time.
 
 <p align="center">
-  <img src="./assets/images/preview.jpg" alt="Vocade App Preview" width="300">
+  <img src="./assets/images/preview.jpg" alt="Wortday App Preview" width="300">
 </p>
 
 ## ✨ Features
@@ -40,8 +40,8 @@ Built with a modern tech stack to ensure performance and cross-platform compatib
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/iavilov/vocade.git
-   cd vocade
+   git clone https://github.com/iavilov/wortday.git
+   cd wortday
    ```
 
 2. Install dependencies:

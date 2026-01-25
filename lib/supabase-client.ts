@@ -1,5 +1,5 @@
 /**
- * Supabase Client for Vocade
+ * Supabase Client for Wortday
  * Singleton instance with AsyncStorage for session persistence
  */
 

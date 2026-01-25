@@ -7,8 +7,8 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { storage } from './storage';
 
-const NOTIFICATION_ENABLED_KEY = 'vocade-notifications-enabled';
-const NOTIFICATION_TIME_KEY = 'vocade-notification-time';
+const NOTIFICATION_ENABLED_KEY = 'wortday-notifications-enabled';
+const NOTIFICATION_TIME_KEY = 'wortday-notification-time';
 
 // Configure notification behavior
 Notifications.setNotificationHandler({
@@ -64,7 +64,7 @@ export async function scheduleDailyNotification(time: string): Promise<void> {
     // Schedule daily repeating notification
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: '📚 Vocade',
+        title: '📚 Wortday',
         body: 'Новое слово дня доступно!',
         data: { type: 'word-of-the-day' },
       },

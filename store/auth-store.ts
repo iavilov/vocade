@@ -1,5 +1,5 @@
 /**
- * Auth Store for Vocade
+ * Auth Store for Wortday
  * Manages authentication state with Supabase
  */
 
@@ -289,9 +289,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       // This ensures fresh state for new user (especially important on web/dev)
       console.log('[Auth] Clearing local data for new user registration');
       const { storage } = await import('@/lib/storage');
-      await storage.removeItem('vocade-settings');
-      await storage.removeItem('vocade-favorites');
-      await storage.removeItem('vocade-favorites-migrated');
+      await storage.removeItem('wortday-settings');
+      await storage.removeItem('wortday-favorites');
+      await storage.removeItem('wortday-favorites-migrated');
 
       // Reset settings store to defaults (DB will become source of truth after profile is created)
       const { useSettingsStore } = await import('@/store/settings-store');

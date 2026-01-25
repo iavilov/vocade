@@ -7,7 +7,7 @@
 
 ## 📋 Overview
 
-Database structure for Vocade with support for:
+Database structure for Wortday with support for:
 - **Authentication** (Email/Password, Sign in with Apple, Google)
 - Multilingual content (JSONB)
 - Difficulty level system (Beginner/Intermediate/Advanced)
@@ -108,7 +108,7 @@ User opens home screen
 ```
 App launch
   → Load favorites from AsyncStorage
-    → Check migration flag (vocade-favorites-migrated)
+    → Check migration flag (wortday-favorites-migrated)
       → If not migrated: migrateFavoritesToDatabase()
         → Sync from DB to local state
           → Set migration flag
@@ -199,7 +199,7 @@ In Supabase Dashboard → Authentication → Providers:
 
 **Apple:**
 - ✅ Enable Apple provider
-- Services ID: `com.vocade.app`
+- Services ID: `com.wortday.app`
 - Callback URL: `https://ghrbimousviadvdwvuhx.supabase.co/auth/v1/callback`
 
 **Google:**
@@ -209,11 +209,11 @@ In Supabase Dashboard → Authentication → Providers:
 
 ### 2. URL Configuration
 Authentication → URL Configuration:
-- Site URL: `vocade://` (for deep linking)
+- Site URL: `wortday://` (for deep linking)
 - Redirect URLs:
-  - `vocade://auth/callback`
+  - `wortday://auth/callback`
   - `http://localhost:8081` (dev)
-  - `https://vocade.app` (production web)
+  - `https://wortday.com` (production web)
 
 ---
 

@@ -7,7 +7,7 @@
 
 ## Overview
 
-This guide provides best practices for working with AI assistants on the Vocade project. Following these recommendations will make AI interactions more efficient and reduce context misunderstandings.
+This guide provides best practices for working with AI assistants on the Wortday project. Following these recommendations will make AI interactions more efficient and reduce context misunderstandings.
 
 ---
 
@@ -16,7 +16,7 @@ This guide provides best practices for working with AI assistants on the Vocade 
 ### ✅ What We Have Now
 
 ```
-vocade/
+wortday/
 ├── CLAUDE.md                    # Main router for AI context
 └── docs/
     ├── project-status.md        # Project history and roadmap
@@ -351,7 +351,7 @@ When AI completes a task, verify:
 Every ~10 messages, remind AI:
 
 ```
-"Reminder: we are working on Vocade, a React Native app with Expo.
+"Reminder: we are working on Wortday, a React Native app with Expo.
 Architecture is described in CLAUDE.md. We follow patterns from
 docs/coding-conventions.md."
 ```

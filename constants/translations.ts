@@ -59,10 +59,10 @@ export const UI_TRANSLATIONS = {
             de: 'Stamm',
         },
         shareMessage: {
-            ru: 'Слово дня: {word} - {translation}. Учи немецкий с Vocade!',
-            uk: 'Слово дня: {word} - {translation}. Вивчай німецьку з Vocade!',
-            en: 'Word of the day: {word} - {translation}. Learn German with Vocade!',
-            de: 'Wort des Tages: {word} - {translation}. Deutsch lernen mit Vocade!',
+            ru: 'Слово дня: {word} - {translation}. Учи немецкий с Wortday!',
+            uk: 'Слово дня: {word} - {translation}. Вивчай німецьку з Wortday!',
+            en: 'Word of the day: {word} - {translation}. Learn German with Wortday!',
+            de: 'Wort des Tages: {word} - {translation}. Deutsch lernen mit Wortday!',
         },
         audioComingSoon: {
             ru: 'Произношение скоро появится',
@@ -213,10 +213,10 @@ export const UI_TRANSLATIONS = {
             de: 'App bewerten',
         },
         rateDescription: {
-            ru: 'Нравится Vocade? Дайте нам знать!',
-            uk: 'Подобається Vocade? Дайте нам знати!',
-            en: 'Love Vocade? Let us know!',
-            de: 'Gefällt вам Vocade? Lassen Sie es uns wissen!',
+            ru: 'Нравится Wortday? Дайте нам знать!',
+            uk: 'Подобається Wortday? Дайте нам знати!',
+            en: 'Love Wortday? Let us know!',
+            de: 'Gefällt вам Wortday? Lassen Sie es uns wissen!',
         },
         feedback: {
             ru: 'Обратная связь',

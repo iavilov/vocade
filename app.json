@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "vocade",
-    "slug": "vocade",
+    "name": "wortday",
+    "slug": "wortday",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "vocade",
+    "scheme": "wortday",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

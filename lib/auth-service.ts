@@ -1,5 +1,5 @@
 /**
- * Auth Service for Vocade
+ * Auth Service for Wortday
  * Handles Email, Apple, and Google authentication
  */
 
@@ -135,7 +135,7 @@ export async function signInWithApple(credential: AppleCredential) {
 export async function signInWithGoogle() {
   const redirectUrl = Platform.OS === 'web'
     ? window.location.origin
-    : 'vocade://auth/callback';
+    : 'wortday://auth/callback';
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -162,8 +162,8 @@ export async function signOut() {
   }
 
   // Clear local storage
-  await storage.removeItem('vocade-settings');
-  await storage.removeItem('vocade-favorites');
+  await storage.removeItem('wortday-settings');
+  await storage.removeItem('wortday-favorites');
 
   return { success: true, error: null };
 }
@@ -173,7 +173,7 @@ export async function sendPasswordResetEmail(email: string) {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: Platform.OS === 'web'
       ? `${window.location.origin}/auth/reset-password`
-      : 'vocade://auth/reset-password',
+      : 'wortday://auth/reset-password',
   });
 
   if (error) {
@@ -222,8 +222,8 @@ export async function deleteAccount() {
   }
 
   // Clear all local data
-  await storage.removeItem('vocade-settings');
-  await storage.removeItem('vocade-favorites');
+  await storage.removeItem('wortday-settings');
+  await storage.removeItem('wortday-favorites');
 
   return { success: true, error: null };
 }
