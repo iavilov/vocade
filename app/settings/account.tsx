@@ -1,75 +1,16 @@
 import { BrutalButton } from '@/components/ui/brutal-button';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { ScreenLayout } from '@/components/ui/screen-layout';
-import { Colors } from '@/constants/design-tokens';
+import { Border, Colors, borderRadius } from '@/constants/design-tokens';
 import { t } from '@/constants/translations';
 import { useAuthStore } from '@/store/auth-store';
 import { useSettingsStore } from '@/store/settings-store';
-import {
-    canChangePassword,
-    canEditEmail,
-    getDisplayEmail,
-    getDisplayName,
-} from '@/types/auth';
+import { getDisplayEmail } from '@/types/auth';
+import { createBrutalShadow } from '@/utils/platform-styles';
 import { useRouter } from 'expo-router';
-import { Apple, Chrome, LogOut, Mail, Shield, Trash2, User } from 'lucide-react-native';
+import { LogOut, Trash2, User } from 'lucide-react-native';
 import React from 'react';
 import { Alert, Platform, Text, View } from 'react-native';
-
-// Auth provider badge component
-function AuthProviderBadge({ provider, isPrivateEmail }: { provider: string; isPrivateEmail?: boolean }) {
-    const badgeConfig: Record<string, { Icon: any; bg: string; text: string }> = {
-        email: { Icon: Mail, bg: Colors.accentBlue, text: 'Email' },
-        apple: { Icon: Apple, bg: '#000000', text: 'Apple ID' },
-        google: { Icon: Chrome, bg: Colors.accentPink, text: 'Google' },
-    };
-
-    const config = badgeConfig[provider] || badgeConfig.email;
-
-    return (
-        <View
-            className="flex-row items-center gap-2 px-3 py-1.5 rounded-brutal border-2"
-            style={{ backgroundColor: config.bg, borderColor: Colors.border }}
-        >
-            <config.Icon size={14} color={provider === 'apple' ? '#FFFFFF' : Colors.border} />
-            <Text
-                className="font-w-semibold text-xs"
-                style={{ color: provider === 'apple' ? '#FFFFFF' : Colors.border }}
-            >
-                {config.text}
-            </Text>
-            {isPrivateEmail && (
-                <Shield size={12} color={provider === 'apple' ? '#FFFFFF' : Colors.gray600} />
-            )}
-        </View>
-    );
-}
-
-// Section header component
-function SectionHeader({ title }: { title: string }) {
-    return (
-        <Text className="text-sm font-w-semibold uppercase tracking-wide mb-3" style={{ color: Colors.gray600 }}>
-            {title}
-        </Text>
-    );
-}
-
-// Info row component
-function InfoRow({ label, value, badge }: { label: string; value: string; badge?: React.ReactNode }) {
-    return (
-        <View className="flex-row items-center justify-between py-3 border-b" style={{ borderColor: Colors.gray200 }}>
-            <Text className="text-base font-w-medium" style={{ color: Colors.textMuted }}>
-                {label}
-            </Text>
-            <View className="flex-row items-center gap-2">
-                {badge}
-                <Text className="text-base font-w-semibold" style={{ color: Colors.textMain }}>
-                    {value}
-                </Text>
-            </View>
-        </View>
-    );
-}
 
 export default function AccountScreen() {
     const { translationLanguage } = useSettingsStore();
@@ -77,8 +18,6 @@ export default function AccountScreen() {
     const router = useRouter();
 
     const authProvider = profile?.auth_provider || user?.authProvider || 'email';
-    const isPrivateEmail = profile?.is_private_email || user?.isPrivateEmail || false;
-    const displayName = getDisplayName(user, profile);
     const displayEmail = getDisplayEmail(user, profile);
 
     const handleSignOut = async () => {
@@ -193,136 +132,105 @@ export default function AccountScreen() {
                 badgeColor={Colors.primary}
             />
 
-            {/* Profile Section */}
+            {/* 1. EMAIL CARD */}
             <View
-                className="bg-white border-3 border-ink rounded-brutal p-5 shadow-brutal w-full mb-4"
-                style={{ borderColor: Colors.border }}
+                style={{
+                    backgroundColor: Colors.surface,
+                    borderWidth: Border.primary,
+                    borderColor: Colors.border,
+                    borderRadius: borderRadius.LARGE,
+                    padding: 20,
+                    marginBottom: 24,
+                    width: '100%',
+                    ...createBrutalShadow(4, Colors.border),
+                }}
             >
-                <SectionHeader title={t('account.profile', translationLanguage)} />
-
-                <InfoRow
-                    label={t('account.email', translationLanguage)}
-                    value={displayEmail}
-                    badge={isPrivateEmail ? (
-                        <View className="bg-gray-200 px-2 py-0.5 rounded">
-                            <Text className="text-xs" style={{ color: Colors.gray600 }}>
-                                {t('account.privateEmail', translationLanguage)}
-                            </Text>
-                        </View>
-                    ) : undefined}
-                />
-
-                <View className="flex-row items-center justify-between py-3">
-                    <Text className="text-base font-w-medium" style={{ color: Colors.textMuted }}>
-                        {t('account.loginMethod', translationLanguage)}
-                    </Text>
-                    <AuthProviderBadge provider={authProvider} isPrivateEmail={isPrivateEmail} />
-                </View>
-            </View>
-
-            {/* Security Section - Only for email auth on web */}
-            {canChangePassword(authProvider) && Platform.OS === 'web' && (
-                <View
-                    className="bg-white border-3 border-ink rounded-brutal p-5 shadow-brutal w-full mb-4"
-                    style={{ borderColor: Colors.border }}
+                <Text
+                    className="text-xs font-w-semibold uppercase mb-2"
+                    style={{ color: Colors.gray600 }}
                 >
-                    <SectionHeader title={t('account.security', translationLanguage)} />
+                    {t('account.email', translationLanguage)}
+                </Text>
 
-                    <BrutalButton
-                        onPress={() => Alert.alert('Coming soon', 'Password change will be available soon')}
-                        pressableStyle={{ paddingVertical: 12, paddingHorizontal: 16 }}
-                        style={{ marginBottom: 8 }}
+                <Text
+                    className="text-lg font-w-semibold"
+                    style={{ color: Colors.textMain }}
+                >
+                    {displayEmail}
+                </Text>
+
+                {authProvider !== 'email' && (
+                    <Text
+                        className="text-xs font-w-medium mt-2"
+                        style={{ color: Colors.textMuted }}
                     >
-                        <Text className="font-w-medium text-base" style={{ color: Colors.textMain }}>
-                            {t('account.changePassword', translationLanguage)}
-                        </Text>
-                    </BrutalButton>
-
-                    {canEditEmail(authProvider) && (
-                        <BrutalButton
-                            onPress={() => Alert.alert('Coming soon', 'Email change will be available soon')}
-                            pressableStyle={{ paddingVertical: 12, paddingHorizontal: 16 }}
-                        >
-                            <Text className="font-w-medium text-base" style={{ color: Colors.textMain }}>
-                                {t('account.changeEmail', translationLanguage)}
-                            </Text>
-                        </BrutalButton>
-                    )}
-                </View>
-            )}
-
-            {/* Managed by Apple/Google info */}
-            {authProvider !== 'email' && (
-                <View
-                    className="bg-gray-100 border-2 rounded-brutal p-4 w-full mb-4"
-                    style={{ borderColor: Colors.gray300 }}
-                >
-                    <Text className="text-sm text-center" style={{ color: Colors.gray600 }}>
                         {authProvider === 'apple'
                             ? t('account.managedByApple', translationLanguage)
-                            : t('account.managedByGoogle', translationLanguage)}
+                            : t('account.managedByGoogle', translationLanguage)
+                        }
+                    </Text>
+                )}
+            </View>
+
+            {/* 2. LOGOUT BUTTON */}
+            <BrutalButton
+                onPress={handleSignOut}
+                backgroundColor={Colors.accentYellow}
+                borderColor={Colors.border}
+                borderWidth={Border.primary}
+                borderRadius={borderRadius.LARGE}
+                shadowOffset={4}
+                disabled={isLoading}
+                style={{ width: '100%', marginBottom: 16 }}
+                pressableStyle={{
+                    paddingVertical: 16,
+                    paddingHorizontal: 20,
+                    width: '100%',
+                }}
+            >
+                <View className="flex-row items-center justify-center gap-2">
+                    <LogOut size={20} color={Colors.border} strokeWidth={2.5} />
+                    <Text
+                        className="font-w-bold text-base uppercase"
+                        style={{ color: Colors.textMain }}
+                    >
+                        {t('account.signOut', translationLanguage)}
                     </Text>
                 </View>
-            )}
+            </BrutalButton>
 
-            {/* Data Section */}
-            <View
-                className="bg-white border-3 border-ink rounded-brutal p-5 shadow-brutal w-full mb-4"
-                style={{ borderColor: Colors.border }}
+            {/* 3. DELETE ACCOUNT BUTTON */}
+            <BrutalButton
+                onPress={handleDeleteAccount}
+                backgroundColor="transparent"
+                borderColor={Colors.destructive}
+                borderWidth={Border.secondary}
+                borderRadius={borderRadius.SMALL}
+                shadowOffset={0}
+                disabled={isLoading}
+                style={{ width: '100%', marginBottom: 24 }}
+                pressableStyle={{
+                    paddingVertical: 12,
+                    paddingHorizontal: 16,
+                    width: '100%',
+                }}
             >
-                <SectionHeader title={t('account.data', translationLanguage)} />
-
-                <BrutalButton
-                    onPress={() => Alert.alert('Coming soon', 'Data export will be available soon')}
-                    pressableStyle={{ paddingVertical: 12, paddingHorizontal: 16 }}
-                >
-                    <Text className="font-w-medium text-base" style={{ color: Colors.textMain }}>
-                        {t('account.exportData', translationLanguage)}
+                <View className="flex-row items-center justify-center gap-2">
+                    <Trash2 size={16} color={Colors.destructive} strokeWidth={2} />
+                    <Text
+                        className="font-w-medium text-sm"
+                        style={{ color: Colors.destructive }}
+                    >
+                        {t('account.deleteAccount', translationLanguage)}
                     </Text>
-                </BrutalButton>
-                <Text className="text-xs mt-2" style={{ color: Colors.gray500 }}>
-                    {t('account.exportDataDesc', translationLanguage)}
-                </Text>
-            </View>
-
-            {/* Account Actions */}
-            <View
-                className="bg-white border-3 border-ink rounded-brutal p-5 shadow-brutal w-full"
-                style={{ borderColor: Colors.border }}
-            >
-                <SectionHeader title={t('account.accountActions', translationLanguage)} />
-
-                <BrutalButton
-                    onPress={handleSignOut}
-                    pressableStyle={{ paddingVertical: 12, paddingHorizontal: 16 }}
-                    style={{ marginBottom: 12 }}
-                    disabled={isLoading}
-                >
-                    <View className="flex-row items-center gap-2">
-                        <LogOut size={18} color={Colors.border} />
-                        <Text className="font-w-medium text-base" style={{ color: Colors.textMain }}>
-                            {t('account.signOut', translationLanguage)}
-                        </Text>
-                    </View>
-                </BrutalButton>
-
-                <BrutalButton
-                    onPress={handleDeleteAccount}
-                    borderColor="#EF4444"
-                    pressableStyle={{ paddingVertical: 12, paddingHorizontal: 16 }}
-                    disabled={isLoading}
-                >
-                    <View className="flex-row items-center gap-2">
-                        <Trash2 size={18} color="#EF4444" />
-                        <Text className="font-w-medium text-base" style={{ color: '#EF4444' }}>
-                            {t('account.deleteAccount', translationLanguage)}
-                        </Text>
-                    </View>
-                </BrutalButton>
-            </View>
+                </View>
+            </BrutalButton>
 
             {/* Version */}
-            <Text className="text-center mt-6 mb-4" style={{ color: Colors.gray500 }}>
+            <Text
+                className="text-center"
+                style={{ color: Colors.gray500, fontSize: 12 }}
+            >
                 {t('settings.version', translationLanguage)} 0.8.0
             </Text>
         </ScreenLayout>

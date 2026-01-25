@@ -74,6 +74,12 @@ export const Colors = {
   accentPink: palette.pink,
   accentBlue: palette.blue,
 
+  destructive: palette.destructive,
+
+  lightGreen: palette.lightGreen,
+  lightBlue: palette.lightBlue,
+  lightYellow: palette.lightYellow,
+
   textMain: palette.ink,
   textMuted: palette.gray[600],
   textInverted: palette.cardBg,

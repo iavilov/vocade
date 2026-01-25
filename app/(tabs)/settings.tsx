@@ -1,4 +1,3 @@
-import { BrutalButton } from '@/components/ui/brutal-button';
 import { BrutalDashedLine } from '@/components/ui/brutal-dashed-line';
 import { ContentContainer } from '@/components/ui/content-container';
 import { ScreenHeader } from '@/components/ui/screen-header';
@@ -9,7 +8,7 @@ import { useSettingsStore } from '@/store/settings-store';
 import { LANGUAGE_OPTIONS, LEVEL_OPTIONS } from '@/types/settings';
 import { createBrutalShadow } from '@/utils/platform-styles';
 import { useRouter } from 'expo-router';
-import { Bell, ChevronRight, Gavel, Languages, LogOut, MessageSquare, ShieldCheck, Star, TrendingUp, User } from 'lucide-react-native';
+import { Bell, ChevronRight, Gavel, Languages, MessageSquare, ShieldCheck, Star, TrendingUp, User } from 'lucide-react-native';
 import React from 'react';
 import {
   Linking,
@@ -77,11 +76,6 @@ export default function SettingsScreen() {
   const currentLanguageName = LANGUAGE_OPTIONS.find(opt => opt.code === translationLanguage)?.nativeName || 'Russian';
   const currentLevelName = LEVEL_OPTIONS.find(opt => opt.code === languageLevel)?.name[translationLanguage] || 'Beginner';
 
-  const handleLogout = () => {
-    // Implement logout logic here
-    console.log('Logging out...');
-  };
-
   return (
     <ScreenLayout>
       <ScrollView
@@ -111,7 +105,7 @@ export default function SettingsScreen() {
           >
             <SettingItem
               icon={<User size={20} color={Colors.border} strokeWidth={2.5} />}
-              iconBgColor="#86EFAC"
+              iconBgColor={Colors.lightGreen}
               title={t('settings.account', translationLanguage)}
               subtitle={userEmail}
               onPress={() => router.push('/settings/account')}
@@ -148,7 +142,7 @@ export default function SettingsScreen() {
         </ContentContainer>
 
         {/* SUPPORT & LEGAL Section */}
-        <ContentContainer className="mb-6">
+        <ContentContainer className="mb-8">
           <View
             style={{
               backgroundColor: Colors.surface,
@@ -169,49 +163,27 @@ export default function SettingsScreen() {
             />
             <SettingItem
               icon={<MessageSquare size={20} color={Colors.border} strokeWidth={2.5} />}
-              iconBgColor="#93C5FD"
+              iconBgColor={Colors.lightBlue}
               title={t('settings.feedback', translationLanguage)}
               subtitle={t('settings.feedbackDescription', translationLanguage)}
               onPress={() => router.push('/settings/feedback')}
             />
             <SettingItem
               icon={<Gavel size={20} color={Colors.border} strokeWidth={2.5} />}
-              iconBgColor="#FDE68A"
+              iconBgColor={Colors.lightYellow}
               title={t('settings.terms', translationLanguage)}
               subtitle={t('settings.termsDescription', translationLanguage)}
               onPress={() => Linking.openURL('https://wortday.com/terms')}
             />
             <SettingItem
               icon={<ShieldCheck size={20} color={Colors.border} strokeWidth={2.5} />}
-              iconBgColor="#86EFAC"
+              iconBgColor={Colors.lightGreen}
               title={t('settings.privacy', translationLanguage)}
               subtitle={t('settings.privacyDescription', translationLanguage)}
               onPress={() => Linking.openURL('https://wortday.com/privacy')}
               showDivider={false}
             />
           </View>
-        </ContentContainer>
-
-        {/* LOG OUT Button */}
-        <ContentContainer className="mb-8">
-          <BrutalButton
-            onPress={handleLogout}
-            shadowOffset={0}
-            borderWidth={Border.primary}
-            borderColor={Colors.border}
-            backgroundColor="transparent"
-            borderRadius={borderRadius.SMALL}
-            style={{ width: '100%' }}
-            contentContainerStyle={{}}
-            pressableStyle={{ padding: 14, width: '100%' }}
-          >
-            <View className="flex-row items-center justify-center">
-              <LogOut size={20} color={Colors.border} strokeWidth={2.5} style={{ marginRight: 8 }} />
-              <Text className="text-border font-w-bold text-sm uppercase tracking-wide">
-                {t('settings.logout', translationLanguage)}
-              </Text>
-            </View>
-          </BrutalButton>
         </ContentContainer>
 
         {/* Version */}
